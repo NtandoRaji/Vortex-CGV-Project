@@ -1,0 +1,2 @@
+The creation of the w3ads game engine is credited to Brendan Griffin aka Orwellian.
+It was thanks to him and his game engine that the creation of this game was made possible.
