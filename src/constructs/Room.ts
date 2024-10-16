@@ -16,7 +16,7 @@ export class Room extends Construct {
     build(): void {
         const floorScale = [50, 1, 50];
         const floor = GraphicsPrimitiveFactory.box({
-            position: { x: 0, y: 0, z: 0 }, 
+            position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: 0, z: 0 },
             scale: { x: floorScale[0], y: floorScale[1], z: floorScale[2]},
             colour: 0xffffff,
@@ -24,7 +24,7 @@ export class Room extends Construct {
         });
 
         const ambientLight = new THREE.AmbientLight(
-            0xff0000, // colour 
+            0xffffff, // colour
             0.5 //intensity
         );
 
@@ -32,7 +32,7 @@ export class Room extends Construct {
         this.graphics.add(ambientLight);
 
         this.physics.addStatic(
-            floor, 
+            floor,
             PhysicsColliderFactory.box(floorScale[0] / 2, floorScale[1] / 2, floorScale[2] / 2)
         );
     }

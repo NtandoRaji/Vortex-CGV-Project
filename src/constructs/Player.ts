@@ -7,9 +7,10 @@ import { InterfaceContext } from '../lib/w3ads/InterfaceContext';
 //@ts-ignore
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
 import { GroceryItem } from './GroceryItem';
+import { Box } from './Box';
 
 // Constants for movement speeds and jump physics
-const walkSpeed = 15;
+const walkSpeed = 2;
 const sprintSpeed = 10;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
@@ -162,7 +163,9 @@ export class Player extends Construct {
 
         // Determine the final movement direction and apply it
         const moveVector = forward.multiplyScalar(xLocal).add(right.multiplyScalar(zLocal));
-        this.physics.moveCharacter(this.root, -moveVector.x, 0, -moveVector.z, this.speed * delta);
+        this.physics.moveCharacter(this.root, -moveVector.x, 0, -moveVector.z, delta);
+
+        this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
 
         if (this.lookingAtGroceryItem){
             this.crosshair.style.borderColor = 'red';
@@ -197,7 +200,7 @@ export class Player extends Construct {
             const intersects = this.raycaster.intersectObject(groceryItems[i].root);
             groceryItems[i].setBeingLookedAt(false);
 
-            if (intersects.length > 0){
+            if (intersects.length > 0 && !this.lookingAtGroceryItem){
                 this.lookingAtGroceryItem = true;
                 groceryItems[i].setBeingLookedAt(true);
             }
@@ -211,7 +214,7 @@ export class Player extends Construct {
             const intersects = this.raycaster.intersectObject(pickupSpots[i].root);
             pickupSpots[i].setBeingLookedAt(false);
 
-            if (intersects.length > 0){
+            if (intersects.length > 0 && !this.lookingAtPickupSpot){
                 this.lookingAtPickupSpot = true;
                 pickupSpots[i].setBeingLookedAt(true);
             }

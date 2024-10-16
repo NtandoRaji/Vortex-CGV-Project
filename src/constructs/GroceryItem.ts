@@ -8,9 +8,9 @@ export class GroceryItem extends Construct {
     mesh!: any;
     scale!: number;
     filename!: string;
-    id!: string;
+    id!: number;
 
-    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, filename:string, id:string, scale: number = 1) {
+    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, filename:string, id:number, scale: number = 1) {
         super(graphics, physics, interactions, userInterface);
 
         this.filename = filename;
