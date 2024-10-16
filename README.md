@@ -7,8 +7,8 @@ Make sure you have the following software installed:
  - npm: Comes pre-installed with Node.js.
 
 ### Clone the Repository
-    git https://github.com/NtandoRaji/Game-Engine-Basics.git
-    cd Game-Engine-Basics
+    git https://github.com/NtandoRaji/Vortex-CGV-Project.git
+    cd Vortex-CGV-Project
 
 ### Install TypeScript and Dependencies
 Navigate into the project directory and install TypeScript along with the required npm packages:
