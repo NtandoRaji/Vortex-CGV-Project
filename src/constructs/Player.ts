@@ -6,6 +6,7 @@ import { InterfaceContext } from '../lib/w3ads/InterfaceContext';
 // Import PointerLockControls for handling first-person controls
 //@ts-ignore
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
+import { GroceryItem } from './GroceryItem';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 15;
@@ -23,6 +24,10 @@ export class Player extends Construct {
     camera!: THREE.PerspectiveCamera;
     controls!: PointerLockControls;
     holdingObject: THREE.Mesh | undefined = undefined;
+    lookingAtGroceryItem: boolean = false;
+    lookingAtPickupSpot: boolean = false;
+
+    raycaster!: THREE.Raycaster;
 
     // Movement direction state
     direction!: { forward: number, backward: number, left: number, right: number };
@@ -31,6 +36,7 @@ export class Player extends Construct {
     // UI prompt IDs
     interactPrompt!: number;
     placePrompt!: number;
+    crosshair!: any;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -53,6 +59,9 @@ export class Player extends Construct {
         this.direction = { forward: 0, backward: 0, left: 0, right: 0 };
         this.root.userData.canInteract = false;
 
+        // Initialize raycaster
+        this.raycaster = new THREE.Raycaster();
+
         // Interaction setup: allows you to pickup and place an object
         this.interactions.addInteracting(this.root, (object: THREE.Mesh) => {
             const inHandScale = object.userData.inHandScale;
@@ -60,7 +69,7 @@ export class Player extends Construct {
             object.position.set(2, -1.5, -2);
             object.scale.setScalar(inHandScale);
             this.holdingObject = object;
-            this.face.add(object);
+            this.camera.add(object);
         });
 
         // Setup UI prompts for interaction
@@ -122,6 +131,17 @@ export class Player extends Construct {
 
         // Request pointer lock on the renderer's DOM element
         this.graphics.renderer.domElement.requestPointerLock();
+
+        this.crosshair = document.createElement('div');
+        this.crosshair.style.position = 'absolute';
+        this.crosshair.style.top = '50%';
+        this.crosshair.style.left = '50%';
+        this.crosshair.style.transform = 'translate(-50%, -50%)';
+        this.crosshair.style.width = '20px';
+        this.crosshair.style.height = '20px';
+        this.crosshair.style.border = '2px solid white';
+        this.crosshair.style.borderRadius = '50%';
+        document.body.appendChild(this.crosshair);
     }
 
     // Update player state every frame, including movement and interaction prompts
@@ -144,6 +164,15 @@ export class Player extends Construct {
         const moveVector = forward.multiplyScalar(xLocal).add(right.multiplyScalar(zLocal));
         this.physics.moveCharacter(this.root, -moveVector.x, 0, -moveVector.z, this.speed * delta);
 
+        if (this.lookingAtGroceryItem){
+            this.crosshair.style.borderColor = 'red';
+        } else if (this.lookingAtPickupSpot) {
+            this.crosshair.style.borderColor = 'green';
+        }
+        else {
+            this.crosshair.style.borderColor = 'white';
+        }
+
         // Show or hide UI prompts based on interaction possibilities
         if (this.root.userData.canInteract && this.holdingObject === undefined) {
             this.userInterface.showPrompt(this.interactPrompt);
@@ -160,9 +189,33 @@ export class Player extends Construct {
 
     // Cleanup event listeners when the player object is destroyed
     destroy = (): void => {
-        // document.removeEventListener("keydown", this.onKeyDown);
-        // document.removeEventListener("keyup", this.onKeyUp);
-        // document.removeEventListener("keypress", this.onKeyPress);
+    }
+
+    checkLookingAtGroceryItem(groceryItems: GroceryItem[]) : void {
+        this.lookingAtGroceryItem = false;
+        for (let i = 0; i < groceryItems.length; i++){
+            const intersects = this.raycaster.intersectObject(groceryItems[i].root);
+            groceryItems[i].setBeingLookedAt(false);
+
+            if (intersects.length > 0){
+                this.lookingAtGroceryItem = true;
+                groceryItems[i].setBeingLookedAt(true);
+            }
+        }
+    }
+
+    checkLookingAtPickupSpot = (pickupSpots: Box[]) : void => {
+        this.lookingAtPickupSpot = false;
+
+        for (let i = 0; i < pickupSpots.length; i++){
+            const intersects = this.raycaster.intersectObject(pickupSpots[i].root);
+            pickupSpots[i].setBeingLookedAt(false);
+
+            if (intersects.length > 0){
+                this.lookingAtPickupSpot = true;
+                pickupSpots[i].setBeingLookedAt(true);
+            }
+        }
     }
 
     // Event handler for when pointer lock state changes
@@ -198,12 +251,14 @@ export class Player extends Construct {
         if (event.key == 'b' || event.key == 'B') {
             console.log(worldPos);
         }
-        if (scope.root.userData.canInteract && scope.holdingObject === undefined && !scope.paused) {
+        // Pick up an item
+        if (scope.root.userData.canInteract && scope.lookingAtGroceryItem && scope.holdingObject === undefined && !scope.paused) {
             if (event.key == 'e' || event.key == 'E') {
                 scope.root.userData.onInteract();
             }
         }
-        if (scope.root.userData.canPlace && scope.holdingObject !== undefined && !scope.paused) {
+        // Place an item
+        if (scope.root.userData.canPlace && scope.lookingAtPickupSpot && scope.holdingObject !== undefined && !scope.paused) {
             if (event.key == 'q' || event.key == 'Q') {
                 scope.root.userData.onPlace(scope.holdingObject);
                 scope.holdingObject = undefined;

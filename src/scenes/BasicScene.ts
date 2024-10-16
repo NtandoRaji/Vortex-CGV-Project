@@ -3,10 +3,14 @@ import { Scene } from "../lib";
 import { TimeS } from "../lib/w3ads/types/misc.type";
 import { Player } from "../constructs/Player";
 import { Room } from "../constructs/Room";
+import { Box } from "../constructs/Box";
+import { GroceryItem } from "../constructs/GroceryItem";
 
 export class BasicScene extends Scene {
     player!: Player;
     room!: Room;
+    boxes!: Box[];
+    groceryItems!: GroceryItem[];
 
     constructor(AmmoLib: any){
         super(
