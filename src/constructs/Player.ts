@@ -1,5 +1,5 @@
 // Import necessary modules and classes from the library
-import * as THREE from 'three'; 
+import * as THREE from 'three';
 import { Construct, GraphicsContext, GraphicsPrimitiveFactory, PhysicsColliderFactory, PhysicsContext } from "../lib";
 import { InteractManager } from '../lib/w3ads/InteractManager';
 import { InterfaceContext } from '../lib/w3ads/InterfaceContext';
@@ -9,7 +9,7 @@ import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockCont
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 15;
-const sprintSpeed = 10; 
+const sprintSpeed = 10;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
 const jumpGravity = 1.1;
@@ -23,7 +23,7 @@ export class Player extends Construct {
     camera!: THREE.PerspectiveCamera;
     controls!: PointerLockControls;
     holdingObject: THREE.Mesh | undefined = undefined;
-    
+
     // Movement direction state
     direction!: { forward: number, backward: number, left: number, right: number };
     speed: number = walkSpeed;
@@ -89,7 +89,7 @@ export class Player extends Construct {
     build = (): void => {
         // Create the face sphere and add shadows
         this.face = GraphicsPrimitiveFactory.sphere({
-            position: { x: 0, y: 3, z: 0 }, 
+            position: { x: 0, y: 3, z: 0 },
             rotation: { x: 0, y: 0, z: 0 },
             radius: 0.8,
             colour: 0x0000FF,
@@ -128,18 +128,18 @@ export class Player extends Construct {
     //@ts-ignore ignoring the time variable
     update = (time: number, delta: number): void => {
         delta = delta / 1000;
-    
+
         // Get the camera direction (forward vector)
         const direction = new THREE.Vector3();
         this.camera.getWorldDirection(direction);
-    
+
         // Calculate movement vectors based on camera direction and input state
         const forward = direction.clone().normalize();
         const right = new THREE.Vector3().crossVectors(this.camera.up, forward).normalize();
-    
+
         const xLocal = this.direction.backward - this.direction.forward;
         const zLocal = this.direction.right - this.direction.left;
-    
+
         // Determine the final movement direction and apply it
         const moveVector = forward.multiplyScalar(xLocal).add(right.multiplyScalar(zLocal));
         this.physics.moveCharacter(this.root, -moveVector.x, 0, -moveVector.z, this.speed * delta);
@@ -179,7 +179,7 @@ export class Player extends Construct {
         if (event.key == 'a' || event.key == 'A') { scope.direction.left = 1; }
         if (event.key == 'd' || event.key == 'D') { scope.direction.right = 1; }
         if (event.key == 'Shift') { scope.speed = sprintSpeed; }
-    } 
+    }
 
     onKeyUp(event: KeyboardEvent) {
         if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 0; }
