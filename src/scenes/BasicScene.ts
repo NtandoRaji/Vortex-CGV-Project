@@ -35,7 +35,7 @@ export class BasicScene extends Scene {
         this.room = new Room(this.graphics, this.physics, this.interactions, this.userInterface);
         this.addConstruct(this.room);
 
-        const nBoxes = 3;
+        const nBoxes = 4;
         for (let i = 0; i < nBoxes; i++){
             const box = new Box(
                 this.graphics,
@@ -52,7 +52,7 @@ export class BasicScene extends Scene {
         }
 
         const nGroceryItems = nBoxes - 1;
-        const itemNames = ["peanut_butter", "red_wine"];
+        const itemNames = ["peanut_butter", "red_wine", "sundae"];
         for (let i = 0; i < nGroceryItems; i++){
             const item = new GroceryItem(
                 this.graphics,
@@ -61,7 +61,7 @@ export class BasicScene extends Scene {
                 this.userInterface,
                 itemNames[i % itemNames.length],
                 i,
-                3
+                2
             );
             this.groceryItems.push(item);
             this.addConstruct(item);
@@ -71,7 +71,7 @@ export class BasicScene extends Scene {
     create(): void {
         for (let i = 0; i < this.boxes.length; i++){
             this.boxes[i].root.position.set(-20, 2, 2 - 2 * i);
-            this.boxes[i].interactions.addPickupSpot(this.boxes[i].root, 3, (placeObject: THREE.Object3D) => {
+            this.boxes[i].interactions.addPickupSpot(this.boxes[i].root, 5, (placeObject: THREE.Object3D) => {
                 this.boxes[i].root.add(placeObject); // Add the object to the placement spot
                 placeObject.position.set(0, 1, 0); // Set the position of the placed object
                 placeObject.scale.setScalar(1); // Reset the scale of the placed object

@@ -10,7 +10,7 @@ import { GroceryItem } from './GroceryItem';
 import { Box } from './Box';
 
 // Constants for movement speeds and jump physics
-const walkSpeed = 2;
+const walkSpeed = 10;
 const sprintSpeed = 10;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
