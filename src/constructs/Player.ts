@@ -39,9 +39,9 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 10; // 2 minutes in seconds
+    timeRemaining: number = 3; // 2 minutes in seconds
     timerInterval!: any;
-    
+
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -236,7 +236,7 @@ export class Player extends Construct {
                 padding: 15px 30px;
                 font-size: 1.5rem;
                 color: #fff;
-                background: linear-gradient(45deg, #FF6F61, #FF3E30);
+                background: linear-gradient(45deg, #6a1b9a, #4a148c, #2196F3, #4CAF50, #D81B60); /* Balanced gradient */
                 border: none;
                 border-radius: 25px;
                 cursor: pointer;

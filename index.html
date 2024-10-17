@@ -16,17 +16,60 @@
         </div>
     </div>
 
+    <div class="overlay" id="overlay"></div>
+
+    <!-- How to Play Popup -->
+    <div class="popup" id="how-to-play-popup">
+        <h2>How to Play</h2><br>
+        <ul>
+            <li>Use the WASD keys to navigate and control the character.</li>
+            <li>Use the "C" key to change the current scene.</li>
+            <li>Use the "E" key to interact/pick up an object.</li>
+            <li>Use the "Q" key to place the object.</li>
+        </ul>
+        <span class="close-btn" id="close-how-to-play">Close</span>
+    </div>
+
+    <!-- Credits Popup -->
+    <div class="popup" id="credits-popup">
+        <h2>Credits</h2>
+        <h3>Developers:</h3>
+        <p>Tania Bantam, Ntando Raji, Shaneel Kassen, Yassir Ali, Jaedon Moodley, Taruna Naidoo</p>
+        <h3>Game Engine</h3>
+        <p>Brenden Giffiths. Explain exactly what was used</p>
+        <h3>Models</h3>
+        <p>Poly</p>
+        <br><span class="close-btn" id="close-credits">Close</span>
+    </div>
+
     <script>
         document.getElementById('play-btn').onclick = function() {
             window.location.href="indexGame.html";
         };
 
         document.getElementById('how-to-play-btn').onclick = function() {
-            
+            //show game instructions when clicks
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('how-to-play-popup').classList.add('active');
+        };
+
+        //close how to play menu
+        document.getElementById('close-how-to-play').onclick = function(){
+           // Correctly remove active class from overlay
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('how-to-play-popup').classList.remove('active');
         };
 
         document.getElementById('credits-btn').onclick = function() {
-            
+            //show credits when clicked
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('credits-popup').classList.add('active');
+        };
+        //close credits menu
+        document.getElementById('close-credits').onclick = function(){
+           // Correctly remove active class from overlay
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('credits-popup').classList.remove('active');
         };
     </script>
 </body>
