@@ -39,9 +39,12 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 3; // 2 minutes in seconds
+    timeRemaining: number = 15; // 2 minutes in seconds
     timerInterval!: any;
 
+    pauseButton!:HTMLButtonElement; //pause button
+    isPaused: boolean = false;
+    popup!: HTMLDivElement; //popup for list when pause clicked
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -121,6 +124,68 @@ export class Player extends Construct {
         document.body.appendChild(this.timer);
 
         this.startTimer();
+
+        //create the pause button
+        this.pauseButton = document.createElement('button');
+        this.pauseButton.textContent = 'Pause';
+        this.pauseButton.style.position = 'fixed'; // Use fixed positioning
+        this.pauseButton.style.top = '35px'; // Align vertically with the timer
+        this.pauseButton.style.left = '75%'; // Align horizontally as required
+        this.pauseButton.style.transform = 'translate(-50%, -50%)'; // Adjust to truly center the button
+        
+        // Apply the same styles as the timer
+        this.pauseButton.style.fontSize = '24px';
+        this.pauseButton.style.fontWeight = 'bold';
+        this.pauseButton.style.background = 'linear-gradient(135deg, #4CAF50, #81C784)'; // Gradient background
+        this.pauseButton.style.border = '5px solid #2E7D32'; // Border
+        this.pauseButton.style.borderRadius = '15px'; // Rounded corners
+        this.pauseButton.style.padding = '10px 20px';
+        this.pauseButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.5)'; // Shadow for depth
+        this.pauseButton.style.textAlign = 'center';
+        this.pauseButton.style.fontFamily = 'Arial, sans-serif';
+        this.pauseButton.style.color = '#FFFFFF'; // Text color
+        this.pauseButton.style.cursor = 'pointer'; // Pointer cursor on hover
+        
+        document.body.appendChild(this.pauseButton);
+    
+        // Add click event listener for the pause button
+        this.pauseButton.addEventListener('click', () => this.togglePause());
+    
+        // Create the popup
+        this.createPopup();
+    }
+
+    //for pause button
+    private togglePause(): void {
+        this.isPaused = !this.isPaused;
+
+        if (this.isPaused) {
+            clearInterval(this.timerInterval); // Stop the timer
+            this.popup.style.display = 'block'; // Show the popup
+            this.pauseButton.textContent = 'Resume'; // Change button text to Resume
+        } else {
+            this.startTimer(); // Restart the timer
+            this.popup.style.display = 'none'; // Hide the popup
+            this.pauseButton.textContent = 'Pause'; // Change button text back to Pause
+        }
+    }
+
+    //popup when pause clicked
+    private createPopup(): void {
+        // Create the popup element
+        this.popup = document.createElement('div');
+        this.popup.textContent = 'Game Paused';
+        this.popup.style.position = 'fixed';
+        this.popup.style.top = '50%';
+        this.popup.style.left = '50%';
+        this.popup.style.transform = 'translate(-50%, -50%)'; // Center the popup
+        this.popup.style.padding = '20px';
+        this.popup.style.background = 'rgba(0, 0, 0, 0.8)'; // Dark background
+        this.popup.style.color = '#FFFFFF'; // White text
+        this.popup.style.borderRadius = '10px'; // Rounded corners
+        this.popup.style.display = 'none'; // Hide initially
+        this.popup.style.zIndex = '1000'; // Ensure it appears above other elements
+        document.body.appendChild(this.popup);
     }
 
     // Function to format the time as "Timer: MM:SS"
@@ -136,6 +201,10 @@ export class Player extends Construct {
 
     // Function to update the timer display and handle when timer ends
     private updateTimer(): void {
+
+        //exit if the game is paused
+        if(this.isPaused) return;
+
         // Update the displayed time
         this.timer.textContent = this.formatTime();
 
