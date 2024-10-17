@@ -200,42 +200,192 @@ export class Player extends Construct {
     }
 
     // Function to update the timer display and handle when timer ends
+    // private updateTimer(): void {
+
+    //     //exit if the game is paused
+    //     if(this.isPaused) return;
+
+    //     // Update the displayed time
+    //     this.timer.textContent = this.formatTime();
+
+    //     // Stop the timer when it reaches 0
+    //     if (this.timeRemaining > 0) {
+    //         this.timeRemaining--;
+    //     } else {
+    //         clearInterval(this.timerInterval);
+    //         this.timer.textContent = "Timer: Time's up!";
+
+    //     //end menu
+    //     // Release the pointer lock
+    //     if (document.pointerLockElement) {
+    //         document.exitPointerLock();
+    //     }
+    //     // Create a semi-transparent overlay behind the message
+    //     const overlay = document.createElement('div');
+    //     overlay.className = 'overlay';
+    //     document.body.appendChild(overlay);
+
+    //     // Create the mission failed message and buttons
+    //     const missionFailedContainer = document.createElement('div');
+    //     missionFailedContainer.className = 'mission-failed-container';
+
+    //     const message = document.createElement('h1');
+    //     message.textContent = "Mission Failed! We'll get 'em next time";
+    //     missionFailedContainer.appendChild(message);
+
+    //     const buttonContainer = document.createElement('div');
+    //     buttonContainer.className = 'button-container';
+
+    //     // Back to menu button
+    //     const backToMenuButton = document.createElement('button');
+    //     backToMenuButton.textContent = 'Back to Menu';
+    //     backToMenuButton.className = 'menu-btn';
+    //     backToMenuButton.onclick = () => {
+    //         window.location.href = '../index.html'; // Navigate back to menu
+    //     };
+
+    //     // Restart level button
+    //     const restartLevelButton = document.createElement('button');
+    //     restartLevelButton.textContent = 'Restart Level';
+    //     restartLevelButton.className = 'menu-btn';
+    //     restartLevelButton.onclick = () => {
+    //         window.location.href = '../indexGame.html'; // Restart the game
+    //     };
+
+    //     // Append buttons to button container
+    //     buttonContainer.appendChild(backToMenuButton);
+    //     buttonContainer.appendChild(restartLevelButton);
+
+    //     // Append button container to mission failed container
+    //     missionFailedContainer.appendChild(buttonContainer);
+
+    //     // Append the mission failed container to the body
+    //     document.body.appendChild(missionFailedContainer);
+
+    //     // Style the overlay and the message
+    //     const style = document.createElement('style');
+    //     style.textContent = `
+    //         .overlay {
+    //             position: fixed;
+    //             top: 0;
+    //             left: 0;
+    //             width: 100%;
+    //             height: 100%;
+    //             background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    //             z-index: 999; /* Ensure the overlay is on top */
+    //         }
+
+    //         .mission-failed-container {
+    //             position: absolute;
+    //             top: 50%;
+    //             left: 50%;
+    //             transform: translate(-50%, -50%);
+    //             text-align: center;
+    //             background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    //             padding: 30px;
+    //             border-radius: 15px;
+    //             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    //             z-index: 1000; /* Ensure the mission failed message is above the overlay */
+    //         }
+
+    //         .mission-failed-container h1 {
+    //             font-size: 4rem;
+    //             margin-bottom: 20px;
+    //             color: #333;
+    //             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    //         }
+
+    //         .button-container {
+    //             display: flex;
+    //             flex-direction: column;
+    //             gap: 20px;
+    //         }
+
+    //         .menu-btn {
+    //             padding: 15px 30px;
+    //             font-size: 1.5rem;
+    //             color: #fff;
+    //             background: linear-gradient(45deg, #6a1b9a, #4a148c, #2196F3, #4CAF50, #D81B60); /* Balanced gradient */
+    //             border: none;
+    //             border-radius: 25px;
+    //             cursor: pointer;
+    //             transition: transform 0.3s, box-shadow 0.3s;
+    //             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    //         }
+
+    //         .menu-btn:hover {
+    //             transform: translateY(-5px);
+    //             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    //         }
+
+    //         .menu-btn:active {
+    //             transform: translateY(2px);
+    //             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    //         }
+    //     `;
+        
+    //     // Append the stylesheet to the document head
+    //     document.head.appendChild(style);
+    //     }
+    // }
+
     private updateTimer(): void {
-
-        //exit if the game is paused
-        if(this.isPaused) return;
-
+        // Exit if the game is paused
+        if (this.isPaused) return;
+    
         // Update the displayed time
         this.timer.textContent = this.formatTime();
-
+    
         // Stop the timer when it reaches 0
         if (this.timeRemaining > 0) {
             this.timeRemaining--;
         } else {
+            // Timer ends, clear the interval and display the mission failed menu
             clearInterval(this.timerInterval);
             this.timer.textContent = "Timer: Time's up!";
-
-        //end menu
+            this.showMissionFailedMenu();
+        }
+    }
+    
+    // Pause the game and the timer
+    private pauseGame(): void {
+        this.isPaused = true;
+    
+        // Clear the interval to stop updating the timer
+        clearInterval(this.timerInterval);
+    }
+    
+    // Resume the game and the timer
+    private resumeGame(): void {
+        this.isPaused = false;
+    
+        // Restart the interval to continue updating the timer
+        this.timerInterval = setInterval(() => this.updateTimer(), 1000); // Adjust interval time as needed
+    }
+    
+    // Function to show the mission failed menu when the timer ends
+    private showMissionFailedMenu(): void {
         // Release the pointer lock
         if (document.pointerLockElement) {
             document.exitPointerLock();
         }
+    
         // Create a semi-transparent overlay behind the message
         const overlay = document.createElement('div');
         overlay.className = 'overlay';
         document.body.appendChild(overlay);
-
+    
         // Create the mission failed message and buttons
         const missionFailedContainer = document.createElement('div');
         missionFailedContainer.className = 'mission-failed-container';
-
+    
         const message = document.createElement('h1');
         message.textContent = "Mission Failed! We'll get 'em next time";
         missionFailedContainer.appendChild(message);
-
+    
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'button-container';
-
+    
         // Back to menu button
         const backToMenuButton = document.createElement('button');
         backToMenuButton.textContent = 'Back to Menu';
@@ -243,7 +393,7 @@ export class Player extends Construct {
         backToMenuButton.onclick = () => {
             window.location.href = '../index.html'; // Navigate back to menu
         };
-
+    
         // Restart level button
         const restartLevelButton = document.createElement('button');
         restartLevelButton.textContent = 'Restart Level';
@@ -251,20 +401,21 @@ export class Player extends Construct {
         restartLevelButton.onclick = () => {
             window.location.href = '../indexGame.html'; // Restart the game
         };
-
+    
         // Append buttons to button container
         buttonContainer.appendChild(backToMenuButton);
         buttonContainer.appendChild(restartLevelButton);
-
+    
         // Append button container to mission failed container
         missionFailedContainer.appendChild(buttonContainer);
-
+    
         // Append the mission failed container to the body
         document.body.appendChild(missionFailedContainer);
-
-        // Style the overlay and the message
+    
+        // Append the style for the overlay and the mission failed container
         const style = document.createElement('style');
         style.textContent = `
+            /* Add your styles here for the overlay and mission failed message */
             .overlay {
                 position: fixed;
                 top: 0;
@@ -274,7 +425,6 @@ export class Player extends Construct {
                 background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
                 z-index: 999; /* Ensure the overlay is on top */
             }
-
             .mission-failed-container {
                 position: absolute;
                 top: 50%;
@@ -287,47 +437,40 @@ export class Player extends Construct {
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
                 z-index: 1000; /* Ensure the mission failed message is above the overlay */
             }
-
             .mission-failed-container h1 {
                 font-size: 4rem;
                 margin-bottom: 20px;
                 color: #333;
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             }
-
             .button-container {
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
             }
-
             .menu-btn {
                 padding: 15px 30px;
                 font-size: 1.5rem;
                 color: #fff;
-                background: linear-gradient(45deg, #6a1b9a, #4a148c, #2196F3, #4CAF50, #D81B60); /* Balanced gradient */
+                background: linear-gradient(45deg, #6a1b9a, #4a148c, #2196F3, #4CAF50, #D81B60);
                 border: none;
                 border-radius: 25px;
                 cursor: pointer;
                 transition: transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             }
-
             .menu-btn:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             }
-
             .menu-btn:active {
                 transform: translateY(2px);
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
         `;
-        
-        // Append the stylesheet to the document head
         document.head.appendChild(style);
-        }
     }
+    
 
     // Function to start the timer
     private startTimer(): void {
