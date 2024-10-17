@@ -12,7 +12,7 @@ body {
     height: 100vh;
     background: url('https://images.unsplash.com/photo-1519664369654-21d74c82c0db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDV8MHwxfGFsbHwxfHx8fHx8fHwxNjg1MDk1NjQ1&ixlib=rb-4.0.3&q=80&w=1920') no-repeat center center fixed; /* Background image */
     background-size: cover; 
-    background-color: #b3b2b2;
+    background-color: #808080;
 }
 
 .menu-container {
@@ -49,7 +49,7 @@ h1 {
     
     padding: 15px 30px;
     font-size: 1.5rem;
-    color: #000000;
+    color: #fff;
     background: linear-gradient(45deg, #6a1b9a, #4a148c, #2196F3, #4CAF50, #D81B60); /* Balanced gradient */
     border: none;
     border-radius: 25px;
@@ -89,23 +89,22 @@ h1 {
 .popup.active {
     display: block; /* Show the popup */
 }
-
 .overlay {
+    display: none; /* Initially hidden */
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    display: none; /* Hidden by default */
-    z-index: 500; /* Layer below popups */
+    z-index: 10;
 }
 .overlay.active {
     display: block; /* Show overlay */
 }
 
 .close-btn {
-    cursor: pointer;
+    margin-left: auto; /* Push the button to the right */
     background-color: rgb(255, 98, 0);
     color: white; /* Text color */
     padding: 10px 20px; /* Padding around the text */
@@ -115,6 +114,9 @@ h1 {
     text-align: center; /* Center text inside the button */
     margin-top: 20px; /* Space above the button */
     transition: background-color 0.3s; /* Smooth background color transition */
+    display: flex; /* Make the button a flex item */
+    justify-content: flex-end; /* Align text to the right inside the button */
+    width: 80px;
 }
 .close-btn:hover{
     background-color: rgb(90, 200, 0);

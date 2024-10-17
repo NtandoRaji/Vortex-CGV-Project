@@ -13,7 +13,7 @@
             <button class="menu-btn" id="play-btn">Play Game</button>
             <button class="menu-btn" id="how-to-play-btn">How to Play</button>
             <button class="menu-btn" id="credits-btn">Credits</button>
-            <button class="menu-btn" id="credits-btn">Settings</button>
+            <button class="menu-btn" id="settings-btn">Settings</button>
         </div>
     </div>
 
@@ -48,6 +48,23 @@
         </div>
      </div>
     
+    <!-- Settings Popup -->
+    <div class="popup-wrapper" id="settings-popup-wrapper"> <!-- Added Settings Popup -->
+        <div class="popup" id="settings-popup">
+            <h2>Settings</h2><br>
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" name="volume" min="0" max="100"><br><br>
+
+            <label for="resolution">Screen Resolution:</label>
+            <select id="resolution" name="resolution">
+                <option value="1920x1080">1920x1080</option>
+                <option value="1280x720">1280x720</option>
+                <option value="800x600">800x600</option>
+            </select><br><br>
+
+            <span class="close-btn" id="close-settings">Close</span>
+        </div>
+     </div>
 
     <script>
         document.getElementById('play-btn').onclick = function() {
@@ -77,6 +94,18 @@
            // Correctly remove active class from overlay
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('credits-popup').classList.remove('active');
+        };
+
+                // Show settings menu
+        document.getElementById('settings-btn').onclick = function() {
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('settings-popup').classList.add('active');
+        };
+
+        // Close settings menu
+        document.getElementById('close-settings').onclick = function(){
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('settings-popup').classList.remove('active');
         };
     </script>
 </body>
