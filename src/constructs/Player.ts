@@ -39,8 +39,9 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 120; // 2 minutes in seconds
+    timeRemaining: number = 10; // 2 minutes in seconds
     timerInterval!: any;
+    
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -144,6 +145,118 @@ export class Player extends Construct {
         } else {
             clearInterval(this.timerInterval);
             this.timer.textContent = "Timer: Time's up!";
+
+        //end menu
+        // Release the pointer lock
+        if (document.pointerLockElement) {
+            document.exitPointerLock();
+        }
+        // Create a semi-transparent overlay behind the message
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        document.body.appendChild(overlay);
+
+        // Create the mission failed message and buttons
+        const missionFailedContainer = document.createElement('div');
+        missionFailedContainer.className = 'mission-failed-container';
+
+        const message = document.createElement('h1');
+        message.textContent = "Mission Failed, we'll get them next time";
+        missionFailedContainer.appendChild(message);
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
+
+        // Back to menu button
+        const backToMenuButton = document.createElement('button');
+        backToMenuButton.textContent = 'Back to Menu';
+        backToMenuButton.className = 'menu-btn';
+        backToMenuButton.onclick = () => {
+            window.location.href = '../index.html'; // Navigate back to menu
+        };
+
+        // Restart level button
+        const restartLevelButton = document.createElement('button');
+        restartLevelButton.textContent = 'Restart Level';
+        restartLevelButton.className = 'menu-btn';
+        restartLevelButton.onclick = () => {
+            window.location.href = '../indexGame.html'; // Restart the game
+        };
+
+        // Append buttons to button container
+        buttonContainer.appendChild(backToMenuButton);
+        buttonContainer.appendChild(restartLevelButton);
+
+        // Append button container to mission failed container
+        missionFailedContainer.appendChild(buttonContainer);
+
+        // Append the mission failed container to the body
+        document.body.appendChild(missionFailedContainer);
+
+        // Style the overlay and the message
+        const style = document.createElement('style');
+        style.textContent = `
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+                z-index: 999; /* Ensure the overlay is on top */
+            }
+
+            .mission-failed-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                z-index: 1000; /* Ensure the mission failed message is above the overlay */
+            }
+
+            .mission-failed-container h1 {
+                font-size: 4rem;
+                margin-bottom: 20px;
+                color: #333;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            .button-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .menu-btn {
+                padding: 15px 30px;
+                font-size: 1.5rem;
+                color: #fff;
+                background: linear-gradient(45deg, #FF6F61, #FF3E30);
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                transition: transform 0.3s, box-shadow 0.3s;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .menu-btn:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            }
+
+            .menu-btn:active {
+                transform: translateY(2px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+        `;
+        
+        // Append the stylesheet to the document head
+        document.head.appendChild(style);
         }
     }
 
