@@ -110,12 +110,12 @@ export class Player extends Construct {
         this.timer.style.left = '10px';
         this.timer.style.fontSize = '24px';
         this.timer.style.fontWeight = 'bold';
-        this.timer.style.color = '#ffffff';
+        this.timer.style.color = '#0000000';
         this.timer.style.background = 'linear-gradient(135deg, #4CAF50, #81C784)'; // Gradient background
-        this.timer.style.border = '2px solid #2E7D32'; // Border
-        this.timer.style.borderRadius = '8px'; // Rounded corners
+        this.timer.style.border = '5px solid #2E7D32'; // Border
+        this.timer.style.borderRadius = '15px'; // Rounded corners
         this.timer.style.padding = '10px 20px';
-        this.timer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow for depth
+        this.timer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.5)'; // Shadow for depth
         this.timer.style.textAlign = 'center';
         this.timer.style.fontFamily = 'Arial, sans-serif';
         document.body.appendChild(this.timer);
@@ -161,7 +161,7 @@ export class Player extends Construct {
         missionFailedContainer.className = 'mission-failed-container';
 
         const message = document.createElement('h1');
-        message.textContent = "Mission Failed, we'll get them next time";
+        message.textContent = "Mission Failed! We'll get 'em next time";
         missionFailedContainer.appendChild(message);
 
         const buttonContainer = document.createElement('div');
@@ -319,6 +319,7 @@ export class Player extends Construct {
         document.body.appendChild(this.crosshair);
     }
 
+    
     // Update player state every frame, including movement and interaction prompts
     //@ts-ignore ignoring the time variable
     update = (time: number, delta: number): void => {

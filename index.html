@@ -19,28 +19,34 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- How to Play Popup -->
-    <div class="popup" id="how-to-play-popup">
-        <h2>How to Play</h2><br>
-        <ul>
-            <li>Use the WASD keys to navigate and control the character.</li>
-            <li>Use the "C" key to change the current scene.</li>
-            <li>Use the "E" key to interact/pick up an object.</li>
-            <li>Use the "Q" key to place the object.</li>
-        </ul>
-        <span class="close-btn" id="close-how-to-play">Close</span>
-    </div>
+     <div class="popup-wrapper" id="how-to-play-wrapper">
+        <div class="popup" id="how-to-play-popup">
+            <h2>How to Play</h2><br>
+            <ul>
+                <li>Use the WASD keys to navigate and control the character.</li>
+                <li>Use the "C" key to change the current scene.</li>
+                <li>Use the "E" key to interact/pick up an object.</li>
+                <li>Use the "Q" key to place the object.</li>
+            </ul>
+            <span class="close-btn" id="close-how-to-play">Close</span>
+        </div>
+     </div>
+    
 
     <!-- Credits Popup -->
-    <div class="popup" id="credits-popup">
-        <h2>Credits</h2>
-        <h3>Developers:</h3>
-        <p>Tania Bantam, Ntando Raji, Shaneel Kassen, Yassir Ali, Jaedon Moodley, Taruna Naidoo</p>
-        <h3>Game Engine</h3>
-        <p>Brenden Giffiths. Explain exactly what was used</p>
-        <h3>Models</h3>
-        <p>Poly</p>
-        <br><span class="close-btn" id="close-credits">Close</span>
-    </div>
+     <div class="popup-wrapper" id="credits-popup-wrapper">
+        <div class="popup" id="credits-popup">
+            <h2>Credits</h2>
+            <h3>Developers:</h3>
+            <p>Tania Bantam, Ntando Raji, Shaneel Kassen, Yassir Ali, Jaedon Moodley, Taruna Naidoo</p>
+            <h3>Game Engine</h3>
+            <p>Brenden Giffiths. Explain exactly what was used</p>
+            <h3>Models</h3>
+            <p>Poly</p>
+            <br><span class="close-btn" id="close-credits">Close</span>
+        </div>
+     </div>
+    
 
     <script>
         document.getElementById('play-btn').onclick = function() {

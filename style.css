@@ -12,11 +12,12 @@ body {
     height: 100vh;
     background: url('https://images.unsplash.com/photo-1519664369654-21d74c82c0db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDV8MHwxfGFsbHwxfHx8fHx8fHwxNjg1MDk1NjQ1&ixlib=rb-4.0.3&q=80&w=1920') no-repeat center center fixed; /* Background image */
     background-size: cover; 
+    background-color: #b3b2b2;
 }
 
 .menu-container {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    background-color: rgba(215, 215, 215, 0.8); /* Semi-transparent background */
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -74,7 +75,7 @@ h1 {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(218, 218, 218);
+    background-color: rgb(255, 255, 255);
     border-width: 10px; /* Set the border width */
     border-style: solid; /* Set border style */
     border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1; /* Multicolored border */
@@ -88,6 +89,7 @@ h1 {
 .popup.active {
     display: block; /* Show the popup */
 }
+
 .overlay {
     position: fixed;
     top: 0;
