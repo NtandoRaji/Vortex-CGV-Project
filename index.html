@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Speed Shopper</title>
-		<style>
-			body { margin: 0; }
-		</style>
-	</head>
-	<body>
-		<div id="app" ></div>
-		<script type="module" src="/src/main.ts"></script>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Shopper</title>
+    <link rel="stylesheet" href="style.css">
+</head> 
+<body>
+    <div class="menu-container">
+        <h1>Speed Shopper</h1>
+        <div class="menu-buttons">
+            <button class="menu-btn" id="play-btn">Play Game</button>
+            <button class="menu-btn" id="how-to-play-btn">How to Play</button>
+            <button class="menu-btn" id="credits-btn">Credits</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('play-btn').onclick = function() {
+            window.location.href="indexGame.html";
+        };
+
+        document.getElementById('how-to-play-btn').onclick = function() {
+            
+        };
+
+        document.getElementById('credits-btn').onclick = function() {
+            
+        };
+    </script>
+</body>
 </html>
