@@ -8,6 +8,7 @@ import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 
 import { CashierCounter } from "./CashierCounter";
 import { Player } from "./Player";
+import { SectionC } from "./sectionC";
 
 
 export class Store extends Construct {
@@ -36,6 +37,8 @@ export class Store extends Construct {
         this.cashierCounter = new CashierCounter(graphics, physics, interactions, userInterface);
         this.addConstruct(this.cashierCounter);
 
+        const sectionC = new SectionC(graphics, physics, interactions, userInterface);
+        this.addConstruct(sectionC);
     }
 
     create(): void {    
