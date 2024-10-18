@@ -10,7 +10,7 @@ import { GroceryItem } from './GroceryItem';
 import { Box } from './Box';
 
 // Constants for movement speeds and jump physics
-const walkSpeed = 10;
+const walkSpeed = 5;
 const sprintSpeed = 10;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
@@ -163,7 +163,7 @@ export class Player extends Construct {
 
         // Determine the final movement direction and apply it
         const moveVector = forward.multiplyScalar(xLocal).add(right.multiplyScalar(zLocal));
-        this.physics.moveCharacter(this.root, -moveVector.x, 0, -moveVector.z, delta);
+        this.physics.moveCharacter(this.root, -moveVector.x, 0, -moveVector.z, this.speed * delta);
 
         this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
 
