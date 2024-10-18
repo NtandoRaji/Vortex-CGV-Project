@@ -8,8 +8,10 @@ import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 
 import { CashierCounter } from "./CashierCounter";
 import { Player } from "./Player";
-import { SectionC } from "./sectionC";
-
+import { SectionC } from "./SectionC";
+import { Shelf } from "./Shelf";
+import { PickupSpot } from "./PickupSpot";
+import { Room } from "./Room";
 
 export class Store extends Construct {
     ceiling!:any;
@@ -18,11 +20,13 @@ export class Store extends Construct {
     walls!: Array<THREE.Mesh>;
     wallTexture!: THREE.MeshStandardMaterial;
 
-    storeDimensions: Array<number> = [100, 20, 100];
+    storeDimensions: Array<number> = [150, 20, 150];
     floor!: any;
     floorTexture!: THREE.MeshLambertMaterial;
     textureFloorData!:any;
 
+    //Store sections
+    sections: Array<Construct> = [];
     //Game loop stuff
     player!: Player;
 
@@ -37,7 +41,8 @@ export class Store extends Construct {
         this.cashierCounter = new CashierCounter(graphics, physics, interactions, userInterface);
         this.addConstruct(this.cashierCounter);
 
-        const sectionC = new SectionC(graphics, physics, interactions, userInterface);
+        const sectionC = new SectionC(graphics, physics, interactions, userInterface, this.player);
+        this.sections.push(sectionC);
         this.addConstruct(sectionC);
     }
 
@@ -47,6 +52,14 @@ export class Store extends Construct {
 
         // Place Cashier Counter
         this.cashierCounter.root.position.set(40, 1.5, 40);
+
+        // --- Place Sections ---
+        const sectionsPositions = [[-50, 0, 0]];
+        for (let i = 0; i < this.sections.length; i++){
+            const position = sectionsPositions[i];
+            this.sections[i].root.position.set(position[0], position[1], position[2]);
+        }
+        // -------------------------
     }
 
     async load(): Promise<void> {
