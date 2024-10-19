@@ -10,11 +10,59 @@
     <div class="menu-container">
         <h1>Speed Shopper</h1>
         <div class="menu-buttons">
-            <button class="menu-btn" id="play-btn">Play Game</button>
-            <button class="menu-btn" id="how-to-play-btn">How to Play</button>
-            <button class="menu-btn" id="credits-btn">Credits</button>
+            <button class="menu-btn" id="play-btn"><b>Play Game</b></button>
+            <button class="menu-btn" id="how-to-play-btn"><b>How to Play</b></button>
+            <button class="menu-btn" id="credits-btn"><b>Credits</b></button>
+            <button class="menu-btn" id="settings-btn"><b>Settings</b></button>
         </div>
     </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- How to Play Popup -->
+     <div class="popup-wrapper" id="how-to-play-wrapper">
+        <div class="popup" id="how-to-play-popup">
+            <h2 id="how-to-text">How to Play</h2><br>
+            <ul>
+                <li>Use the <b id="how-to-text">WASD</b> keys to navigate and control the character.</li>
+                <li>Use the <b id="how-to-text">"C"</b> key to change the current scene.</li>
+                <li>Use the <b id="how-to-text">"E"</b> key to interact/pick up an object.</li>
+                <li>Use the <b id="how-to-text">"Q"</b> key to place the object.</li>
+            </ul>
+            <span class="close-btn" id="close-how-to-play">Close</span>
+        </div>
+     </div>
+    
+    <!-- Credits Popup -->
+     <div class="popup-wrapper" id="credits-popup-wrapper">
+        <div class="popup" id="credits-popup">
+            <h2 id="credits-headings">Credits</h2>
+            <h3 id="credits-headings">Developers:</h3>
+            <p>Tania Bantam, Ntando Raji, Shaneel Kassen, Yassir Ali, Jaedon Moodley, Taruna Naidoo</p>
+            <h3 id="credits-headings">Game Engine</h3>
+            <p>Brenden Giffiths. Explain exactly what was used</p>
+            <h3 id="credits-headings">Models</h3>
+            <ul>
+                <li><a href="https://poly.pizza/m/T2QjC2ZQya" target="_blank" rel="noopener noreferrer">Carton by Kenney</a></li>
+            <li><a href="https://poly.pizza/m/t3G8zaLjYe" target="_blank" rel="noopener noreferrer">Peanut Butter by Kenney</a></li>
+            <li><a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">Orange by Poly by Google [CC-BY]</a> via <a href="https://poly.pizza/m/9KbFqwZAqn2" target="_blank" rel="noopener noreferrer">Poly Pizza</a></li>
+            <li><a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">Banana by Poly by Google [CC-BY]</a> via <a href="https://poly.pizza/m/ahOO6wz8sV0" target="_blank" rel="noopener noreferrer">Poly Pizza</a></li>
+            <li><a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">Soda by Poly by Google [CC-BY]</a> via <a href="https://poly.pizza/m/2w4Av7jJ2_B" target="_blank" rel="noopener noreferrer">Poly Pizza</a></li>
+            <li><a href="https://poly.pizza/m/xddz7Cu53w" target="_blank" rel="noopener noreferrer">Container Bathroom A by Isa Lousberg</a></li>
+            </ul>
+            <br><span class="close-btn" id="close-credits">Close</span>
+        </div>
+     </div>
+    
+    <!-- Settings Popup -->
+    <div class="popup-wrapper" id="settings-popup-wrapper"> <!-- Added Settings Popup -->
+        <div class="popup" id="settings-popup">
+            <h2 id="setting-heading">Settings</h2><br>
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" name="volume" min="0" max="100"><br><br>
+            <span class="close-btn" id="close-settings">Close</span>
+        </div>
+     </div>
 
     <script>
         document.getElementById('play-btn').onclick = function() {
@@ -22,11 +70,40 @@
         };
 
         document.getElementById('how-to-play-btn').onclick = function() {
-            
+            //show game instructions when clicks
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('how-to-play-popup').classList.add('active');
+        };
+
+        //close how to play menu
+        document.getElementById('close-how-to-play').onclick = function(){
+           // Correctly remove active class from overlay
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('how-to-play-popup').classList.remove('active');
         };
 
         document.getElementById('credits-btn').onclick = function() {
-            
+            //show credits when clicked
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('credits-popup').classList.add('active');
+        };
+        //close credits menu
+        document.getElementById('close-credits').onclick = function(){
+           // Correctly remove active class from overlay
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('credits-popup').classList.remove('active');
+        };
+
+                // Show settings menu
+        document.getElementById('settings-btn').onclick = function() {
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('settings-popup').classList.add('active');
+        };
+
+        // Close settings menu
+        document.getElementById('close-settings').onclick = function(){
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('settings-popup').classList.remove('active');
         };
     </script>
 </body>
