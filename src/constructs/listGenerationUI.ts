@@ -15,8 +15,10 @@ export function generateAndDisplayGroceryItems(containerId: string, count: numbe
 }
 
 // Function to update the displayed items to have strikethrough when received
-export function updateList(containerId: string, receivedItem: string): void {
+export function updateList(containerId: string, receivedItem: string): boolean {
     const container = document.getElementById(containerId);
+    let itemFound = false; // Track whether the item was found
+
     if (container) {
         // Find all item divs in the container
         const itemDivs = container.getElementsByClassName("item");
@@ -25,14 +27,17 @@ export function updateList(containerId: string, receivedItem: string): void {
             // Get the paragraph element within the item div
             const nameElement = itemDiv.querySelector("p");
             if (nameElement && nameElement.textContent) {
-                // Check if the item is in the received items
-                if (receivedItem.includes(nameElement.textContent)) {
+                // Check if the item name matches the received item
+                if (nameElement.textContent.trim() === receivedItem) { // Compare directly
                     // Apply strikethrough style
                     nameElement.style.textDecoration = 'line-through';
+                    itemFound = true; // Mark as found
                 }
             }
         });
     }
+
+    return itemFound; // Return whether the item was found
 }
 
 
