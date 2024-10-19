@@ -165,7 +165,7 @@ export class Store extends Construct {
     // Update method to check player interactions with shop items and pickup spots
     update(time?: TimeS, delta?: TimeMS): void {
         // Check if the player is looking at any of the shop items (shelves or boxes)
-        this.player.checkLookingAtShopItems(this.shopItems);
+        this.player.checkLookingAtGroceryItem(this.shopItems);
         // Check if the player is looking at any of the pickup spots
         this.player.checkLookingAtPickupSpot(this.shopPickupSpots);
     }

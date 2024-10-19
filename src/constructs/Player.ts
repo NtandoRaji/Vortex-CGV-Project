@@ -10,9 +10,14 @@ import { GroceryItem } from './GroceryItem';
 import { PickupSpot } from './PickupSpot';
 import { Shelf } from './Shelf';
 import { Box } from './Box';
+import { generateAndDisplayGroceryItems,updateList } from '../User_interface/listGenerationUI';
+import { setUpTimer, stopTimer } from '../User_interface/Timer';
+import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
+import { showGameOverMenu } from '../User_interface/gameOverMenu';
+import { showGameWonMenu } from '../User_interface/gameWonMenu';
 
 // Constants for movement speeds and jump physics
-const walkSpeed = 5;
+const walkSpeed = 2;
 const sprintSpeed = 10;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
@@ -29,7 +34,7 @@ export class Player extends Construct {
     holdingObject: THREE.Mesh | undefined = undefined;
     lookingAtGroceryItem: boolean = false;
     lookingAtPickupSpot: boolean = false;
-
+    currentGroceryItem: GroceryItem| null=null;
     raycaster!: THREE.Raycaster;
 
     // Movement direction state
@@ -41,11 +46,13 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 10; // 2 minutes in seconds
+    timeRemaining: number = 100; // 2 minutes in seconds
     timerInterval!: any;
-    
-    livesDisplay!: HTMLElement;
-    lives: number = 3;
+    list!:any;
+    amountOfItemsToFind: number = 1; // Choose how many items to generate for the Player
+    foundItems: number = 0; // Player has found nothing when game begins
+    livesDisplay!: any;
+    lives: number = 2;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -71,8 +78,36 @@ export class Player extends Construct {
         // Initialize raycaster
         this.raycaster = new THREE.Raycaster();
 
-        // Interaction setup: allows you to pickup and place an object
+        // Player Interaction setup:
+        // Note: object is the CURRENT GROCERY ITEM the player has "picked up"
         this.interactions.addInteracting(this.root, (object: THREE.Mesh) => {
+            // --- Player picking up a grocery item ---
+            const itemName = object.userData.productName; // Get object's product name
+            console.log(`DEBUG: Current Grocery Item: ${itemName}`);
+            
+            // check if item is on list
+            const found = updateList(this.list.id, itemName);
+            if (found){
+                // count up if it is an item on the list
+                this.foundItems += 1;
+                if (this.foundItems === scope.amountOfItemsToFind) {
+                    showGameWonMenu();
+                }
+            }
+            else{
+                //Enter what is supposed to happen when player selects wrong thing
+                if (this.lives > 0) {
+                    this.lives--; // Decrease lives
+                    updateLivesDisplay(this.livesDisplay.id,this.lives); // Update display
+                }
+                if(this.lives == 0 ){
+                    stopTimer();
+                    showGameOverMenu();
+                }
+            }
+            // 
+
+            // --- Player lift item into hand ---
             const inHandScale = object.userData.inHandScale;
             object.removeFromParent();
             object.position.set(2, -1.5, -2);
@@ -80,6 +115,7 @@ export class Player extends Construct {
             object.scale.setScalar(inHandScale);
             this.holdingObject = object;
             this.camera.add(object);
+
         });
 
         // Setup UI prompts for interaction
@@ -100,247 +136,30 @@ export class Player extends Construct {
             this.controls.lock();
         });
 
-        // **Check and remove any existing timer before creating a new one**
-        const existingTimer = document.querySelector('#game-timer');
-        if (existingTimer) {
-            existingTimer.remove(); // Remove the existing timer from the DOM
-            clearInterval(this.timerInterval); // Clear any existing interval
-        }
-        
-        // Create the timer element with an ID
-        this.timer = document.createElement('div');
-        this.timer.id = 'game-timer'; // Set an ID to easily find and remove it
-        this.timer.style.position = 'absolute';
-        this.timer.style.top = '10px';
-        this.timer.style.left = '10px';
-        this.timer.style.fontSize = '24px';
-        this.timer.style.fontWeight = 'bold';
-        this.timer.style.color = '#000000';
-        this.timer.style.background = 'linear-gradient(135deg, #4CAF50, #81C784)'; // Gradient background
-        this.timer.style.border = '2px solid #2E7D32'; // Border
-        this.timer.style.borderRadius = '20px'; // Rounded corners
-        this.timer.style.padding = '10px 20px';
-        this.timer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow for depth
-        this.timer.style.textAlign = 'center';
-        this.timer.style.fontFamily = 'Arial, sans-serif';
-        document.body.appendChild(this.timer);
-
-        // [!] Uncomment to start timer
-        this.startTimer(); 
-
-        // Create the lives element
-        this.livesDisplay = document.createElement('div');
-        this.livesDisplay.id = 'lives-display';
-        this.livesDisplay.style.position = 'absolute';
-        this.livesDisplay.style.top = '65px'; // Position it below the timer
-        this.livesDisplay.style.left = '10px';
-        this.livesDisplay.style.color = '#000000'; // Text color
-        this.livesDisplay.style.background = '#36454F';
-        this.livesDisplay.style.border = '2px solid #C62828'; // Border
-        this.livesDisplay.style.borderRadius = '20px'; // Rounded corners
-        this.livesDisplay.style.padding = '10px 20px';
-        this.livesDisplay.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow for depth
-        this.livesDisplay.style.textAlign = 'center';
-        this.livesDisplay.style.fontFamily = 'Arial, sans-serif';
-        document.body.appendChild(this.livesDisplay);
-
-        // Initial update to show lives
-        this.updateLivesDisplay();
+        this.setUpTimer();
+        this.setUpLifeDisplay();
+        this.setUpList();
     }
 
-    // Function to update the lives display with heart images
-    private updateLivesDisplay(): void {
-        // Clear the existing lives display
-        this.livesDisplay.innerHTML = ''; 
 
-        // Create heart images for each life
-        for (let i = 0; i < this.lives; i++) {
-            const heartImage = document.createElement('img');
-            heartImage.src = 'public/icons/heart.png';
-            heartImage.alt = 'Lives';
-            heartImage.style.width = '30px';
-            heartImage.style.height = '30px';
-            heartImage.style.marginRight = '5px'; // Space between hearts
+private setUpList(): void {
+    this.list = document.createElement("div");
+    this.list.id = "grocery-list";
+    generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
+  }
 
-            this.livesDisplay.appendChild(heartImage); // Append the heart image to the lives display
-            }
-    }
 
-    // Call this method when the player loses a life
-    public loseLife(): void {
-        if (this.lives > 0) {
-            this.lives--; // Decrease lives
-            this.updateLivesDisplay(); // Update display
-        }
-        
-        if (this.lives === 0) {
-            // Handle game over scenario
-            this.handleGameOver();
-        }
-    }
+private setUpLifeDisplay(){
+    this.livesDisplay = document.createElement("div");
+    this.livesDisplay.id = "life-display";
+    setUpLives(this.livesDisplay.id,this.lives);
+}
 
-    // Game over handling (you can customize this)
-    private handleGameOver(): void {
-        clearInterval(this.timerInterval); // Stop timer if needed
-        // Show game over screen, stop player controls, etc.
-        console.log("Game Over");
-        // Additional game over logic...
-    }
-    // Function to format the time as "Timer: MM:SS"
-    private formatTime(): string {
-        let minutes = Math.floor(this.timeRemaining / 60);
-        let seconds = this.timeRemaining % 60;
-
-        // Add leading zero if seconds are less than 10
-        const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-
-        return `Timer: ${minutes}:${formattedSeconds}`;
-    }
-
-    // Function to update the timer display and handle when timer ends
-    private updateTimer(): void {
-        // Update the displayed time
-        this.timer.textContent = this.formatTime();
-
-        // Stop the timer when it reaches 0
-        if (this.timeRemaining > 0) {
-            this.timeRemaining--;
-        } else {
-            clearInterval(this.timerInterval);
-            this.timer.textContent = "Timer: Time's up!";
-
-        //end menu
-        // Release the pointer lock
-        if (document.pointerLockElement) {
-            document.exitPointerLock();
-        }
-        // Create a semi-transparent overlay behind the message
-        const overlay = document.createElement('div');
-        overlay.className = 'overlay';
-        document.body.appendChild(overlay);
-
-        // Create the mission failed message and buttons
-        const missionFailedContainer = document.createElement('div');
-        missionFailedContainer.className = 'mission-failed-container';
-
-        const message = document.createElement('h1');
-        message.textContent = "Mission Failed! We'll get 'em' next time";
-        message.id = 'mission-text';
-        missionFailedContainer.appendChild(message);
-
-        const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'button-container';
-
-        // Back to menu button
-        const backToMenuButton = document.createElement('button');
-        backToMenuButton.textContent = 'Back to Menu';
-        backToMenuButton.className = 'menu-btn';
-        backToMenuButton.id = 'back-to-btn';
-        backToMenuButton.onclick = () => {
-            window.location.href = '../index.html'; // Navigate back to menu
-        };
-
-        // Restart level button
-        const restartLevelButton = document.createElement('button');
-        restartLevelButton.textContent = 'Restart Level';
-        restartLevelButton.className = 'menu-btn';
-        restartLevelButton.id = 'restart-btn';
-        restartLevelButton.onclick = () => {
-            window.location.href = '../indexGame.html'; // Restart the game
-        };
-
-        // Append buttons to button container
-        buttonContainer.appendChild(backToMenuButton);
-        buttonContainer.appendChild(restartLevelButton);
-
-        // Append button container to mission failed container
-        missionFailedContainer.appendChild(buttonContainer);
-
-        // Append the mission failed container to the body
-        document.body.appendChild(missionFailedContainer);
-
-        // Style the overlay and the message
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Add your styles here for the overlay and mission failed message */
-            .overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-                z-index: 999; /* Ensure the overlay is on top */
-            }
-            .mission-failed-container {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-                background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-                padding: 30px;
-                border-radius: 15px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-                z-index: 1000; /* Ensure the mission failed message is above the overlay */
-                outline: 10px solid #FF0000;
-                outline-offset: 5px;
-            }
-            .mission-failed-container h1 {
-                font-size: 4rem;
-                margin-bottom: 20px;
-                color: #333;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            }
-            .button-container {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-            }
-            .menu-btn {
-                padding: 15px 30px;
-                font-size: 1.5rem;
-                font-weight:bold;
-                color: #fff;
-                border: none;
-                border-radius: 25px;
-                cursor: pointer;
-                transition: transform 0.3s, box-shadow 0.3s;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                color:#313131;
-            }
-            .menu-btn:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-                box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
-                outline: 5px solid #313131;
-                outline-offset: 5px;
-            }
-            .menu-btn:active {
-                transform: translateY(2px);
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            }
-            #mission-text{
-                color:#313131;            
-            }           
-            #back-to-btn{
-                background-color: #568fc4;
-            }
-            #restart-btn{
-                background-color: rgba(60, 126, 54, 0.888);
-            }
-        `;
-        
-        // Append the stylesheet to the document head
-        document.head.appendChild(style);
-        }
-    }
-
-    // Function to start the timer
-    private startTimer(): void {
-        // Set the interval to update the timer every second
-        this.timerInterval = setInterval(() => this.updateTimer(), 1000);
-    }
+private setUpTimer(){
+    this.timer = document.createElement("div");
+    this.timer.id = "timer-display";
+    setUpTimer(this.timeRemaining,this.timer.id);
+}
 
     // Placeholder load method for any asynchronous asset loading
     load = async (): Promise<void> => {}
@@ -443,29 +262,18 @@ export class Player extends Construct {
     // Cleanup event listeners when the player object is destroyed
     destroy = (): void => {
     }
-
-    checkLookingAtGroceryItem(groceryItems: GroceryItem[]) : void {
+    
+    checkLookingAtGroceryItem(groceryItems: GroceryItem[]): void{
         this.lookingAtGroceryItem = false;
-        for (let i = 0; i < groceryItems.length; i++){
+    
+        for (let i = 0; i < groceryItems.length; i++) {
             const intersects = this.raycaster.intersectObject(groceryItems[i].root);
             groceryItems[i].setBeingLookedAt(false);
-
-            if (intersects.length > 0 && !this.lookingAtGroceryItem){
+            //Looking at something
+            if (intersects.length > 0) {
                 this.lookingAtGroceryItem = true;
+                //Set what you're looking at
                 groceryItems[i].setBeingLookedAt(true);
-            }
-        }
-    }
-
-    checkLookingAtShopItems(shopItems: Shelf[] | Box[]) : void {
-        this.lookingAtGroceryItem = false;
-        for (let i = 0; i < shopItems.length; i++){
-            const intersects = this.raycaster.intersectObject(shopItems[i].root);
-            shopItems[i].setBeingLookedAt(false);
-
-            if (intersects.length > 0 && !this.lookingAtGroceryItem){
-                this.lookingAtGroceryItem = true;
-                shopItems[i].setBeingLookedAt(true);
             }
         }
     }
@@ -480,6 +288,7 @@ export class Player extends Construct {
             if (intersects.length > 0 && !this.lookingAtPickupSpot){
                 this.lookingAtPickupSpot = true;
                 pickupSpots[i].setBeingLookedAt(true);
+    
             }
         }
     }
@@ -519,10 +328,11 @@ export class Player extends Construct {
         }
         // Pick up an item
         if (scope.root.userData.canInteract && scope.lookingAtGroceryItem && scope.holdingObject === undefined && !scope.paused) {
-            if (event.key == 'e' || event.key == 'E') {
+            if (event.key === 'e' || event.key === 'E') {
                 scope.root.userData.onInteract();
             }
         }
+    
         // Place an item
         if (scope.root.userData.canPlace && scope.lookingAtPickupSpot && scope.holdingObject !== undefined && !scope.paused) {
             if (event.key == 'q' || event.key == 'Q') {
