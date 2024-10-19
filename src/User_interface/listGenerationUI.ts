@@ -5,7 +5,7 @@ import { Item, getRandomItems,displayItems, items } from '../constructs/itemMana
 export function generateAndDisplayGroceryItems(containerId: string, count: number): void {
     // Create the list container
     const list = document.createElement("div");
-    list.id = "listId";
+    list.id = containerId;
     list.style.position = "absolute";
     list.style.top = "15%";
     list.style.left = "1%";
@@ -32,7 +32,6 @@ export function updateList(containerId: string, receivedItem: string): boolean {
     if (container) {
         // Find all item divs in the container
         const itemDivs = container.getElementsByClassName("item");
-
         Array.from(itemDivs).forEach(itemDiv => {
             // Get the paragraph element within the item div
             const nameElement = itemDiv.querySelector("p");

@@ -71,7 +71,7 @@ export function getRandomItems(items: Item[], count: number): Item[] {
     //     const [selectedItem] = availableItems.splice(randomIndex, 1); // Remove and get the item
     //     selectedItems.push(selectedItem); // Add to the selected items
     // }
-    const [selectedItem] = availableItems.splice(18,1);
+    const [selectedItem] = availableItems.splice(34,1); // Peanut Butter - 34
     selectedItems.push(selectedItem);
 
     return selectedItems;

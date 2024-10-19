@@ -72,8 +72,29 @@ export class Player extends Construct {
         // Initialize raycaster
         this.raycaster = new THREE.Raycaster();
 
-        // Interaction setup: allows you to pickup and place an object
+        // Player Interaction setup:
+        // Note: object is the CURRENT GROCERY ITEM the player has "picked up"
         this.interactions.addInteracting(this.root, (object: THREE.Mesh) => {
+            // --- Player picking up a grocery item ---
+            const itemName = object.userData.productName; // Get object's product name
+            console.log(`DEBUG: Current Grocery Item: ${itemName}`);
+            
+            // check if item is on list
+            const found = updateList(this.list.id, itemName);
+            if (found){
+                // count up if it is an item on the list
+                this.foundItems += 1;
+                if (this.foundItems === scope.amountOfItemsToFind) {
+                    console.log("Yo bro you did it");
+                }
+            }
+            else{
+                //Enter what is supposed to happen when player selects wrong thing
+                console.log("You dun goofed");
+            }
+            // 
+
+            // --- Player lift item into hand ---
             const inHandScale = object.userData.inHandScale;
             object.removeFromParent();
             object.position.set(2, -1.5, -2);
@@ -81,6 +102,7 @@ export class Player extends Construct {
             object.scale.setScalar(inHandScale);
             this.holdingObject = object;
             this.camera.add(object);
+
         });
 
         // Setup UI prompts for interaction
@@ -103,13 +125,12 @@ export class Player extends Construct {
 
         this.setUpTimer();
         this.setUpList();
-
-        
     }
 
 
 private setUpList(): void {
     this.list = document.createElement("div");
+    this.list.id = "grocery-list";
     generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
     document.body.appendChild(this.list);
   }
@@ -389,34 +410,17 @@ private setUpList(): void {
     destroy = (): void => {
     }
     
-    checkLookingAtGroceryItem(groceryItems: GroceryItem[]):string|null{
+    checkLookingAtGroceryItem(groceryItems: GroceryItem[]): void{
         this.lookingAtGroceryItem = false;
-        this.currentGroceryItem = null; // Reset current item
     
         for (let i = 0; i < groceryItems.length; i++) {
             const intersects = this.raycaster.intersectObject(groceryItems[i].root);
             groceryItems[i].setBeingLookedAt(false);
             //Looking at something
-            if (intersects.length > 0 && !this.lookingAtGroceryItem) {
+            if (intersects.length > 0) {
                 this.lookingAtGroceryItem = true;
                 //Set what you're looking at
                 groceryItems[i].setBeingLookedAt(true);
-                this.currentGroceryItem = groceryItems[i]; // Store reference to the grocery item
-            }
-        }
-        //return the item/ null looking at
-        return this.currentGroceryItem ? this.currentGroceryItem.getName() : null; // Return name if looking at an item
-    }
-
-    checkLookingAtShopItems(shopItems: Shelf[] | Box[]) : void {
-        this.lookingAtGroceryItem = false;
-        for (let i = 0; i < shopItems.length; i++){
-            const intersects = this.raycaster.intersectObject(shopItems[i].root);
-            shopItems[i].setBeingLookedAt(false);
-
-            if (intersects.length > 0 && !this.lookingAtGroceryItem){
-                this.lookingAtGroceryItem = true;
-                shopItems[i].setBeingLookedAt(true);
             }
         }
     }
@@ -472,28 +476,8 @@ private setUpList(): void {
         // Pick up an item
         if (scope.root.userData.canInteract && scope.lookingAtGroceryItem && scope.holdingObject === undefined && !scope.paused) {
             if (event.key === 'e' || event.key === 'E') {
-                //use scope. as this. will not be accessible********
-                if (scope.currentGroceryItem) {
-                    //get item you were looking at
-                    const itemName = scope.currentGroceryItem.getName();
-                    // pick item up
-                    scope.root.userData.onInteract();
-                    // check if item is on list
-                    const found = updateList(scope.list.id, itemName);
-                    if (found){
-                        // count up if it is an item on the list
-                        scope.foundItems += 1;
-                        if (scope.foundItems === scope.amountOfItemsToFind) {
-                            console.log("Yo bro you did it");
-                        }
-                    }
-                    else{
-
-                        //Enter what is supposed to happen when player selects wrong thing
-                        console.log("You dun goofed");
-                    }
-                }
-                }
+                scope.root.userData.onInteract();
+            }
         }
     
         // Place an item

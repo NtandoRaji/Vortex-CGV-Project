@@ -6,18 +6,17 @@ import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 
 export class GroceryItem extends Construct {
     mesh!: any;
-    scale!: number;
-    filename!: string;
-    id!: number;
-    productName!:string;
+    scale!: number[];
+    filename!: string; 
+    productName!:string; //String to store the shelf's product name
 
-    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, filename:string, id:number, scale: number = 1) {
+    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, filename:string, scale: number[] = [1, 1, 1]) {
         super(graphics, physics, interactions, userInterface);
 
         this.filename = filename;
-        this.id = id;
         this.scale = scale;
         this.productName = this.formatProductName(this.filename);
+        this.root.userData.productName = this.formatProductName(this.filename); // Save my product name to userData
     }
 
     create(): void {
@@ -42,22 +41,23 @@ export class GroceryItem extends Construct {
     }
 
     build(): void {
-        this.mesh.scale.set(this.scale, this.scale, this.scale);
+        this.mesh.scale.set(this.scale[0], this.scale[1], this.scale[2]);
         this.mesh.castShadow = true;
         this.mesh.receiveShadow = true;
         this.add(this.mesh);
 
-        this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(this.scale / 6, this.scale / 3, this.scale / 6));
+        this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(this.scale[0] / 6, this.scale[1] / 3, this.scale[2] / 6));
     }
 
     update(time?: TimeS, delta?: TimeMS): void {}
 
     destroy(): void {}
-    getName(): string {
-        return this.productName; // Return the name of the item
-    }
 
     setBeingLookedAt(value: boolean): void{
         this.root.userData.beingLookedAt = value;
+    }
+
+    getProductName(): string {
+        return this.productName; // Return the name of the item
     }
 }
