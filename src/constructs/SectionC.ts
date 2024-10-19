@@ -8,26 +8,14 @@ import { Shelf } from "./Shelf";
 import { PickupSpot } from "./PickupSpot";
 import { Player } from "./Player";
 import { Box } from "./Box";
+import { Section } from "./Section";
 
-// Define the SectionC class, which extends the Construct class
-export class SectionC extends Construct {
-    // Define properties for the section: player, items (Shelves or Boxes), and pickup spots
-    player!: Player; // Reference to the player object for interaction logic
-    items: Array<Shelf> | Array<Box> = []; // Array of items (either shelves or boxes) in the section
-    pickupSpots: Array<PickupSpot> = []; // Array of pickup spots for placing objects
-
-    // Constructor method for SectionC to initialize the player and necessary contexts
-    constructor(
-        graphics: GraphicsContext, 
-        physics: PhysicsContext, 
-        interactions: InteractManager, 
-        userInterface: InterfaceContext, 
-        player: Player
-    ) {
+// Define the SectionC class, which extends the Section class
+export class SectionC extends Section {
+    // Constructor method for SectionC to initialize necessary contexts
+    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
         // Call the superclass constructor
         super(graphics, physics, interactions, userInterface);
-        // Assign the player object
-        this.player = player;
     }
 
     // Method to create shelves and boxes in the section and position them correctly
@@ -109,13 +97,8 @@ export class SectionC extends Construct {
     // Build method (currently a placeholder, used for constructing the section)
     build(): void {}
 
-    // Update method to check player interactions with shop items and pickup spots
-    update(time?: TimeS, delta?: TimeMS): void {
-        // Check if the player is looking at any of the shop items (shelves or boxes)
-        this.player.checkLookingAtShopItems(this.items);
-        // Check if the player is looking at any of the pickup spots
-        this.player.checkLookingAtPickupSpot(this.pickupSpots);
-    }
+    // Update method (currently a placeholder, used for updating the section)
+    update(time?: TimeS, delta?: TimeMS): void {}
 
     // Destroy method (currently a placeholder, used for cleanup)
     destroy(): void {}
