@@ -47,6 +47,8 @@ export class Player extends Construct {
     list!:any;
     amountOfItemsToFind: number = 2; // Choose how many items to generate for the Player
     foundItems: number = 0; // Player has found nothing when game begins
+    livesDisplay!: HTMLElement;
+    lives: number = 3;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -152,10 +154,10 @@ private setUpList(): void {
         this.timer.style.left = '10px';
         this.timer.style.fontSize = '24px';
         this.timer.style.fontWeight = 'bold';
-        this.timer.style.color = '#ffffff';
+        this.timer.style.color = '#000000';
         this.timer.style.background = 'linear-gradient(135deg, #4CAF50, #81C784)'; // Gradient background
         this.timer.style.border = '2px solid #2E7D32'; // Border
-        this.timer.style.borderRadius = '8px'; // Rounded corners
+        this.timer.style.borderRadius = '20px'; // Rounded corners
         this.timer.style.padding = '10px 20px';
         this.timer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow for depth
         this.timer.style.textAlign = 'center';
@@ -163,7 +165,65 @@ private setUpList(): void {
         document.body.appendChild(this.timer);
 
         // [!] Uncomment to start timer
-        // this.startTimer(); 
+        this.startTimer(); 
+
+        // Create the lives element
+        this.livesDisplay = document.createElement('div');
+        this.livesDisplay.id = 'lives-display';
+        this.livesDisplay.style.position = 'absolute';
+        this.livesDisplay.style.top = '65px'; // Position it below the timer
+        this.livesDisplay.style.left = '10px';
+        this.livesDisplay.style.color = '#000000'; // Text color
+        this.livesDisplay.style.background = '#36454F';
+        this.livesDisplay.style.border = '2px solid #C62828'; // Border
+        this.livesDisplay.style.borderRadius = '20px'; // Rounded corners
+        this.livesDisplay.style.padding = '10px 20px';
+        this.livesDisplay.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow for depth
+        this.livesDisplay.style.textAlign = 'center';
+        this.livesDisplay.style.fontFamily = 'Arial, sans-serif';
+        document.body.appendChild(this.livesDisplay);
+
+        // Initial update to show lives
+        this.updateLivesDisplay();
+    }
+
+    // Function to update the lives display with heart images
+    private updateLivesDisplay(): void {
+        // Clear the existing lives display
+        this.livesDisplay.innerHTML = ''; 
+
+        // Create heart images for each life
+        for (let i = 0; i < this.lives; i++) {
+            const heartImage = document.createElement('img');
+            heartImage.src = 'public/icons/heart.png';
+            heartImage.alt = 'Lives';
+            heartImage.style.width = '30px';
+            heartImage.style.height = '30px';
+            heartImage.style.marginRight = '5px'; // Space between hearts
+
+            this.livesDisplay.appendChild(heartImage); // Append the heart image to the lives display
+            }
+    }
+
+    // Call this method when the player loses a life
+    public loseLife(): void {
+        if (this.lives > 0) {
+            this.lives--; // Decrease lives
+            this.updateLivesDisplay(); // Update display
+        }
+        
+        if (this.lives === 0) {
+            // Handle game over scenario
+            this.handleGameOver();
+        }
+    }
+
+    // Game over handling (you can customize this)
+    private handleGameOver(): void {
+        clearInterval(this.timerInterval); // Stop timer if needed
+        // Show game over screen, stop player controls, etc.
+        console.log("Game Over");
+        // Additional game over logic...
     }
     // Function to format the time as "Timer: MM:SS"
     private formatTime(): string {
@@ -203,7 +263,8 @@ private setUpList(): void {
         missionFailedContainer.className = 'mission-failed-container';
 
         const message = document.createElement('h1');
-        message.textContent = "Mission Failed, we'll get them next time";
+        message.textContent = "Mission Failed! We'll get 'em' next time";
+        message.id = 'mission-text';
         missionFailedContainer.appendChild(message);
 
         const buttonContainer = document.createElement('div');
@@ -213,6 +274,7 @@ private setUpList(): void {
         const backToMenuButton = document.createElement('button');
         backToMenuButton.textContent = 'Back to Menu';
         backToMenuButton.className = 'menu-btn';
+        backToMenuButton.id = 'back-to-btn';
         backToMenuButton.onclick = () => {
             window.location.href = '../index.html'; // Navigate back to menu
         };
@@ -221,6 +283,7 @@ private setUpList(): void {
         const restartLevelButton = document.createElement('button');
         restartLevelButton.textContent = 'Restart Level';
         restartLevelButton.className = 'menu-btn';
+        restartLevelButton.id = 'restart-btn';
         restartLevelButton.onclick = () => {
             window.location.href = '../indexGame.html'; // Restart the game
         };
@@ -238,6 +301,7 @@ private setUpList(): void {
         // Style the overlay and the message
         const style = document.createElement('style');
         style.textContent = `
+            /* Add your styles here for the overlay and mission failed message */
             .overlay {
                 position: fixed;
                 top: 0;
@@ -247,7 +311,6 @@ private setUpList(): void {
                 background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
                 z-index: 999; /* Ensure the overlay is on top */
             }
-
             .mission-failed-container {
                 position: absolute;
                 top: 50%;
@@ -259,41 +322,51 @@ private setUpList(): void {
                 border-radius: 15px;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
                 z-index: 1000; /* Ensure the mission failed message is above the overlay */
+                outline: 10px solid #FF0000;
+                outline-offset: 5px;
             }
-
             .mission-failed-container h1 {
                 font-size: 4rem;
                 margin-bottom: 20px;
                 color: #333;
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             }
-
             .button-container {
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
             }
-
             .menu-btn {
                 padding: 15px 30px;
                 font-size: 1.5rem;
+                font-weight:bold;
                 color: #fff;
-                background: linear-gradient(45deg, #FF6F61, #FF3E30);
                 border: none;
                 border-radius: 25px;
                 cursor: pointer;
                 transition: transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                color:#313131;
             }
-
             .menu-btn:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
+                outline: 5px solid #313131;
+                outline-offset: 5px;
             }
-
             .menu-btn:active {
                 transform: translateY(2px);
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+            #mission-text{
+                color:#313131;            
+            }           
+            #back-to-btn{
+                background-color: #568fc4;
+            }
+            #restart-btn{
+                background-color: rgba(60, 126, 54, 0.888);
             }
         `;
         

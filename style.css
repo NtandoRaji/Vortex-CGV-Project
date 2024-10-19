@@ -10,49 +10,194 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('https://images.unsplash.com/photo-1519664369654-21d74c82c0db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDV8MHwxfGFsbHwxfHx8fHx8fHwxNjg1MDk1NjQ1&ixlib=rb-4.0.3&q=80&w=1920') no-repeat center center fixed; /* Background image */
-    background-size: cover; 
+    /* Original background */
+    /* background: url('https://images.unsplash.com/photo-1519664369654-21d74c82c0db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDV8MHwxfGFsbHwxfHx8fHx8fHwxNjg1MDk1NjQ1&ixlib=rb-4.0.3&q=80&w=1920') no-repeat center center fixed; Background image */
+    /* background-size: cover;  */
+    /* background-color: #8080808b; */
+    
+     /* Randomly sized and positioned circles */
+    background-image: 
+    radial-gradient(circle at 10% 10%, #e91e63 25px, transparent 16px),  /* Pink circle */
+    radial-gradient(circle at 30% 40%, #f38321 25px, transparent 26px),  /* Orange circle */
+    radial-gradient(circle at 70% 30%, #4c9baf 35px, transparent 36px),  /* Blue circle */
+    radial-gradient(circle at 50% 80%, #27b03c 20px, transparent 21px),  /* Green circle */
+    radial-gradient(circle at 90% 20%, #9C27B0 10px, transparent 11px),  /* Purple circle */
+    radial-gradient(circle at 20% 70%, #FFEB3B 40px, transparent 31px),  /* Yellow circle */
+    radial-gradient(circle at 80% 50%, #2196F3 40px, transparent 41px),  /* Blue circle */
+    radial-gradient(circle at 15% 85%, #FF5722 28px, transparent 29px),  /* Deep Orange circle */
+    radial-gradient(circle at 35% 15%, #3F51B5 22px, transparent 23px),  /* Indigo circle */
+    radial-gradient(circle at 75% 65%, #CDDC39 18px, transparent 19px),  /* Lime circle */
+    radial-gradient(circle at 90% 80%, #673AB7 24px, transparent 25px),  /* Deep Purple circle */
+    radial-gradient(circle at 40% 30%, #FFC107 40px, transparent 31px),  /* Amber circle */
+    radial-gradient(circle at 60% 90%, #FF9800 15px, transparent 16px);  /* Orange circle */
+
+    background-size: 100% 100%; /* Cover entire body */
+    background-repeat: no-repeat; /* Prevent repetition */
 }
 
 .menu-container {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    background-color: rgba(255, 255, 255, 0.841); /* Semi-transparent background */
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), /*large dark shadow*/
+                0 10px 20px rgba(0, 0, 0, 0.2); /*inner shadow*/
+    outline: 10px solid #4e4e4e;
+    outline-offset: 5px;
 }
 
 h1 {
     font-size: 4rem;
     margin-bottom: 20px;
-    color: #333;
+    color: #313131;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow for h1 */
 }
-
 .menu-buttons {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.menu-btn {
+.menu-btn {    
     padding: 15px 30px;
     font-size: 1.5rem;
     color: #fff;
-    background: linear-gradient(45deg, #FF6F61, #FF3E30); /* Gradient background for buttons */
     border: none;
-    border-radius: 25px; /* More rounded buttons */
+    border-radius: 25px;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    color:#313131;
 }
 
 .menu-btn:hover {
     transform: translateY(-5px); /* Button lift effect on hover */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+    outline: 5px solid #313131;
+    outline-offset: 5px;
+
 }
 
 .menu-btn:active {
     transform: translateY(2px); /* Press effect */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#play-btn{
+    background-color: #568fc4;
+}
+#play-btn:hover{
+    box-shadow: 0 0 20px 10px #568fc4;
+}
+#how-to-play-btn{
+    background-color: #d34283;
+}
+#how-to-play-btn:hover{
+    box-shadow: 0 0 20px 10px #d34283;
+}
+#credits-btn{
+    background-color: rgba(60, 126, 54, 0.888);
+}
+#credits-btn:hover{
+    box-shadow: 0 0 20px 10px rgba(60, 126, 54, 0.888);
+}
+#settings-btn{
+    background-color: rgba(198, 73, 38, 0.888);
+}
+#settings-btn:hover{
+    box-shadow: 0 0 20px 10px rgba(198, 73, 38, 0.888);
+}
+/* styles for the pop-up menus */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(255, 255, 255);
+    border-width: 10px; 
+    border-style: solid;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    width: 500px;
+    max-height: 80vh;
+    overflow-y:auto;
+    background-clip: padding-box; /* Ensure background colour doesn't cover border */
+}
+#how-to-play-popup {
+    border-color: #d34283; /* Match with how to play button */
+}
+#credits-popup {
+    border-color: rgba(60, 126, 54, 0.888); /* Match with credits button */
+}
+#settings-popup {
+    border-color: rgba(198, 73, 38, 0.888); /* Match with settings button */
+}
+.popup.active {
+    display: block; /* Show the popup */
+}
+#how-to-text{
+    color:#e91e63;
+}
+#credits-headings{
+    color: rgba(60, 126, 54, 0.888);
+}
+#setting-heading{
+    color:rgba(198, 73, 38, 0.888);
+}
+.overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+.overlay.active {
+    display: block; /* Show overlay */
+}
+
+.close-btn {
+    margin-left: auto; /* Push the button to the right */
+    background-color: rgb(110, 102, 97);
+    color: white; /* Text color */
+    padding: 10px 20px; /* Padding around the text */
+    border: none; /* Remove default border */
+    border-radius: 25px; /* Make it rounded */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-align: center; /* Center text inside the button */
+    margin-top: 20px; /* Space above the button */
+    transition: background-color 0.3s; /* Smooth background color transition */
+    display: flex; /* Make the button a flex item */
+    justify-content: flex-end; /* Align text to the right inside the button */
+    width: 80px;
+}
+.close-btn:hover{
+    background-color: rgb(10, 10, 10);
+    outline: 5px solid #313131;
+    outline-offset: 5px;
+}
+.popup ul {
+    list-style-type: square; /* Remove default bullets */
+    padding-left: 20px; /* Remove padding */
+}
+.popup li {
+    margin-bottom: 15px;
+    color: black;
+}
+.popup h2, .popup h3, .popup p{
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top:15px;
+    color: #313131;
+}
+.popup a{
+    color: #000000; /* Or whatever color matches your design */
+}
+.popup a:hover {
+    text-decoration: underline; /* Optional: Add underline on hover */
 }
