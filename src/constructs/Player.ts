@@ -29,6 +29,9 @@ export class Player extends Construct {
     holdingObject: THREE.Mesh | undefined = undefined;
     lookingAtGroceryItem: boolean = false;
     lookingAtPickupSpot: boolean = false;
+    //security camera
+    securityCamera!: THREE.PerspectiveCamera;
+    securityCameraHelper!: THREE.CameraHelper;
 
     raycaster!: THREE.Raycaster;
 
@@ -57,12 +60,16 @@ export class Player extends Construct {
 
     // Method to initialize player components like camera and controls
     create = (): void => {
-        // Create and set up the camera
+        // Create and set up the camera - MAIN
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
         this.graphics.mainCamera = this.camera;
 
         // Set up PointerLockControls to lock mouse movement to the camera
         this.controls = new PointerLockControls(this.camera, this.graphics.renderer.domElement);
+
+        //Security Camera view
+        this.securityCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.5, 500);
+
 
         // Initialize direction movement state
         this.direction = { forward: 0, backward: 0, left: 0, right: 0 };
