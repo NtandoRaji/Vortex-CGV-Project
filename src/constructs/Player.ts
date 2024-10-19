@@ -46,7 +46,7 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 4; // 2 minutes in seconds
+    timeRemaining: number = 100; // 2 minutes in seconds
     timerInterval!: any;
     list!:any;
     amountOfItemsToFind: number = 1; // Choose how many items to generate for the Player
@@ -55,6 +55,8 @@ export class Player extends Construct {
     lives: number = 2;
 
     isPaused: boolean = false;
+    hasWon: boolean = false;
+    isTopView: boolean = false;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -94,6 +96,7 @@ export class Player extends Construct {
                 // count up if it is an item on the list
                 this.foundItems += 1;
                 if (this.foundItems === scope.amountOfItemsToFind) {
+                    stopTimer();
                     showGameWonMenu();
                 }
             }
@@ -103,7 +106,7 @@ export class Player extends Construct {
                     this.lives--; // Decrease lives
                     updateLivesDisplay(this.livesDisplay.id,this.lives); // Update display
                 }
-                if(this.lives == 0 ){
+                if(this.lives == 0 && !this.hasWon){
                     stopTimer();
                     showGameOverMenu();
                 }
@@ -260,6 +263,12 @@ private setUpTimer(){
         } else {
             this.userInterface.hidePrompt(this.placePrompt);
         }
+
+        //check game over condition
+        if (this.timeRemaining <= 0 && !this.hasWon) {
+            stopTimer();
+            showGameOverMenu();
+        }
     }
 
     // Cleanup event listeners when the player object is destroyed
@@ -302,24 +311,46 @@ private setUpTimer(){
             console.log("Pointer lock lost, pausing game.");
         }
     }
-
-    // Keyboard event handlers for movement keys and speed adjustment
-    onKeyDown(event: KeyboardEvent) {
-        if (event.key == 'p' || event.key == 'P') { //pause timer functionalit
-            this.isPaused = !this.isPaused;
-            if(this.isPaused){
-                stopTimer();
-            }
-            else{
+    //handing pause press
+    togglePause() {
+        this.isPaused = !this.isPaused; // Toggle pause state
+        if (this.isPaused) { // If paused, stop the timer
+            stopTimer();
+        } else { // If not paused, resume the timer
+            if (!this.timerInterval) { // Resume timer only if it was paused
                 startTimer();
             }
         }
+    }
+    // Add a method to toggle the bird's-eye view
+    toggleTopVieww(): void {
+        this.isTopView = !this.isTopView;
+
+        if (this.isTopView) {
+            // Move the camera to a bird's-eye view position
+            this.camera.position.set(0, 10, 0); // Adjust the height and distance as needed
+            this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Look down at the center of the scene
+        } else {
+            // Reset to the player camera view
+            this.camera.position.set(0, 3, 0); // Reset to player camera position
+            this.camera.rotation.set(0, Math.PI / 2, 0); // Adjust rotation back to normal
+        }
+    }
+
+    // Keyboard event handlers for movement keys and speed adjustment
+    onKeyDown(event: KeyboardEvent) {
+        //pause timer functionalit
+        if (event.key == 'p' || event.key == 'P') {
+            this.togglePause();
+        }
         //if game is paused, i.e. isPaused true, ignore normal key movements
         //player can only jump & change camera view if the game is paused
-        if(this.isPaused){
-            return;
-        }
-        
+        if(this.isPaused){return;}
+
+        //top view event
+        if(event.key === 'c' || event.key==='C'){this.toggleTopVieww();}
+        if(this.isTopView){return;}
+
         if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 1; }
         if (event.key == 's' || event.key == 'S') { scope.direction.backward = 1; }
         if (event.key == 'a' || event.key == 'A') { scope.direction.left = 1; }
