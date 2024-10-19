@@ -35,7 +35,7 @@ export class BasicScene extends Scene {
         this.room = new Room(this.graphics, this.physics, this.interactions, this.userInterface);
         this.addConstruct(this.room);
 
-        const nBoxes = 4;
+        const nBoxes = 8;
         for (let i = 0; i < nBoxes; i++){
             const box = new Box(
                 this.graphics,

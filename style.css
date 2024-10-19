@@ -10,23 +10,46 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('https://images.unsplash.com/photo-1519664369654-21d74c82c0db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDV8MHwxfGFsbHwxfHx8fHx8fHwxNjg1MDk1NjQ1&ixlib=rb-4.0.3&q=80&w=1920') no-repeat center center fixed; /* Background image */
-    background-size: cover; 
-    background-color: #808080;
+    /* Original background */
+    /* background: url('https://images.unsplash.com/photo-1519664369654-21d74c82c0db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDV8MHwxfGFsbHwxfHx8fHx8fHwxNjg1MDk1NjQ1&ixlib=rb-4.0.3&q=80&w=1920') no-repeat center center fixed; Background image */
+    /* background-size: cover;  */
+    /* background-color: #8080808b; */
+    
+     /* Randomly sized and positioned circles */
+    background-image: 
+    radial-gradient(circle at 10% 10%, #e91e63 25px, transparent 16px),  /* Pink circle */
+    radial-gradient(circle at 30% 40%, #f38321 25px, transparent 26px),  /* Orange circle */
+    radial-gradient(circle at 70% 30%, #4c9baf 35px, transparent 36px),  /* Blue circle */
+    radial-gradient(circle at 50% 80%, #27b03c 20px, transparent 21px),  /* Green circle */
+    radial-gradient(circle at 90% 20%, #9C27B0 10px, transparent 11px),  /* Purple circle */
+    radial-gradient(circle at 20% 70%, #FFEB3B 40px, transparent 31px),  /* Yellow circle */
+    radial-gradient(circle at 80% 50%, #2196F3 40px, transparent 41px),  /* Blue circle */
+    radial-gradient(circle at 15% 85%, #FF5722 28px, transparent 29px),  /* Deep Orange circle */
+    radial-gradient(circle at 35% 15%, #3F51B5 22px, transparent 23px),  /* Indigo circle */
+    radial-gradient(circle at 75% 65%, #CDDC39 18px, transparent 19px),  /* Lime circle */
+    radial-gradient(circle at 90% 80%, #673AB7 24px, transparent 25px),  /* Deep Purple circle */
+    radial-gradient(circle at 40% 30%, #FFC107 40px, transparent 31px),  /* Amber circle */
+    radial-gradient(circle at 60% 90%, #FF9800 15px, transparent 16px);  /* Orange circle */
+
+    background-size: 100% 100%; /* Cover entire body */
+    background-repeat: no-repeat; /* Prevent repetition */
 }
 
 .menu-container {
     text-align: center;
-    background-color: rgba(215, 215, 215, 0.8); /* Semi-transparent background */
+    background-color: rgba(255, 255, 255, 0.841); /* Semi-transparent background */
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), /*large dark shadow*/
+                0 10px 20px rgba(0, 0, 0, 0.2); /*inner shadow*/
+    outline: 10px solid #4e4e4e;
+    outline-offset: 5px;
 }
 
 h1 {
     font-size: 4rem;
     margin-bottom: 20px;
-    color: #333;
+    color: #313131;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow for h1 */
 }
 
@@ -36,31 +59,25 @@ h1 {
     gap: 20px;
 }
 
-.menu-btn {
-    /* padding: 15px 30px;
-    font-size: 1.5rem;
-    color: #fff;
-    background: linear-gradient(45deg, #FF6F61, #FF3E30); /* Gradient background for buttons */
-    /* border: none;
-    border-radius: 25px; More rounded buttons */
-    /* cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); */
-    
+.menu-btn {    
     padding: 15px 30px;
     font-size: 1.5rem;
     color: #fff;
-    background: linear-gradient(45deg, #6a1b9a, #4a148c, #2196F3, #4CAF50, #D81B60); /* Balanced gradient */
     border: none;
     border-radius: 25px;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    color:#313131;
 }
 
 .menu-btn:hover {
     transform: translateY(-5px); /* Button lift effect on hover */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
+    outline: 5px solid #313131;
+    outline-offset: 5px;
+
 }
 
 .menu-btn:active {
@@ -68,6 +85,19 @@ h1 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+#play-btn{
+    background-color: #568fc4;
+}
+
+#how-to-play-btn{
+    background-color: #d34283;
+}
+#credits-btn{
+    background-color: rgba(60, 126, 54, 0.888);
+}
+#settings-btn{
+    background-color: rgba(198, 73, 38, 0.888);
+}
 /* styles for the pop-up menus */
 .popup {
     display: none; /* Hidden by default */
