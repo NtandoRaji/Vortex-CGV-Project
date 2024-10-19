@@ -11,7 +11,7 @@ import { PickupSpot } from './PickupSpot';
 import { Shelf } from './Shelf';
 import { Box } from './Box';
 import { generateAndDisplayGroceryItems,updateList } from '../User_interface/listGenerationUI';
-import { Timer } from '../User_interface/Timer';
+import { setUpTimer } from '../User_interface/Timer';
 import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 
 // Constants for movement speeds and jump physics
@@ -44,7 +44,7 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 1000; // 2 minutes in seconds
+    timeRemaining: number = 10; // 2 minutes in seconds
     timerInterval!: any;
     list!:any;
     amountOfItemsToFind: number = 1; // Choose how many items to generate for the Player
@@ -147,208 +147,26 @@ private setUpList(): void {
     this.list.id = "grocery-list";
     generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
   }
+
+      // Game over handling (you can customize this)
+      private handleGameOver(): void {
+        clearInterval(this.timerInterval); // Stop timer if needed
+        // Show game over screen, stop player controls, etc.
+        console.log("Game Over");
+        // Additional game over logic...
+    }
+
 private setUpLifeDisplay(){
     this.livesDisplay = document.createElement("div");
     this.livesDisplay.id = "life-display";
     setUpLives(this.livesDisplay.id,this.lives);
 }
 
-    private setUpTimer():void{
-        // **Check and remove any existing timer before creating a new one**
-        const existingTimer = document.querySelector('#game-timer');
-        if (existingTimer) {
-            existingTimer.remove(); // Remove the existing timer from the DOM
-            clearInterval(this.timerInterval); // Clear any existing interval
-        }
-        
-        // Create the timer element with an ID
-        this.timer = document.createElement('div');
-        this.timer.id = 'game-timer'; // Set an ID to easily find and remove it
-        this.timer.style.position = 'absolute';
-        this.timer.style.top = '10px';
-        this.timer.style.left = '10px';
-        this.timer.style.fontSize = '24px';
-        this.timer.style.fontWeight = 'bold';
-        this.timer.style.color = '#000000';
-        this.timer.style.background = 'linear-gradient(135deg, #4CAF50, #81C784)'; // Gradient background
-        this.timer.style.border = '2px solid #2E7D32'; // Border
-        this.timer.style.borderRadius = '20px'; // Rounded corners
-        this.timer.style.padding = '10px 20px';
-        this.timer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow for depth
-        this.timer.style.textAlign = 'center';
-        this.timer.style.fontFamily = 'Arial, sans-serif';
-        document.body.appendChild(this.timer);
-
-        // [!] Uncomment to start timer
-        this.startTimer(); 
-
-     
-    }
-   
-
-    // Game over handling (you can customize this)
-    private handleGameOver(): void {
-        clearInterval(this.timerInterval); // Stop timer if needed
-        // Show game over screen, stop player controls, etc.
-        console.log("Game Over");
-        // Additional game over logic...
-    }
-    
-    // Function to format the time as "Timer: MM:SS"
-    private formatTime(): string {
-        let minutes = Math.floor(this.timeRemaining / 60);
-        let seconds = this.timeRemaining % 60;
-
-        // Add leading zero if seconds are less than 10
-        const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-
-        return `Timer: ${minutes}:${formattedSeconds}`;
-    }
-
-    // Function to update the timer display and handle when timer ends
-    private updateTimer(): void {
-        // Update the displayed time
-        this.timer.textContent = this.formatTime();
-
-        // Stop the timer when it reaches 0
-        if (this.timeRemaining > 0) {
-            this.timeRemaining--;
-        } else {
-            clearInterval(this.timerInterval);
-            this.timer.textContent = "Timer: Time's up!";
-
-        //end menu
-        // Release the pointer lock
-        if (document.pointerLockElement) {
-            document.exitPointerLock();
-        }
-        // Create a semi-transparent overlay behind the message
-        const overlay = document.createElement('div');
-        overlay.className = 'overlay';
-        document.body.appendChild(overlay);
-
-        // Create the mission failed message and buttons
-        const missionFailedContainer = document.createElement('div');
-        missionFailedContainer.className = 'mission-failed-container';
-
-        const message = document.createElement('h1');
-        message.textContent = "Mission Failed! We'll get 'em' next time";
-        message.id = 'mission-text';
-        missionFailedContainer.appendChild(message);
-
-        const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'button-container';
-
-        // Back to menu button
-        const backToMenuButton = document.createElement('button');
-        backToMenuButton.textContent = 'Back to Menu';
-        backToMenuButton.className = 'menu-btn';
-        backToMenuButton.id = 'back-to-btn';
-        backToMenuButton.onclick = () => {
-            window.location.href = '../index.html'; // Navigate back to menu
-        };
-
-        // Restart level button
-        const restartLevelButton = document.createElement('button');
-        restartLevelButton.textContent = 'Restart Level';
-        restartLevelButton.className = 'menu-btn';
-        restartLevelButton.id = 'restart-btn';
-        restartLevelButton.onclick = () => {
-            window.location.href = '../indexGame.html'; // Restart the game
-        };
-
-        // Append buttons to button container
-        buttonContainer.appendChild(backToMenuButton);
-        buttonContainer.appendChild(restartLevelButton);
-
-        // Append button container to mission failed container
-        missionFailedContainer.appendChild(buttonContainer);
-
-        // Append the mission failed container to the body
-        document.body.appendChild(missionFailedContainer);
-
-        // Style the overlay and the message
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Add your styles here for the overlay and mission failed message */
-            .overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-                z-index: 999; /* Ensure the overlay is on top */
-            }
-            .mission-failed-container {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-                background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-                padding: 30px;
-                border-radius: 15px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-                z-index: 1000; /* Ensure the mission failed message is above the overlay */
-                outline: 10px solid #FF0000;
-                outline-offset: 5px;
-            }
-            .mission-failed-container h1 {
-                font-size: 4rem;
-                margin-bottom: 20px;
-                color: #333;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            }
-            .button-container {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-            }
-            .menu-btn {
-                padding: 15px 30px;
-                font-size: 1.5rem;
-                font-weight:bold;
-                color: #fff;
-                border: none;
-                border-radius: 25px;
-                cursor: pointer;
-                transition: transform 0.3s, box-shadow 0.3s;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                color:#313131;
-            }
-            .menu-btn:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-                box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
-                outline: 5px solid #313131;
-                outline-offset: 5px;
-            }
-            .menu-btn:active {
-                transform: translateY(2px);
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            }
-            #mission-text{
-                color:#313131;            
-            }           
-            #back-to-btn{
-                background-color: #568fc4;
-            }
-            #restart-btn{
-                background-color: rgba(60, 126, 54, 0.888);
-            }
-        `;
-        
-        // Append the stylesheet to the document head
-        document.head.appendChild(style);
-        }
-    }
-
-    // Function to start the timer
-    private startTimer(): void {
-        // Set the interval to update the timer every second
-        this.timerInterval = setInterval(() => this.updateTimer(), 1000);
-    }
+private setUpTimer(){
+    this.timer = document.createElement("div");
+    this.timer.id = "timer-display";
+    setUpTimer(this.timeRemaining,this.timer.id);
+}
 
     // Placeholder load method for any asynchronous asset loading
     load = async (): Promise<void> => {}

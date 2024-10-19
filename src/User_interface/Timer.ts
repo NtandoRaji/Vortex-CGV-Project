@@ -1,62 +1,63 @@
-export class Timer {
-    private timeRemaining: number;
-    private timer: HTMLDivElement;
-    private timerInterval: number;
+import { showGameOverMenu } from './gameOverMenu';
 
-    constructor(time: number) {
-        this.timeRemaining = time;
+let timerInterval: ReturnType<typeof setInterval>; // Change to this
+let timeRemaining: number;
+let timerElement: HTMLDivElement;
+
+export function setUpTimer(minutes: number, containerId: string): void {
+    // Clear any existing timer
+    const existingTimer = document.querySelector(`#${containerId}`);
+    if (existingTimer) {
+        existingTimer.remove();
+        clearInterval(timerInterval);
     }
 
-    // Set up the timer
-    public setUpTimer(): void {
-        const existingTimer = document.querySelector('#game-timer');
-        if (existingTimer) {
-            existingTimer.remove();
-            clearInterval(this.timerInterval);
-        }
+    // Set up the new timer
+    timeRemaining = minutes; // Convert minutes to seconds
+    timerElement = document.createElement('div');
+    timerElement.id = containerId;
+    applyStylesToTimer(timerElement);
+    document.body.appendChild(timerElement);
 
-        this.timer = document.createElement('div');
-        this.timer.id = 'game-timer';
-        this.applyStylesToTimer();
-        document.body.appendChild(this.timer);
-        
-        this.startTimer();
-    }
+    // Start the timer
+    updateTimer();
+    startTimer();
+}
 
-    private applyStylesToTimer(): void {
-        this.timer.style.position = 'absolute';
-        this.timer.style.top = '10px';
-        this.timer.style.left = '10px';
-        this.timer.style.fontSize = '24px';
-        this.timer.style.fontWeight = 'bold';
-        this.timer.style.color = '#000000';
-        this.timer.style.background = 'linear-gradient(135deg, #4CAF50, #81C784)';
-        this.timer.style.border = '2px solid #2E7D32';
-        this.timer.style.borderRadius = '20px';
-        this.timer.style.padding = '10px 20px';
-        this.timer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-        this.timer.style.textAlign = 'center';
-        this.timer.style.fontFamily = 'Arial, sans-serif';
-    }
+function applyStylesToTimer(timer: HTMLDivElement): void {
+    timer.style.position = 'absolute';
+    timer.style.top = '10px';
+    timer.style.left = '10px';
+    timer.style.fontSize = '24px';
+    timer.style.fontWeight = 'bold';
+    timer.style.color = '#000000';
+    timer.style.background = 'linear-gradient(135deg, #4CAF50, #81C784)';
+    timer.style.border = '2px solid #2E7D32';
+    timer.style.borderRadius = '20px';
+    timer.style.padding = '10px 20px';
+    timer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    timer.style.textAlign = 'center';
+    timer.style.fontFamily = 'Arial, sans-serif';
+}
 
-    private formatTime(): string {
-        let minutes = Math.floor(this.timeRemaining / 60);
-        let seconds = this.timeRemaining % 60;
-        return `Timer: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-    }
+function formatTime(): string {
+    let minutes = Math.floor(timeRemaining / 60);
+    let seconds = timeRemaining % 60;
+    return `Timer: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
 
-    private updateTimer(): void {
-        this.timer.textContent = this.formatTime();
-        if (this.timeRemaining > 0) {
-            this.timeRemaining--;
-        } else {
-            clearInterval(this.timerInterval);
-            this.timer.textContent = "Timer: Time's up!";
-            // Trigger end-of-timer actions (e.g. game over)
-        }
+function updateTimer(): void {
+    timerElement.textContent = formatTime();
+    if (timeRemaining > 0) {
+        timeRemaining--;
+    } else {
+        clearInterval(timerInterval);
+        timerElement.textContent = "Timer: Time's up!";
+        showGameOverMenu();
+        // Trigger end-of-timer actions (e.g. game over)
     }
+}
 
-    private startTimer(): void {
-        this.timerInterval = setInterval(() => this.updateTimer(), 1000);
-    }
+function startTimer(): void {
+    timerInterval = setInterval(() => updateTimer(), 1000);
 }
