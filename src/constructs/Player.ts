@@ -392,14 +392,15 @@ private setUpList(): void {
         for (let i = 0; i < groceryItems.length; i++) {
             const intersects = this.raycaster.intersectObject(groceryItems[i].root);
             groceryItems[i].setBeingLookedAt(false);
-    
+            //Looking at something
             if (intersects.length > 0 && !this.lookingAtGroceryItem) {
                 this.lookingAtGroceryItem = true;
+                //Set what you're looking at
                 groceryItems[i].setBeingLookedAt(true);
                 this.currentGroceryItem = groceryItems[i]; // Store reference to the grocery item
             }
         }
-    
+        //return the item/ null looking at
         return this.currentGroceryItem ? this.currentGroceryItem.getName() : null; // Return name if looking at an item
     }
 
@@ -456,10 +457,14 @@ private setUpList(): void {
             if (event.key === 'e' || event.key === 'E') {
                 //use scope. as this. will not be accessible********
                 if (scope.currentGroceryItem) {
+                    //get item you were looking at
                     const itemName = scope.currentGroceryItem.getName();
+                    // pick item up
                     scope.root.userData.onInteract();
+                    // check if item is on list
                     const found = updateList(scope.list.id, itemName);
                     if (found){
+                        // count up if it is an item on the list
                         scope.foundItems += 1;
                         if (scope.foundItems === scope.amountOfItemsToFind) {
                             console.log("Yo bro you did it");
