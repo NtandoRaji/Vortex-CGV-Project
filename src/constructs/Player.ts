@@ -14,6 +14,7 @@ import { generateAndDisplayGroceryItems,updateList } from '../User_interface/lis
 import { setUpTimer, stopTimer } from '../User_interface/Timer';
 import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 import { showGameOverMenu } from '../User_interface/gameOverMenu';
+import { showGameWonMenu } from '../User_interface/gameWonMenu';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 2;
@@ -90,14 +91,13 @@ export class Player extends Construct {
                 // count up if it is an item on the list
                 this.foundItems += 1;
                 if (this.foundItems === scope.amountOfItemsToFind) {
-                    console.log("Game Won!");
+                    showGameWonMenu();
                 }
             }
             else{
                 //Enter what is supposed to happen when player selects wrong thing
                 if (this.lives > 0) {
                     this.lives--; // Decrease lives
-                    console.log("FAIL");
                     updateLivesDisplay(this.livesDisplay.id,this.lives); // Update display
                 }
                 if(this.lives == 0 ){
