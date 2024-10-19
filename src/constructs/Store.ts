@@ -9,11 +9,14 @@ import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 import { CashierCounter } from "./CashierCounter";
 import { Player } from "./Player";
 import { SectionC } from "./SectionC";
+// import { SectionB } from "./SectionB";
 import { Shelf } from "./Shelf";
 import { PickupSpot } from "./PickupSpot";
 import { FruitsSection } from "./FruitsSection";
+import { VegSection } from "./VegSection";
 import { Box } from "./Box";
 import { Section } from "./Section";
+
 
 
 export class Store extends Construct {
@@ -49,13 +52,21 @@ export class Store extends Construct {
 
         // Add Sections
         // TODO: Add more sections
-        const sectionC = new SectionC(graphics, physics, interactions, userInterface);
-        this.sections.push(sectionC);
-        this.addConstruct(sectionC);
+        // const sectionC = new SectionC(graphics, physics, interactions, userInterface);
+        // this.sections.push(sectionC);
+        // this.addConstruct(sectionC);
 
-        const fruitSection = new FruitsSection(graphics, physics, interactions, userInterface);
-        this.sections.push(fruitSection);
-        this.addConstruct(fruitSection);
+        // const fruitSection = new FruitsSection(graphics, physics, interactions, userInterface);
+        // this.sections.push(fruitSection);
+        // this.addConstruct(fruitSection);
+
+        // const sectionB = new SectionB(graphics, physics, interactions, userInterface);
+        // this.sections.push(sectionB);
+        // this.addConstruct(sectionB);
+
+        const vegSection = new VegSection(graphics, physics, interactions, userInterface);
+        this.sections.push(vegSection);
+        this.addConstruct(vegSection);
     }
 
     create(): void {    
