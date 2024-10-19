@@ -62,7 +62,7 @@ function updateTimer(): void {
     }
 }
 
-function startTimer(): void {
+export function startTimer(): void {
     timerInterval = setInterval(() => updateTimer(), 1000);
 }
 export function stopTimer(): void {

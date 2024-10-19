@@ -22,20 +22,22 @@
     <!-- How to Play Popup -->
      <div class="popup-wrapper" id="how-to-play-wrapper">
         <div class="popup" id="how-to-play-popup">
+            <span class="close-btn" id="close-how-to-play">&times;</span>
             <h2 id="how-to-text">How to Play</h2><br>
             <ul>
                 <li>Use the <b id="how-to-text">WASD</b> keys to navigate and control the character.</li>
                 <li>Use the <b id="how-to-text">"C"</b> key to change the current scene.</li>
                 <li>Use the <b id="how-to-text">"E"</b> key to interact/pick up an object.</li>
                 <li>Use the <b id="how-to-text">"Q"</b> key to place the object.</li>
+                <li>Use the <b id="how-to-text">"P"</b> key to pause & resume the game.</li>
             </ul>
-            <span class="close-btn" id="close-how-to-play">Close</span>
         </div>
      </div>
     
     <!-- Credits Popup -->
      <div class="popup-wrapper" id="credits-popup-wrapper">
         <div class="popup" id="credits-popup">
+            <span class="close-btn" id="close-credits">&times;</span>
             <h2 id="credits-headings">Credits</h2>
             <h3 id="credits-headings">Developers:</h3>
             <p>Tania Bantam, Ntando Raji, Shaneel Kassen, Yassir Ali, Jaedon Moodley, Taruna Naidoo</p>
@@ -52,26 +54,45 @@
             </ul>
             <h3 id="credits-headings">Game Elements</h3>
             <p><a href='https://cdn-icons-png.flaticon.com/128/210/210545.png'>Lives Image</a> via <a href="https://www.flaticon.com/search?word=heart">Flaticon</a></p>
-            <br><span class="close-btn" id="close-credits">Close</span>
         </div>
      </div>
     
     <!-- Settings Popup -->
-    <div class="popup-wrapper" id="settings-popup-wrapper"> <!-- Added Settings Popup -->
+    <div class="popup-wrapper" id="settings-popup-wrapper">
         <div class="popup" id="settings-popup">
+            <span class="close-btn" id="close-settings">&times;</span>
             <h2 id="setting-heading">Settings</h2><br>
-            <label for="volume">Volume:</label>
+            <label for="volume">Music Volume:</label>
             <input type="range" id="volume" name="volume" min="0" max="100"><br><br>
-            <span class="close-btn" id="close-settings">Close</span>
         </div>
      </div>
 
     <script>
+        // Load the background music
+        const menuMusic = new Audio('/musicSound/menuMusic.mp3');
+        menuMusic.loop = true; // Make the music loop
+        menuMusic.volume = 0.5; // Set initial volume
+        menuMusic.muted=false;
+        document.body.addEventListener("mousemove", function () {
+            menuMusic.play().catch(error => console.error('Music playback failed:', error)); // Handle autoplay restrictions
+        })
+
+        // Load the sound file
+        const clickSound = new Audio('/musicSound/menuClick.mp3');
+
+        // Function to play sound
+        function playClickSound() {
+            clickSound.play();
+        }
+
+
         document.getElementById('play-btn').onclick = function() {
+            playClickSound();
             window.location.href="indexGame.html";
         };
 
         document.getElementById('how-to-play-btn').onclick = function() {
+            playClickSound();
             //show game instructions when clicks
             document.getElementById('overlay').classList.add('active');
             document.getElementById('how-to-play-popup').classList.add('active');
@@ -79,18 +100,21 @@
 
         //close how to play menu
         document.getElementById('close-how-to-play').onclick = function(){
+            playClickSound();
            // Correctly remove active class from overlay
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('how-to-play-popup').classList.remove('active');
         };
 
         document.getElementById('credits-btn').onclick = function() {
+            playClickSound();
             //show credits when clicked
             document.getElementById('overlay').classList.add('active');
             document.getElementById('credits-popup').classList.add('active');
         };
         //close credits menu
         document.getElementById('close-credits').onclick = function(){
+            playClickSound();
            // Correctly remove active class from overlay
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('credits-popup').classList.remove('active');
@@ -98,15 +122,26 @@
 
                 // Show settings menu
         document.getElementById('settings-btn').onclick = function() {
+            playClickSound();
             document.getElementById('overlay').classList.add('active');
             document.getElementById('settings-popup').classList.add('active');
         };
 
         // Close settings menu
         document.getElementById('close-settings').onclick = function(){
+            playClickSound();
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('settings-popup').classList.remove('active');
         };
+
+        // Handle volume slider input
+        const volumeSlider = document.getElementById('volume');
+        if (volumeSlider instanceof HTMLInputElement) {
+            volumeSlider.addEventListener('input', () => {
+                menuMusic.volume = Number(volumeSlider.value) / 100;
+                localStorage.setItem("vol",menuMusic.volume );
+            });
+        }
     </script>
 </body>
 </html>
