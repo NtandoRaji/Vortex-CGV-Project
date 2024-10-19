@@ -66,11 +66,13 @@ export function getRandomItems(items: Item[], count: number): Item[] {
     const availableItems = [...items]; // Create a copy to avoid mutating the original array
     const selectedItems: Item[] = [];
 
-    for (let i = 0; i < count; i++) {
-        const randomIndex = Math.floor(Math.random() * availableItems.length);
-        const [selectedItem] = availableItems.splice(randomIndex, 1); // Remove and get the item
-        selectedItems.push(selectedItem); // Add to the selected items
-    }
+    // for (let i = 0; i < count; i++) {
+    //     const randomIndex = Math.floor(Math.random() * availableItems.length);
+    //     const [selectedItem] = availableItems.splice(randomIndex, 1); // Remove and get the item
+    //     selectedItems.push(selectedItem); // Add to the selected items
+    // }
+    const [selectedItem] = availableItems.splice(18,1);
+    selectedItems.push(selectedItem);
 
     return selectedItems;
 }
@@ -84,6 +86,7 @@ export function displayItems(containerId: string, items: Item[]): void {
 
         items.forEach(item => {
             // Create a div for each item
+            console.log(item.name);
             const itemDiv = document.createElement("div");
             itemDiv.classList.add("item");
 

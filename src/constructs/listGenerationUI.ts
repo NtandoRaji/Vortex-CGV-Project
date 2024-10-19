@@ -49,10 +49,3 @@ export function updateList(containerId: string, receivedItem: string): boolean {
 
     return itemFound; // Return whether the item was found
 }
-
-
-
-
-
-
-
