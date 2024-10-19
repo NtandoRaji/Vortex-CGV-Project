@@ -17,15 +17,15 @@
 			"mesh":0,
 			"name":"Cylinder.004",
 			"rotation":[
-				1,
 				0,
+				0.9999845623970032,
 				0,
-				0
+				0.0055554695427417755
 			],
 			"scale":[
-				-0.1599999964237213,
+				-0.1600000411272049,
 				-0.05900000035762787,
-				-0.1599999964237213
+				-0.1600000411272049
 			]
 		}
 	],
@@ -143,29 +143,29 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":7158,
+			"count":7160,
 			"max":[
-				2.7059836387634277,
-				27.930150985717773,
-				41.440826416015625
+				11.681093215942383,
+				77.3753890991211,
+				22.426544189453125
 			],
 			"min":[
-				-2.7133188247680664,
-				-123.86515808105469,
-				-3.1541554927825928
+				6.261791229248047,
+				-74.419921875,
+				-22.168437957763672
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":7158,
+			"count":7160,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":7158,
+			"count":7160,
 			"type":"VEC2"
 		},
 		{
@@ -179,14 +179,14 @@
 			"componentType":5126,
 			"count":144,
 			"max":[
-				5.144512176513672,
-				36.65995407104492,
-				44.91164779663086
+				14.119622230529785,
+				86.10519409179688,
+				25.89736557006836
 			],
 			"min":[
-				-20.071216583251953,
-				-137.5774383544922,
-				-7.194360733032227
+				-11.09610652923584,
+				-88.1322021484375,
+				-26.208642959594727
 			],
 			"type":"VEC3"
 		},
@@ -213,14 +213,14 @@
 			"componentType":5126,
 			"count":24,
 			"max":[
-				3.7150516510009766,
-				-1.6423568725585938,
-				44.1480598449707
+				12.69016170501709,
+				47.80288314819336,
+				25.133777618408203
 			],
 			"min":[
-				-18.784950256347656,
-				-10.455913543701172,
-				-5.85194206237793
+				-9.809840202331543,
+				38.98932647705078,
+				-24.86622428894043
 			],
 			"type":"VEC3"
 		},
@@ -247,14 +247,14 @@
 			"componentType":5126,
 			"count":24,
 			"max":[
-				3.7150516510009766,
-				-44.015235900878906,
-				44.1480598449707
+				12.69016170501709,
+				5.430004119873047,
+				25.133777618408203
 			],
 			"min":[
-				-18.78495216369629,
-				-52.828792572021484,
-				-5.85194206237793
+				-9.809842109680176,
+				-3.3835525512695312,
+				-24.86622428894043
 			],
 			"type":"VEC3"
 		},
@@ -274,92 +274,92 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":85896,
+			"byteLength":85920,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":85896,
-			"byteOffset":85896,
+			"byteLength":85920,
+			"byteOffset":85920,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":57264,
-			"byteOffset":171792,
+			"byteLength":57280,
+			"byteOffset":171840,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":22176,
-			"byteOffset":229056,
+			"byteOffset":229120,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":1728,
-			"byteOffset":251232,
+			"byteOffset":251296,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1728,
-			"byteOffset":252960,
+			"byteOffset":253024,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1152,
-			"byteOffset":254688,
+			"byteOffset":254752,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":432,
-			"byteOffset":255840,
+			"byteOffset":255904,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":256272,
+			"byteOffset":256336,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":256560,
+			"byteOffset":256624,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":256848,
+			"byteOffset":256912,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":72,
-			"byteOffset":257040,
+			"byteOffset":257104,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":257112,
+			"byteOffset":257176,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":257400,
+			"byteOffset":257464,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":257688,
+			"byteOffset":257752,
 			"target":34962
 		}
 	],
@@ -371,7 +371,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":257880,
+			"byteLength":257944,
 			"uri":"mustard_sauce_shelf.bin"
 		}
 	]

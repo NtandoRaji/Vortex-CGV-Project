@@ -24,8 +24,8 @@
 			],
 			"scale":[
 				0.6499999761581421,
-				0.6500000357627869,
-				0.6500000357627869
+				0.6500000953674316,
+				0.6500000953674316
 			]
 		}
 	],
@@ -144,29 +144,29 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":18148,
+			"count":18154,
 			"max":[
-				0.4758409857749939,
-				2.43489408493042,
-				1.414717197418213
+				1.9336354732513428,
+				5.482375144958496,
+				7.004521369934082
 			],
 			"min":[
-				-0.4758400022983551,
-				-8.367838859558105,
-				-12.319889068603516
+				0.9819544553756714,
+				-5.320357799530029,
+				-6.7300848960876465
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":18148,
+			"count":18154,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":18148,
+			"count":18154,
 			"type":"VEC2"
 		},
 		{
@@ -180,14 +180,14 @@
 			"componentType":5126,
 			"count":144,
 			"max":[
-				2.058178424835205,
-				3.312912940979004,
-				2.211104393005371
+				3.515972852706909,
+				6.36039400100708,
+				7.80090856552124
 			],
 			"min":[
-				-4.148770332336426,
-				-9.513184547424316,
-				-13.604291915893555
+				-2.6909759044647217,
+				-6.46570348739624,
+				-8.014488220214844
 			],
 			"type":"VEC3"
 		},
@@ -214,14 +214,14 @@
 			"componentType":5126,
 			"count":24,
 			"max":[
-				1.7063109874725342,
-				3.124953269958496,
-				-1.2655658721923828
+				3.1641054153442383,
+				6.172434329986572,
+				4.324238300323486
 			],
 			"min":[
-				-3.83215069770813,
-				-9.182741165161133,
-				-2.0655674934387207
+				-2.374356269836426,
+				-6.135260105133057,
+				3.5242366790771484
 			],
 			"type":"VEC3"
 		},
@@ -248,14 +248,14 @@
 			"componentType":5126,
 			"count":24,
 			"max":[
-				1.7063109874725342,
-				3.1249523162841797,
-				-5.111719608306885
+				3.1641054153442383,
+				6.172433376312256,
+				0.4780845642089844
 			],
 			"min":[
-				-3.832151412963867,
-				-9.18274211883545,
-				-5.911721229553223
+				-2.374356985092163,
+				-6.135261058807373,
+				-0.3219170570373535
 			],
 			"type":"VEC3"
 		},
@@ -275,92 +275,92 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":217776,
+			"byteLength":217848,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":217776,
-			"byteOffset":217776,
+			"byteLength":217848,
+			"byteOffset":217848,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":145184,
-			"byteOffset":435552,
+			"byteLength":145232,
+			"byteOffset":435696,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":54912,
-			"byteOffset":580736,
+			"byteOffset":580928,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":1728,
-			"byteOffset":635648,
+			"byteOffset":635840,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1728,
-			"byteOffset":637376,
+			"byteOffset":637568,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1152,
-			"byteOffset":639104,
+			"byteOffset":639296,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":432,
-			"byteOffset":640256,
+			"byteOffset":640448,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":640688,
+			"byteOffset":640880,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":640976,
+			"byteOffset":641168,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":641264,
+			"byteOffset":641456,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":72,
-			"byteOffset":641456,
+			"byteOffset":641648,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":641528,
+			"byteOffset":641720,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":641816,
+			"byteOffset":642008,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":642104,
+			"byteOffset":642296,
 			"target":34962
 		}
 	],
@@ -372,7 +372,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":642296,
+			"byteLength":642488,
 			"uri":"sparberry_shelf.bin"
 		}
 	]

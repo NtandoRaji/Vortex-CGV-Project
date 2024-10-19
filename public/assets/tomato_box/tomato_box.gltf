@@ -20,12 +20,6 @@
 		{
 			"mesh":0,
 			"name":"tomato_001.035",
-			"rotation":[
-				0,
-				0.7047709822654724,
-				0,
-				0.7094349265098572
-			],
 			"scale":[
 				8.500000953674316,
 				8.5,
@@ -48,7 +42,7 @@
 					"ior":1.4500000476837158
 				}
 			},
-			"name":"Material.011",
+			"name":"Material.012",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -59,7 +53,7 @@
 		},
 		{
 			"doubleSided":true,
-			"name":"Material.012",
+			"name":"Material.014",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
 					0.48288780450820923,
@@ -114,29 +108,29 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":38906,
+			"count":39023,
 			"max":[
-				0.04057423770427704,
-				0.08879637718200684,
-				0.04019922390580177
+				0.5024642944335938,
+				0.2564007043838501,
+				0.23723651468753815
 			],
 			"min":[
-				-0.9649620056152344,
-				6.605621456401423e-05,
-				-0.4205339848995209
+				-0.5030719637870789,
+				0.1676703840494156,
+				-0.2234966903924942
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":38906,
+			"count":39023,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":38906,
+			"count":39023,
 			"type":"VEC2"
 		},
 		{
@@ -150,14 +144,14 @@
 			"componentType":5126,
 			"count":72,
 			"max":[
-				0.08036202192306519,
-				0.11681995540857315,
-				0.051681265234947205
+				0.5422520637512207,
+				0.2844242751598358,
+				0.24871855974197388
 			],
 			"min":[
-				-1.0042908191680908,
-				-0.3812560737133026,
-				-0.44639474153518677
+				-0.5424007773399353,
+				-0.21365174651145935,
+				-0.2493574470281601
 			],
 			"type":"VEC3"
 		},
@@ -183,50 +177,50 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":466872,
+			"byteLength":468276,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":466872,
-			"byteOffset":466872,
+			"byteLength":468276,
+			"byteOffset":468276,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":311248,
-			"byteOffset":933744,
+			"byteLength":312184,
+			"byteOffset":936552,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":102384,
-			"byteOffset":1244992,
+			"byteOffset":1248736,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":864,
-			"byteOffset":1347376,
+			"byteOffset":1351120,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":864,
-			"byteOffset":1348240,
+			"byteOffset":1351984,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":576,
-			"byteOffset":1349104,
+			"byteOffset":1352848,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":240,
-			"byteOffset":1349680,
+			"byteOffset":1353424,
 			"target":34963
 		}
 	],
@@ -238,7 +232,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":1349920,
+			"byteLength":1353664,
 			"uri":"tomato_box.bin"
 		}
 	]

@@ -7,6 +7,8 @@ import { InterfaceContext } from '../lib/w3ads/InterfaceContext';
 //@ts-ignore
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
 import { GroceryItem } from './GroceryItem';
+import { PickupSpot } from './PickupSpot';
+import { Shelf } from './Shelf';
 import { Box } from './Box';
 
 // Constants for movement speeds and jump physics
@@ -72,6 +74,7 @@ export class Player extends Construct {
             const inHandScale = object.userData.inHandScale;
             object.removeFromParent();
             object.position.set(2, -1.5, -2);
+            object.rotation.set(0, Math.PI / 4, Math.PI / 2);
             object.scale.setScalar(inHandScale);
             this.holdingObject = object;
             this.camera.add(object);
@@ -120,7 +123,8 @@ export class Player extends Construct {
         this.timer.style.fontFamily = 'Arial, sans-serif';
         document.body.appendChild(this.timer);
 
-        this.startTimer();
+        // [!] Uncomment to start timer
+        // this.startTimer(); 
     }
 
     // Function to format the time as "Timer: MM:SS"
@@ -381,7 +385,20 @@ export class Player extends Construct {
         }
     }
 
-    checkLookingAtPickupSpot = (pickupSpots: Box[]) : void => {
+    checkLookingAtShopItems(shopItems: Shelf[] | Box[]) : void {
+        this.lookingAtGroceryItem = false;
+        for (let i = 0; i < shopItems.length; i++){
+            const intersects = this.raycaster.intersectObject(shopItems[i].root);
+            shopItems[i].setBeingLookedAt(false);
+
+            if (intersects.length > 0 && !this.lookingAtGroceryItem){
+                this.lookingAtGroceryItem = true;
+                shopItems[i].setBeingLookedAt(true);
+            }
+        }
+    }
+    
+    checkLookingAtPickupSpot = (pickupSpots: PickupSpot[]) : void => {
         this.lookingAtPickupSpot = false;
 
         for (let i = 0; i < pickupSpots.length; i++){
