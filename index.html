@@ -62,17 +62,37 @@
         <div class="popup" id="settings-popup">
             <span class="close-btn" id="close-settings">&times;</span>
             <h2 id="setting-heading">Settings</h2><br>
-            <label for="volume">Volume:</label>
+            <label for="volume">Music Volume:</label>
             <input type="range" id="volume" name="volume" min="0" max="100"><br><br>
         </div>
      </div>
 
     <script>
+        // Load the background music
+        const menuMusic = new Audio('/musicSound/menuMusic.mp3');
+        menuMusic.loop = true; // Make the music loop
+        menuMusic.volume = 0.5; // Set initial volume
+        menuMusic.muted=false;
+        document.body.addEventListener("mousemove", function () {
+            menuMusic.play().catch(error => console.error('Music playback failed:', error)); // Handle autoplay restrictions
+        })
+
+        // Load the sound file
+        const clickSound = new Audio('/musicSound/menuClick.mp3');
+
+        // Function to play sound
+        function playClickSound() {
+            clickSound.play();
+        }
+
+
         document.getElementById('play-btn').onclick = function() {
+            playClickSound();
             window.location.href="indexGame.html";
         };
 
         document.getElementById('how-to-play-btn').onclick = function() {
+            playClickSound();
             //show game instructions when clicks
             document.getElementById('overlay').classList.add('active');
             document.getElementById('how-to-play-popup').classList.add('active');
@@ -80,18 +100,21 @@
 
         //close how to play menu
         document.getElementById('close-how-to-play').onclick = function(){
+            playClickSound();
            // Correctly remove active class from overlay
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('how-to-play-popup').classList.remove('active');
         };
 
         document.getElementById('credits-btn').onclick = function() {
+            playClickSound();
             //show credits when clicked
             document.getElementById('overlay').classList.add('active');
             document.getElementById('credits-popup').classList.add('active');
         };
         //close credits menu
         document.getElementById('close-credits').onclick = function(){
+            playClickSound();
            // Correctly remove active class from overlay
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('credits-popup').classList.remove('active');
@@ -99,15 +122,26 @@
 
                 // Show settings menu
         document.getElementById('settings-btn').onclick = function() {
+            playClickSound();
             document.getElementById('overlay').classList.add('active');
             document.getElementById('settings-popup').classList.add('active');
         };
 
         // Close settings menu
         document.getElementById('close-settings').onclick = function(){
+            playClickSound();
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('settings-popup').classList.remove('active');
         };
+
+        // Handle volume slider input
+        const volumeSlider = document.getElementById('volume');
+        if (volumeSlider instanceof HTMLInputElement) {
+            volumeSlider.addEventListener('input', () => {
+                menuMusic.volume = Number(volumeSlider.value) / 100;
+                localStorage.setItem("vol",menuMusic.volume );
+            });
+        }
     </script>
 </body>
 </html>
