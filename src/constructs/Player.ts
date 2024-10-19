@@ -46,7 +46,7 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 100; // 2 minutes in seconds
+    timeRemaining: number = 20; // 2 minutes in seconds
     decrementValue!: number;
     timerInterval!: any;
     list!:any;
@@ -226,6 +226,7 @@ private setUpTimer(){
     // Update player state every frame, including movement and interaction prompts
     //@ts-ignore ignoring the time variable
     update = (time: number, delta: number): void => {
+        if(this.isPaused) return; //skip updating timer if game in paused state
         delta = delta / 1000;
 
         // Get the camera direction (forward vector)
@@ -319,18 +320,8 @@ private setUpTimer(){
         this.isPaused = !this.isPaused; // Toggle pause state
         if (this.isPaused) { // If paused, stop the timer
             stopTimer();
-            // Decrease the remaining time
-            this.timeRemaining -= this.decrementValue;
-            this.decrementValue++; // Increase the decrement value for the next time
-
-            // Ensure the remaining time doesn't go below zero
-            if (this.timeRemaining < 0) {
-                this.timeRemaining = 0;
-            }
         } else { // If not paused, resume the timer
-            if (!this.timerInterval) { // Resume timer only if it was paused
-                startTimer();
-            }
+            startTimer();
         }
     }
     // Add a method to toggle the bird's-eye view
@@ -353,6 +344,7 @@ private setUpTimer(){
         //pause timer functionalit
         if (event.key == 'p' || event.key == 'P') {
             this.togglePause();
+            return;
         }
         //if game is paused, i.e. isPaused true, ignore normal key movements
         //player can only jump & change camera view if the game is paused

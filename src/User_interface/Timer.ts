@@ -9,9 +9,10 @@ export function setUpTimer(minutes: number, containerId: string): void {
     const existingTimer = document.querySelector(`#${containerId}`);
     if (existingTimer) {
         existingTimer.remove();
-        if (timerInterval) {
-            clearInterval(timerInterval); // Clear the existing timer
-        }
+        // if (timerInterval) {
+        //     clearInterval(timerInterval); // Clear the existing timer
+        // }
+        stopTimer();
     }
 
     // Set up the new timer
@@ -53,9 +54,10 @@ function updateTimer(): void {
     if (timeRemaining > 0) {
         timeRemaining--;
     } else {
-        if (timerInterval) {
-            clearInterval(timerInterval); // Clear the existing timer
-        }
+        // if (timerInterval) {
+        //     clearInterval(timerInterval); // Clear the existing timer
+        // }
+        stopTimer();
         timerElement.textContent = "Timer: Time's up!";
         showGameOverMenu();
         // Trigger end-of-timer actions (e.g. game over)
@@ -63,7 +65,9 @@ function updateTimer(): void {
 }
 
 export function startTimer(): void {
-    timerInterval = setInterval(() => updateTimer(), 1000);
+    if (!timerInterval) { // Prevent multiple intervals
+        timerInterval = setInterval(updateTimer, 1000); // Call updateTimer every second
+    }
 }
 export function stopTimer(): void {
     if (timerInterval) {
