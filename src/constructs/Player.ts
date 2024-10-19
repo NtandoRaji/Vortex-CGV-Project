@@ -10,9 +10,10 @@ import { GroceryItem } from './GroceryItem';
 import { PickupSpot } from './PickupSpot';
 import { Shelf } from './Shelf';
 import { Box } from './Box';
+import { generateAndDisplayGroceryItems,updateList } from './listGenerationUI';
 
 // Constants for movement speeds and jump physics
-const walkSpeed = 5;
+const walkSpeed = 2;
 const sprintSpeed = 10;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
@@ -29,7 +30,7 @@ export class Player extends Construct {
     holdingObject: THREE.Mesh | undefined = undefined;
     lookingAtGroceryItem: boolean = false;
     lookingAtPickupSpot: boolean = false;
-
+    currentGroceryItem: GroceryItem| null=null;
     raycaster!: THREE.Raycaster;
 
     // Movement direction state
@@ -41,9 +42,11 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 10; // 2 minutes in seconds
+    timeRemaining: number = 1000; // 2 minutes in seconds
     timerInterval!: any;
-    
+    list!:any;
+    amountOfItemsToFind: number = 2; // Choose how many items to generate for the Player
+    foundItems: number = 0; // Player has found nothing when game begins
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -98,6 +101,21 @@ export class Player extends Construct {
             this.controls.lock();
         });
 
+        this.setUpTimer();
+        this.setUpList();
+
+        
+    }
+
+
+private setUpList(): void {
+    this.list = document.createElement("div");
+    generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
+    document.body.appendChild(this.list);
+  }
+
+
+    private setUpTimer():void{
         // **Check and remove any existing timer before creating a new one**
         const existingTimer = document.querySelector('#game-timer');
         if (existingTimer) {
@@ -126,7 +144,6 @@ export class Player extends Construct {
         // [!] Uncomment to start timer
         // this.startTimer(); 
     }
-
     // Function to format the time as "Timer: MM:SS"
     private formatTime(): string {
         let minutes = Math.floor(this.timeRemaining / 60);
@@ -371,18 +388,24 @@ export class Player extends Construct {
     // Cleanup event listeners when the player object is destroyed
     destroy = (): void => {
     }
-
-    checkLookingAtGroceryItem(groceryItems: GroceryItem[]) : void {
+    
+    checkLookingAtGroceryItem(groceryItems: GroceryItem[]):string|null{
         this.lookingAtGroceryItem = false;
-        for (let i = 0; i < groceryItems.length; i++){
+        this.currentGroceryItem = null; // Reset current item
+    
+        for (let i = 0; i < groceryItems.length; i++) {
             const intersects = this.raycaster.intersectObject(groceryItems[i].root);
             groceryItems[i].setBeingLookedAt(false);
-
-            if (intersects.length > 0 && !this.lookingAtGroceryItem){
+            //Looking at something
+            if (intersects.length > 0 && !this.lookingAtGroceryItem) {
                 this.lookingAtGroceryItem = true;
+                //Set what you're looking at
                 groceryItems[i].setBeingLookedAt(true);
+                this.currentGroceryItem = groceryItems[i]; // Store reference to the grocery item
             }
         }
+        //return the item/ null looking at
+        return this.currentGroceryItem ? this.currentGroceryItem.getName() : null; // Return name if looking at an item
     }
 
     checkLookingAtShopItems(shopItems: Shelf[] | Box[]) : void {
@@ -408,6 +431,7 @@ export class Player extends Construct {
             if (intersects.length > 0 && !this.lookingAtPickupSpot){
                 this.lookingAtPickupSpot = true;
                 pickupSpots[i].setBeingLookedAt(true);
+    
             }
         }
     }
@@ -447,10 +471,31 @@ export class Player extends Construct {
         }
         // Pick up an item
         if (scope.root.userData.canInteract && scope.lookingAtGroceryItem && scope.holdingObject === undefined && !scope.paused) {
-            if (event.key == 'e' || event.key == 'E') {
-                scope.root.userData.onInteract();
-            }
+            if (event.key === 'e' || event.key === 'E') {
+                //use scope. as this. will not be accessible********
+                if (scope.currentGroceryItem) {
+                    //get item you were looking at
+                    const itemName = scope.currentGroceryItem.getName();
+                    // pick item up
+                    scope.root.userData.onInteract();
+                    // check if item is on list
+                    const found = updateList(scope.list.id, itemName);
+                    if (found){
+                        // count up if it is an item on the list
+                        scope.foundItems += 1;
+                        if (scope.foundItems === scope.amountOfItemsToFind) {
+                            console.log("Yo bro you did it");
+                        }
+                    }
+                    else{
+
+                        //Enter what is supposed to happen when player selects wrong thing
+                        console.log("You dun goofed");
+                    }
+                }
+                }
         }
+    
         // Place an item
         if (scope.root.userData.canPlace && scope.lookingAtPickupSpot && scope.holdingObject !== undefined && !scope.paused) {
             if (event.key == 'q' || event.key == 'Q') {
