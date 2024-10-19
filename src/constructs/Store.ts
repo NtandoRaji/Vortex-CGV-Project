@@ -60,9 +60,9 @@ export class Store extends Construct {
         // this.sections.push(fruitSection);
         // this.addConstruct(fruitSection);
 
-        // const sectionB = new SectionB(graphics, physics, interactions, userInterface);
-        // this.sections.push(sectionB);
-        // this.addConstruct(sectionB);
+        const sectionB = new SectionB(graphics, physics, interactions, userInterface);
+        this.sections.push(sectionB);
+        this.addConstruct(sectionB);
 
         const vegSection = new VegSection(graphics, physics, interactions, userInterface);
         this.sections.push(vegSection);
