@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.2.60",
+		"generator":"Khronos glTF Blender I/O v4.2.70",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -20,11 +20,6 @@
 				0.26000070571899414,
 				5,
 				4.150003433227539
-			],
-			"translation":[
-				0,
-				0,
-				-0.0009677959023974836
 			]
 		}
 	],
@@ -297,7 +292,7 @@
 		{
 			"bufferView":15,
 			"componentType":5126,
-			"count":3660,
+			"count":3670,
 			"max":[
 				2.6174135208129883,
 				0.8622122406959534,
@@ -313,13 +308,13 @@
 		{
 			"bufferView":16,
 			"componentType":5126,
-			"count":3660,
+			"count":3670,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":17,
 			"componentType":5126,
-			"count":3660,
+			"count":3670,
 			"type":"VEC2"
 		},
 		{
@@ -456,56 +451,56 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":43920,
+			"byteLength":44040,
 			"byteOffset":131688,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":43920,
-			"byteOffset":175608,
+			"byteLength":44040,
+			"byteOffset":175728,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":29280,
-			"byteOffset":219528,
+			"byteLength":29360,
+			"byteOffset":219768,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":8880,
-			"byteOffset":248808,
+			"byteOffset":249128,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":8640,
-			"byteOffset":257688,
+			"byteOffset":258008,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":8640,
-			"byteOffset":266328,
+			"byteOffset":266648,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":5760,
-			"byteOffset":274968,
+			"byteOffset":275288,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1920,
-			"byteOffset":280728,
+			"byteOffset":281048,
 			"target":34963
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":282648,
+			"byteLength":282968,
 			"uri":"soy_milk_shelf.bin"
 		}
 	]
