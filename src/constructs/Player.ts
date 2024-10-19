@@ -123,7 +123,7 @@ export class Player extends Construct {
         this.timer.style.fontFamily = 'Arial, sans-serif';
         document.body.appendChild(this.timer);
 
-        this.startTimer();
+        // this.startTimer();
     }
 
     // Function to format the time as "Timer: MM:SS"

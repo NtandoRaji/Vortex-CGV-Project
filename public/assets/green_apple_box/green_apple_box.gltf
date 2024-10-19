@@ -20,12 +20,6 @@
 		{
 			"mesh":0,
 			"name":"apple_001.006",
-			"rotation":[
-				0,
-				-0.705892026424408,
-				0,
-				0.7083194255828857
-			],
 			"scale":[
 				8.250000953674316,
 				8.25,
@@ -114,29 +108,29 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":20226,
+			"count":20230,
 			"max":[
-				1.008054256439209,
-				0.07220913469791412,
-				0.04254448041319847
+				0.5286427736282349,
+				0.24447518587112427,
+				0.24052637815475464
 			],
 			"min":[
-				-0.04266775771975517,
-				6.63039754726924e-05,
-				-0.4564031660556793
+				-0.5220792889595032,
+				0.17233236134052277,
+				-0.25842127203941345
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":20226,
+			"count":20230,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":20226,
+			"count":20230,
 			"type":"VEC2"
 		},
 		{
@@ -150,14 +144,14 @@
 			"componentType":5126,
 			"count":72,
 			"max":[
-				1.0379470586776733,
-				0.12050352990627289,
-				0.05926483869552612
+				0.5585355758666992,
+				0.29276958107948303,
+				0.257246732711792
 			],
 			"min":[
-				-0.0795741081237793,
-				-0.39266568422317505,
-				-0.4539044201374054
+				-0.5589855909347534,
+				-0.2203996330499649,
+				-0.2559225261211395
 			],
 			"type":"VEC3"
 		},
@@ -183,50 +177,50 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":242712,
+			"byteLength":242760,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":242712,
-			"byteOffset":242712,
+			"byteLength":242760,
+			"byteOffset":242760,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":161808,
-			"byteOffset":485424,
+			"byteLength":161840,
+			"byteOffset":485520,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":51840,
-			"byteOffset":647232,
+			"byteOffset":647360,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":864,
-			"byteOffset":699072,
+			"byteOffset":699200,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":864,
-			"byteOffset":699936,
+			"byteOffset":700064,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":576,
-			"byteOffset":700800,
+			"byteOffset":700928,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":240,
-			"byteOffset":701376,
+			"byteOffset":701504,
 			"target":34963
 		}
 	],
@@ -238,7 +232,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":701616,
+			"byteLength":701744,
 			"uri":"green_apple_box.bin"
 		}
 	]

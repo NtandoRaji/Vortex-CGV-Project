@@ -16,12 +16,6 @@
 		{
 			"mesh":0,
 			"name":"Cube.031",
-			"rotation":[
-				0,
-				0.703796923160553,
-				0,
-				0.7104012370109558
-			],
 			"scale":[
 				1,
 				0.5268014073371887,
@@ -32,7 +26,7 @@
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"Material.006",
+			"name":"Material.010",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
 					0.48288780450820923,
@@ -46,7 +40,7 @@
 		},
 		{
 			"doubleSided":true,
-			"name":"Material.010",
+			"name":"Material.011",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -100,14 +94,14 @@
 			"componentType":5126,
 			"count":72,
 			"max":[
-				4.597409725189209,
-				1.0722384452819824,
-				1.5331052541732788
+				4.609935760498047,
+				4.579870223999023,
+				1.532897710800171
 			],
 			"min":[
-				-4.6221394538879395,
-				-6.964273929595947,
-				-1.5365294218063354
+				-4.609613418579102,
+				-3.4566421508789062,
+				-1.5367369651794434
 			],
 			"type":"VEC3"
 		},
@@ -132,29 +126,29 @@
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":33341,
+			"count":33349,
 			"max":[
-				4.36354923248291,
-				0.21653452515602112,
-				1.281184434890747
+				4.376075267791748,
+				3.7241663932800293,
+				1.2809768915176392
 			],
 			"min":[
-				-4.36000919342041,
-				-0.7821821570396423,
-				-1.2288776636123657
+				-4.347483158111572,
+				2.725449562072754,
+				-1.2290852069854736
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":5,
 			"componentType":5126,
-			"count":33341,
+			"count":33349,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":33341,
+			"count":33349,
 			"type":"VEC2"
 		},
 		{
@@ -191,26 +185,26 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":400092,
+			"byteLength":400188,
 			"byteOffset":2544,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":400092,
-			"byteOffset":402636,
+			"byteLength":400188,
+			"byteOffset":402732,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":266728,
-			"byteOffset":802728,
+			"byteLength":266792,
+			"byteOffset":802920,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":94464,
-			"byteOffset":1069456,
+			"byteOffset":1069712,
 			"target":34963
 		}
 	],
@@ -222,7 +216,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":1163920,
+			"byteLength":1164176,
 			"uri":"potato_box.bin"
 		}
 	]

@@ -12,6 +12,7 @@ import { SectionC } from "./SectionC";
 import { Shelf } from "./Shelf";
 import { PickupSpot } from "./PickupSpot";
 import { Room } from "./Room";
+import { FruitsSection } from "./FruitsSection";
 
 export class Store extends Construct {
     ceiling!:any;
@@ -41,20 +42,26 @@ export class Store extends Construct {
         this.cashierCounter = new CashierCounter(graphics, physics, interactions, userInterface);
         this.addConstruct(this.cashierCounter);
 
+        // Add Sections
         const sectionC = new SectionC(graphics, physics, interactions, userInterface, this.player);
         this.sections.push(sectionC);
         this.addConstruct(sectionC);
+
+        const fruitSection = new FruitsSection(graphics, physics, interactions, userInterface, this.player);
+        this.sections.push(fruitSection);
+        this.addConstruct(fruitSection);
     }
 
     create(): void {    
         // Place Player
-        this.player.root.position.set(40, 10, 35);
+        this.player.root.position.set(50, 10, 35);
 
         // Place Cashier Counter
-        this.cashierCounter.root.position.set(40, 1.5, 40);
+        this.cashierCounter.root.position.set(50, 1.5, 40);
+        this.cashierCounter.root.scale.setScalar(1.3);
 
         // --- Place Sections ---
-        const sectionsPositions = [[-50, 0, 0]];
+        const sectionsPositions = [[0, 0, -30], [40, 0, -2.5 - 30]];
         for (let i = 0; i < this.sections.length; i++){
             const position = sectionsPositions[i];
             this.sections[i].root.position.set(position[0], position[1], position[2]);

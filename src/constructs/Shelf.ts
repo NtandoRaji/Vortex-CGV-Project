@@ -39,7 +39,7 @@ export class Shelf extends Construct {
             this.mesh = gltfData.scene;
         } catch (error) {
             // Log any error that occurs during the model loading process
-            console.log("[!] Error loading shelf model");
+            console.log(`[!] Error loading ${this.filename}_shelf model`);
             console.log(error);
         }
     }

@@ -24,8 +24,8 @@
 			],
 			"scale":[
 				0.6499999761581421,
-				0.6500000357627869,
-				0.6500000357627869
+				0.6499999761581421,
+				0.6499999761581421
 			]
 		}
 	],
@@ -144,29 +144,29 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":19902,
+			"count":19910,
 			"max":[
-				0.4758414030075073,
-				0.47584477066993713,
-				12.582021713256836
+				2.6105470657348633,
+				5.404308795928955,
+				6.981523513793945
 			],
 			"min":[
-				-0.4758404791355133,
-				-10.559125900268555,
-				-1.1530603170394897
+				1.6588650941848755,
+				-5.630661964416504,
+				-6.75355863571167
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":19902,
+			"count":19910,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":19902,
+			"count":19910,
 			"type":"VEC2"
 		},
 		{
@@ -180,14 +180,14 @@
 			"componentType":5126,
 			"count":144,
 			"max":[
-				1.2234241962432861,
-				1.470123291015625,
-				13.395195007324219
+				3.3581297397613525,
+				6.398587226867676,
+				7.794696807861328
 			],
 			"min":[
-				-4.983523368835449,
-				-11.355971336364746,
-				-2.420198678970337
+				-2.848817825317383,
+				-6.427507400512695,
+				-8.020696640014648
 			],
 			"type":"VEC3"
 		},
@@ -214,14 +214,14 @@
 			"componentType":5126,
 			"count":24,
 			"max":[
-				0.8715569972991943,
-				1.2821621894836426,
-				9.918524742126465
+				3.0062625408172607,
+				6.210626125335693,
+				4.318026542663574
 			],
 			"min":[
-				-4.666904449462891,
-				-11.025527954101562,
-				9.118522644042969
+				-2.532198905944824,
+				-6.097064018249512,
+				3.518024444580078
 			],
 			"type":"VEC3"
 		},
@@ -248,14 +248,14 @@
 			"componentType":5126,
 			"count":24,
 			"max":[
-				0.8715569972991943,
-				1.2821617126464844,
-				6.072371482849121
+				3.0062625408172607,
+				6.210625648498535,
+				0.4718732237815857
 			],
 			"min":[
-				-4.666904926300049,
-				-11.025528907775879,
-				5.272369384765625
+				-2.5321993827819824,
+				-6.097064971923828,
+				-0.328128844499588
 			],
 			"type":"VEC3"
 		},
@@ -275,92 +275,92 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":238824,
+			"byteLength":238920,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":238824,
-			"byteOffset":238824,
+			"byteLength":238920,
+			"byteOffset":238920,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":159216,
-			"byteOffset":477648,
+			"byteLength":159280,
+			"byteOffset":477840,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":59904,
-			"byteOffset":636864,
+			"byteOffset":637120,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":1728,
-			"byteOffset":696768,
+			"byteOffset":697024,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1728,
-			"byteOffset":698496,
+			"byteOffset":698752,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":1152,
-			"byteOffset":700224,
+			"byteOffset":700480,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":432,
-			"byteOffset":701376,
+			"byteOffset":701632,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":701808,
+			"byteOffset":702064,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":702096,
+			"byteOffset":702352,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":702384,
+			"byteOffset":702640,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":72,
-			"byteOffset":702576,
+			"byteOffset":702832,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":702648,
+			"byteOffset":702904,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":702936,
+			"byteOffset":703192,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":703224,
+			"byteOffset":703480,
 			"target":34962
 		}
 	],
@@ -372,7 +372,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":703416,
+			"byteLength":703672,
 			"uri":"sprite_shelf.bin"
 		}
 	]

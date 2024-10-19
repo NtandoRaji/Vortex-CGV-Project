@@ -9,119 +9,114 @@ import { PickupSpot } from "./PickupSpot";
 import { Player } from "./Player";
 import { Box } from "./Box";
 
-// Define the SectionC class, extending the Construct class
+// Define the SectionC class, which extends the Construct class
 export class SectionC extends Construct {
-    // Define properties: a player instance, an array of items (Shelf or Box), and pickup spots
+    // Define properties for the section: player, items (Shelves or Boxes), and pickup spots
     player!: Player; // Reference to the player object for interaction logic
-    items: Array<Shelf> | Array<Box> = []; // Array of items in the section (either Shelves or Boxes)
-    pickupSpots: Array<PickupSpot> = []; // Array of PickupSpots for placing items
+    items: Array<Shelf> | Array<Box> = []; // Array of items (either shelves or boxes) in the section
+    pickupSpots: Array<PickupSpot> = []; // Array of pickup spots for placing objects
 
-    // Constructor initializes the SectionC with necessary contexts and the player object
-    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, player: Player) {
-        // Call the superclass (Construct) constructor
+    // Constructor method for SectionC to initialize the player and necessary contexts
+    constructor(
+        graphics: GraphicsContext, 
+        physics: PhysicsContext, 
+        interactions: InteractManager, 
+        userInterface: InterfaceContext, 
+        player: Player
+    ) {
+        // Call the superclass constructor
         super(graphics, physics, interactions, userInterface);
-        // Initialize the player object
+        // Assign the player object
         this.player = player;
     }
 
-    // Method to create and position shelves and boxes in the section
+    // Method to create shelves and boxes in the section and position them correctly
     create(): void {
-        // --- Create & Place Shelves ---
-        // Array of shelf names
-        const shelfNames = ["cola", "green_twist"];
-        const shelfPositions = []; // Empty array for future use (for dynamic positions)
+        // --- Create and Position Shelves ---
 
-        // Loop to create two shelves and their associated pickup spots
+        // Array of shelf names representing the items
+        const shelfNames = ["cola", "lemon_twist", "ginger_ale", "cream_soda", "carrot_cans", "corn_cans", "beans_cans", "beets_cans", "peanut_butter"];
+
+        // Predefined positions and rotations for each shelf
+        const shelfPositions = [
+            [0, 5, 17], [0, 5, 8.5], [0, 5, 0], [0, 5, -8.5], 
+            [-4, 5, 17], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
+            [-2, 5, -14.5]
+        ];
+        const shelfRotations = [
+            [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], 
+            [0, Math.PI, 0], [0, Math.PI, 0], [0, Math.PI, 0], [0, Math.PI, 0], 
+            [0, Math.PI / 2, 0]
+        ];
+
+        // Loop to create and position shelves with associated pickup spots
         for (let i = 0; i < shelfNames.length; i++) {
             // Create a new PickupSpot object for each shelf
-            const pickupSpot = new PickupSpot(this.graphics, this.physics, this.interactions, 
-                this.userInterface, [0, 0, 0], [4, 0.1, 8] // Position and scale of the pickup spot
+            const pickupSpot = new PickupSpot(
+                this.graphics, 
+                this.physics, 
+                this.interactions, 
+                this.userInterface, 
+                [0, 0, 0], // Initial position
+                [3, 0.1, 8] // Scale (width, height, depth)
             );
-            // Set the position of the PickupSpot
-            pickupSpot.root.position.set(0, 0, 10 + 8.5 * i);
 
-            // Add interaction logic for placing objects in the PickupSpot
+            // Set the position and rotation for the pickup spot
+            pickupSpot.root.position.set(shelfPositions[i][0], 0, shelfPositions[i][2]);
+            pickupSpot.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
+
+            // Add interaction logic for placing objects in the pickup spot
             pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {
-                pickupSpot.root.add(placeObject); // Place the object at the spot
-                placeObject.position.set(0, 0, 0); // Reset object position
-                placeObject.rotation.set(0, 0, 0); // Reset object rotation
-                placeObject.scale.setScalar(1);    // Reset object scale
+                pickupSpot.root.add(placeObject); // Add the placed object to the spot
+                placeObject.position.set(0, 5, 0); // Reset position of the placed object
+                placeObject.rotation.set(0, 0, 0); // Reset rotation of the placed object
+                placeObject.scale.setScalar(1);    // Reset scale of the placed object
             });
 
-            // Add the PickupSpot to the pickupSpots array and add it as a construct
+            // Add the PickupSpot to the pickupSpots array and register it in the construct system
             this.pickupSpots.push(pickupSpot);
             this.addConstruct(pickupSpot);
 
-            // Create a new Shelf object with the current name and scale
-            const shelf = new Shelf(this.graphics, this.physics, this.interactions, this.userInterface, shelfNames[i], [1, 1, 1]);
-            // Set the position of the shelf
-            shelf.root.position.set(0, 0, 10 + 8.5 * i);
+            // Create a new Shelf object for each item, with a specific name and scale
+            const shelf = new Shelf(
+                this.graphics, 
+                this.physics, 
+                this.interactions, 
+                this.userInterface, 
+                shelfNames[i], 
+                [1, 1, 1] // Scale (x, y, z)
+            );
+
+            // Set the position and rotation for each shelf
+            shelf.root.position.set(shelfPositions[i][0], shelfPositions[i][1], shelfPositions[i][2]);
+            shelf.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
 
             // Add interaction logic for picking up the shelf
-            shelf.interactions.addPickupObject(shelf.root, 10, 0.1, () => {
-                pickupSpot.root.add(shelf.root); // Move the shelf to the PickupSpot
+            shelf.interactions.addPickupObject(shelf.root, 8, 0.1, () => {
+                pickupSpot.root.add(shelf.root); // Add the shelf to the PickupSpot when picked up
             });
 
-            // Add the shelf to the items array and as a construct
+            // Add the shelf to the items array and register it as a construct
             this.items.push(shelf);
             this.addConstruct(shelf);
         }
         // -----------------------------
-
-        // --- Create & Place Boxes ---
-        // Array of box names (only one box in this example)
-        const boxesNames = ["banana"];
-        // Loop to create boxes and their associated pickup spots
-        for (let i = 0; i < boxesNames.length; i++) {
-            // Create a new PickupSpot object for each box
-            const pickupSpot = new PickupSpot(this.graphics, this.physics, this.interactions, 
-                this.userInterface, [0, 0, 0], [9, 0.1, 4]); // Position and scale of the pickup spot
-            // Set the position of the PickupSpot
-            pickupSpot.root.position.set(0, 0, 0);
-
-            // Add interaction logic for placing objects in the PickupSpot
-            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {
-                pickupSpot.root.add(placeObject); // Place the object at the spot
-                placeObject.position.set(0, 0, 0); // Reset object position
-                placeObject.rotation.set(0, 0, 0); // Reset object rotation
-                placeObject.scale.setScalar(1);    // Reset object scale
-            });
-
-            // Add the PickupSpot to the pickupSpots array and add it as a construct
-            this.pickupSpots.push(pickupSpot);
-            this.addConstruct(pickupSpot);
-
-            // Create a new Box object with the current name and default scale
-            const box = new Box(this.graphics, this.physics, this.interactions, this.userInterface, boxesNames[i]);
-            // Set the position of the box
-            box.root.position.set(0, 0, 0);
-
-            // Add interaction logic for picking up the box (currently commented out)
-            box.interactions.addPickupObject(box.root, 8, 0.1, () => {
-                // pickupSpot.root.add(box.root); // Commented out action for placing the box
-            });
-
-            // Add the box to the items array and as a construct
-            this.items.push(box);
-            this.addConstruct(box);
-        }
-        // ----------------------------
     }
 
-    // Asynchronous load method (currently a placeholder)
+    // Asynchronous load method (currently a placeholder, used for loading assets)
     async load(): Promise<void> {}
 
-    // Build method (currently a placeholder)
+    // Build method (currently a placeholder, used for constructing the section)
     build(): void {}
 
     // Update method to check player interactions with shop items and pickup spots
     update(time?: TimeS, delta?: TimeMS): void {
-        // Check if the player is looking at any of the shop items (Shelves or Boxes)
+        // Check if the player is looking at any of the shop items (shelves or boxes)
         this.player.checkLookingAtShopItems(this.items);
         // Check if the player is looking at any of the pickup spots
         this.player.checkLookingAtPickupSpot(this.pickupSpots);
     }
 
-    // Destroy method (currently a placeholder)
+    // Destroy method (currently a placeholder, used for cleanup)
     destroy(): void {}
 }

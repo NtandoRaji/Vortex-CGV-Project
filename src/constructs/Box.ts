@@ -39,7 +39,7 @@ export class Box extends Construct {
             this.mesh = gltfData.scene;
         } catch (error) {
             // Log any error that occurs during the model loading process
-            console.log("[!] Error loading box model");
+            console.log(`[!] Error loading ${this.filename}_box model`);
             console.log(error);
         }
     }
