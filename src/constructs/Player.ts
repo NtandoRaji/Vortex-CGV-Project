@@ -34,7 +34,7 @@ export class Player extends Construct {
     holdingObject: THREE.Mesh | undefined = undefined;
     lookingAtGroceryItem: boolean = false;
     lookingAtPickupSpot: boolean = false;
-    currentGroceryItem: GroceryItem| null=null;
+
     raycaster!: THREE.Raycaster;
 
     // Movement direction state
@@ -67,7 +67,7 @@ export class Player extends Construct {
 
     // Method to initialize player components like camera and controls
     create = (): void => {
-        // Create and set up the camera
+        // Create and set up the camera - MAIN
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
         this.graphics.mainCamera = this.camera;
 

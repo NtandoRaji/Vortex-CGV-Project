@@ -3,41 +3,101 @@
     margin: 0;
     padding: 0;
 }
-
+@keyframes pulsate {
+    0%, 100% {
+        transform: scale(1); /* Original size */
+    }
+    50% {
+        transform: scale(1.1); /* Slightly larger */
+    }
+}
+@keyframes wave {
+    0%, 100% {
+        transform: translateX(0); /* Original horizontal position */
+    }
+    25% {
+        transform: translateX(-10px); /* Move left */
+    }
+    50% {
+        transform: translateX(10px); /* Move right */
+    }
+    75% {
+        transform: translateX(-5px); /* Move left slightly */
+    }
+}
+@keyframes backgroundColorChange {
+    0% {
+        background-color: #a7a7a7; /* Start with gray */
+    }
+    33% {
+        background-color: #b0b0b0; /* Light gray */
+    }
+    67% {
+        background-color: #e0e0e0; /* Very light gray */
+    }
+    100% {
+        background-color: #e8e8e8; /* End with white */
+    }
+}
+@keyframes backgroundColorReverse {
+    0% {
+        background-color: #e8e8e8; /* Start with white */
+    }
+    25% {
+        background-color: #e0e0e0; /* Very light gray */
+    }
+    50% {
+        background-color: #b0b0b0; /* Light gray */
+    }
+    75% {
+        background-color: #a1a1a1; /* Transition back to gray */
+    }
+    100% {
+        background-color: #a1a1a1; /* End with gray */
+    }
+}
 body {
     font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* Original background */
-    /* background: url('https://images.unsplash.com/photo-1519664369654-21d74c82c0db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDV8MHwxfGFsbHwxfHx8fHx8fHwxNjg1MDk1NjQ1&ixlib=rb-4.0.3&q=80&w=1920') no-repeat center center fixed; Background image */
-    /* background-size: cover;  */
-    /* background-color: #8080808b; */
-    
-     /* Randomly sized and positioned circles */
-    background-image: 
-    radial-gradient(circle at 10% 10%, #e91e63 25px, transparent 16px),  /* Pink circle */
-    radial-gradient(circle at 30% 40%, #f38321 25px, transparent 26px),  /* Orange circle */
-    radial-gradient(circle at 70% 30%, #4c9baf 35px, transparent 36px),  /* Blue circle */
-    radial-gradient(circle at 50% 80%, #27b03c 20px, transparent 21px),  /* Green circle */
-    radial-gradient(circle at 90% 20%, #9C27B0 10px, transparent 11px),  /* Purple circle */
-    radial-gradient(circle at 20% 70%, #FFEB3B 40px, transparent 31px),  /* Yellow circle */
-    radial-gradient(circle at 80% 50%, #2196F3 40px, transparent 41px),  /* Blue circle */
-    radial-gradient(circle at 15% 85%, #FF5722 28px, transparent 29px),  /* Deep Orange circle */
-    radial-gradient(circle at 35% 15%, #3F51B5 22px, transparent 23px),  /* Indigo circle */
-    radial-gradient(circle at 75% 65%, #CDDC39 18px, transparent 19px),  /* Lime circle */
-    radial-gradient(circle at 90% 80%, #673AB7 24px, transparent 25px),  /* Deep Purple circle */
-    radial-gradient(circle at 40% 30%, #FFC107 40px, transparent 31px),  /* Amber circle */
-    radial-gradient(circle at 60% 90%, #FF9800 15px, transparent 16px);  /* Orange circle */
+    overflow: hidden;
+    position: relative; /* Set relative positioning for the pseudo-element */
+    animation: backgroundColorChange 12s linear infinite alternate;
+}
 
+body::before {
+    content: ""; /* pseudo-element */
+    position: absolute; /* Position it absolutely within the body */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 10% 10%, #e91e63 25px, transparent 16px), 
+        radial-gradient(circle at 30% 40%, #f38321 25px, transparent 26px), 
+        radial-gradient(circle at 70% 30%, #4c9baf 35px, transparent 36px), 
+        radial-gradient(circle at 50% 87%, #27b03c 20px, transparent 21px), 
+        radial-gradient(circle at 90% 15%, #9C27B0 15px, transparent 11px), 
+        radial-gradient(circle at 20% 70%, #FFEB3B 40px, transparent 31px), 
+        radial-gradient(circle at 84% 38%, #2196F3 40px, transparent 41px), 
+        radial-gradient(circle at 15% 85%, #FF5722 28px, transparent 29px), 
+        radial-gradient(circle at 35% 15%, #3F51B5 22px, transparent 23px), 
+        radial-gradient(circle at 75% 65%, #CDDC39 18px, transparent 19px), 
+        radial-gradient(circle at 90% 80%, #673AB7 24px, transparent 25px), 
+        radial-gradient(circle at 55% 10%, #FFC107 40px, transparent 31px), 
+        radial-gradient(circle at 60% 90%, #FF9800 15px, transparent 16px),
+        radial-gradient(circle at 14% 50%, #e57a7a 30px, transparent 31px);
     background-size: 100% 100%; /* Cover entire body */
-    background-repeat: no-repeat; /* Prevent repetition */
+    background-repeat: no-repeat;
+    animation: pulsate 12s ease-in-out infinite;
+    z-index: -1; /* Place it behind other content */
 }
 
 .menu-container {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.841); /* Semi-transparent background */
+    background-color: rgba(237, 235, 235, 0.841); /* Semi-transparent background */
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), /*large dark shadow*/
@@ -45,12 +105,30 @@ body {
     outline: 10px solid #4e4e4e;
     outline-offset: 5px;
 }
-
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0%;
+        color: transparent; /* Make text transparent for gradient effect */
+    }
+    50% {
+        background-position: 100%;
+        color: transparent; /* Still transparent to show gradient */
+    }
+    100% {
+        background-position: 0%;
+        color: black; /* Change back to black */
+    }
+}
 h1 {
-    font-size: 4rem;
-    margin-bottom: 20px;
-    color: #313131;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow for h1 */
+    font-size: 4rem; /* Original font size */
+    margin-bottom: 20px; /* Original margin */
+    /* color: transparent; Start with transparent color for gradient effect */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Original text shadow */
+    /* background: linear-gradient(90deg, #ffcccb, #add8e6, #ffb347, #ff77a1, #d3ffce); Array of pastels */
+    background-size: 300% 100%; /* Allows for smooth animation */
+    -webkit-background-clip: text; /* For Safari compatibility */
+    background-clip: text; /* Clipping background to text */
+    /* animation: gradientAnimation 5s ease infinite; Adjust duration as needed */
 }
 .menu-buttons {
     display: flex;
