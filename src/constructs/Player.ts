@@ -348,12 +348,24 @@ private setUpTimer(){
         }
         //if game is paused, i.e. isPaused true, ignore normal key movements
         //player can only jump & change camera view if the game is paused
-        if(this.isPaused){return;}
+        if(this.isPaused && !this.isTopView){return;}
 
         //top view event
         if(event.key === 'c' || event.key==='C'){this.toggleTopVieww(); return;}
+        
         // If top view is active, ignore movement keys
-        if(this.isTopView) {return;}
+        if(this.isTopView) {
+            scope.direction.forward = 0;
+            scope.direction.backward = 0;
+            scope.direction.left = 0;
+            scope.direction.right = 0;
+            // console.log("Top view active, movement disabled."); // Debug log
+            if (event.key === ' ' || event.key === 'Spacebar') {
+                // console.log("Jump disabled in top view."); // Debug log for jump
+                return 0; // Prevent jumping in top view
+            }
+            return; 
+        }
 
         if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 1; }
         if (event.key == 's' || event.key == 'S') { scope.direction.backward = 1; }
