@@ -28,7 +28,7 @@ export class SectionB extends Section {
         // Predefined positions and rotations for each shelf
         const shelfPositions = [
             [0, 5, 17], [0, 5, 8.5], [0, 5, 0], [0, 5, -8.5], 
-            [-4, 5, 17], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
+            [-5, 5, 17], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
             [-2, 5, -14.5]
         ];
         const shelfRotations = [
