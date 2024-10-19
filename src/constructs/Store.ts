@@ -8,8 +8,9 @@ import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 
 import { CashierCounter } from "./CashierCounter";
 import { Player } from "./Player";
+import { SectionB } from "./SectionB";
 import { SectionC } from "./SectionC";
-// import { SectionB } from "./SectionB";
+import { SectionD } from "./SectionD";
 import { Shelf } from "./Shelf";
 import { PickupSpot } from "./PickupSpot";
 import { FruitsSection } from "./FruitsSection";
@@ -60,6 +61,10 @@ export class Store extends Construct {
         // this.sections.push(fruitSection);
         // this.addConstruct(fruitSection);
 
+        const sectionD = new SectionD(graphics, physics, interactions, userInterface);
+        this.sections.push(sectionD);
+        this.addConstruct(sectionD);
+
         const sectionB = new SectionB(graphics, physics, interactions, userInterface);
         this.sections.push(sectionB);
         this.addConstruct(sectionB);
@@ -79,7 +84,7 @@ export class Store extends Construct {
 
         // --- Place Sections ---
         // TODO: Position new sections
-        const sectionsPositions = [[0, 0, -30], [40, 0, -2.5 - 30]];
+        const sectionsPositions = [[-40, 0, -30], [0, 0 , - 30], [40, 0, -2.5 - 30]];
         for (let i = 0; i < this.sections.length; i++){
             const position = sectionsPositions[i];
             this.sections[i].root.position.set(position[0], position[1], position[2]);

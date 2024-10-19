@@ -11,7 +11,7 @@ import { Box } from "./Box";
 import { Section } from "./Section";
 
 // Define the SectionD class, which extends the Section class
-export class SectionB extends Section {
+export class SectionD extends Section {
     // Constructor method for SectionD to initialize necessary contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
         // Call the superclass constructor
@@ -23,7 +23,7 @@ export class SectionB extends Section {
         // --- Create and Position Shelves ---
 
         // Array of shelf names representing the items
-        const shelfNames = ["mens_bodywash", "aloe_bodywash", "gentle_bodywash", "oat_bodywash", "soy_milk", "oat_milk", "low_fat_milk", "full_milk", "yeast_spread"];
+        const shelfNames = ["tomato_sauce", "mustard_sauce", "mayo_sauce", "bbq_sauce", "peps_c", "orange_twist", "sprite", "sparberry", "jelly"];
 
         // Predefined positions and rotations for each shelf
         const shelfPositions = [
