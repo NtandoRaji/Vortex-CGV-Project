@@ -107,15 +107,6 @@ export class Player extends Construct {
 
 private setUpList(): void {
     this.list = document.createElement("div");
-
-    this.list.id = "listId";
-    this.list.style.position = "absolute";
-    this.list.style.top = "15%";
-    this.list.style.left = "1%";
-    this.list.style.background = "white";
-    this.list.style.width = "20%";
-    this.list.style.fontFamily = "Arial, sans-serif";
-    this.list.style.borderRadius = "8px";
     generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
     document.body.appendChild(this.list);
   }
