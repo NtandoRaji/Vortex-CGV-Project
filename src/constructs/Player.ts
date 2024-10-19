@@ -55,7 +55,7 @@ export class Player extends Construct {
 
         // Capture the current instance scope for event listeners
         scope = this;
-        document.addEventListener("keydown", this.onKeyDown.bind(this)); // Ensure context is bound needed this for pause
+        document.addEventListener("keydown", this.onKeyDown.bind(this)); // Ensure context is bound - needed this for pause
     }
 
     // Method to initialize player components like camera and controls
@@ -487,7 +487,7 @@ export class Player extends Construct {
                 this.startTimer();
             }
         }
-        //if game is paused, ignore normal key movements
+        //if game is paused, i.e. isPaused true, ignore normal key movements
         //player can only jump & change camera view if the game is paused
         if(this.isPaused){
             return;
