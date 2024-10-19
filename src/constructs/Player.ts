@@ -34,7 +34,7 @@ export class Player extends Construct {
     holdingObject: THREE.Mesh | undefined = undefined;
     lookingAtGroceryItem: boolean = false;
     lookingAtPickupSpot: boolean = false;
-
+    currentGroceryItem: GroceryItem| null=null;
     raycaster!: THREE.Raycaster;
 
     // Movement direction state
