@@ -10,7 +10,7 @@ export const items: Item[] = [
     { name: "Banana", image: "/icons/banana.png" },
     { name: "BBQ Sauce", image: "/icons/bbq_sauce.png" },
     { name: "Can of Beans", image: "/icons/beans_can.png" },
-    { name: "Sundae", image: "/icons/beets_can.png" },//CHANGE THIS
+    { name: "Can of Beets", image: "/icons/beets_can.png" },
     { name: "Caramel Cereal", image: "/icons/caramel_cereal.png" },
     { name: "Carrot", image: "/icons/carrot.png" },
     { name: "Can of Carrots", image: "/icons/carrots_can.png" },
