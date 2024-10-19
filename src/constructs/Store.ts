@@ -8,6 +8,12 @@ import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 
 import { CashierCounter } from "./CashierCounter";
 import { Player } from "./Player";
+import { SectionC } from "./SectionC";
+import { Shelf } from "./Shelf";
+import { PickupSpot } from "./PickupSpot";
+import { FruitsSection } from "./FruitsSection";
+import { Box } from "./Box";
+import { Section } from "./Section";
 
 
 export class Store extends Construct {
@@ -17,10 +23,15 @@ export class Store extends Construct {
     walls!: Array<THREE.Mesh>;
     wallTexture!: THREE.MeshStandardMaterial;
 
-    storeDimensions: Array<number> = [100, 20, 100];
+    storeDimensions: Array<number> = [150, 20, 150];
     floor!: any;
     floorTexture!: THREE.MeshLambertMaterial;
     textureFloorData!:any;
+
+    //Store sections
+    sections: Array<Section> = [];
+    shopItems: Array<Shelf> | Array<Box> = [];
+    shopPickupSpots: Array<PickupSpot> = [];
 
     //Game loop stuff
     player!: Player;
@@ -36,14 +47,33 @@ export class Store extends Construct {
         this.cashierCounter = new CashierCounter(graphics, physics, interactions, userInterface);
         this.addConstruct(this.cashierCounter);
 
+        // Add Sections
+        // TODO: Add more sections
+        const sectionC = new SectionC(graphics, physics, interactions, userInterface);
+        this.sections.push(sectionC);
+        this.addConstruct(sectionC);
+
+        const fruitSection = new FruitsSection(graphics, physics, interactions, userInterface);
+        this.sections.push(fruitSection);
+        this.addConstruct(fruitSection);
     }
 
     create(): void {    
         // Place Player
-        this.player.root.position.set(40, 10, 35);
+        this.player.root.position.set(50, 10, 35);
 
         // Place Cashier Counter
-        this.cashierCounter.root.position.set(40, 1.5, 40);
+        this.cashierCounter.root.position.set(50, 1.5, 40);
+        this.cashierCounter.root.scale.setScalar(1.3);
+
+        // --- Place Sections ---
+        // TODO: Position new sections
+        const sectionsPositions = [[0, 0, -30], [40, 0, -2.5 - 30]];
+        for (let i = 0; i < this.sections.length; i++){
+            const position = sectionsPositions[i];
+            this.sections[i].root.position.set(position[0], position[1], position[2]);
+        }
+        // -------------------------
     }
 
     async load(): Promise<void> {
@@ -116,6 +146,13 @@ export class Store extends Construct {
         this.add(ceiling);
         // ---------------------
 
+        // --- Get Section Items & Pickup Spots ---
+        for (let i = 0; i < this.sections.length; i++){
+            this.shopItems.push(...this.sections[i].getItems());
+            this.shopPickupSpots.push(...this.sections[i].getPickupSpots());
+        }
+        // ----------------------------------------
+
         const light = new THREE.PointLight(0xffffff, 1, 100, 0);
         light.position.set(20, 20, 5);
         this.add(light);
@@ -125,7 +162,14 @@ export class Store extends Construct {
         this.add(ambientLight);
     }
 
-    update(time?: TimeS, delta?: TimeMS): void {}
+    // Update method to check player interactions with shop items and pickup spots
+    update(time?: TimeS, delta?: TimeMS): void {
+        // Check if the player is looking at any of the shop items (shelves or boxes)
+        this.player.checkLookingAtShopItems(this.shopItems);
+        // Check if the player is looking at any of the pickup spots
+        this.player.checkLookingAtPickupSpot(this.shopPickupSpots);
+    }
 
+    // Destroy method (currently a placeholder, used for cleanup)
     destroy(): void {}
 }

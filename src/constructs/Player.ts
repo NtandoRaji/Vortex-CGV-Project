@@ -7,6 +7,8 @@ import { InterfaceContext } from '../lib/w3ads/InterfaceContext';
 //@ts-ignore
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
 import { GroceryItem } from './GroceryItem';
+import { PickupSpot } from './PickupSpot';
+import { Shelf } from './Shelf';
 import { Box } from './Box';
 import { generateAndDisplayGroceryItems,updateList } from './listGenerationUI';
 
@@ -75,6 +77,7 @@ export class Player extends Construct {
             const inHandScale = object.userData.inHandScale;
             object.removeFromParent();
             object.position.set(2, -1.5, -2);
+            object.rotation.set(0, Math.PI / 4, Math.PI / 2);
             object.scale.setScalar(inHandScale);
             this.holdingObject = object;
             this.camera.add(object);
@@ -138,7 +141,8 @@ private setUpList(): void {
         this.timer.style.fontFamily = 'Arial, sans-serif';
         document.body.appendChild(this.timer);
 
-        this.startTimer();
+        // [!] Uncomment to start timer
+        // this.startTimer(); 
     }
     // Function to format the time as "Timer: MM:SS"
     private formatTime(): string {
@@ -404,7 +408,20 @@ private setUpList(): void {
         return this.currentGroceryItem ? this.currentGroceryItem.getName() : null; // Return name if looking at an item
     }
 
-    checkLookingAtPickupSpot = (pickupSpots: Box[]) : void => {
+    checkLookingAtShopItems(shopItems: Shelf[] | Box[]) : void {
+        this.lookingAtGroceryItem = false;
+        for (let i = 0; i < shopItems.length; i++){
+            const intersects = this.raycaster.intersectObject(shopItems[i].root);
+            shopItems[i].setBeingLookedAt(false);
+
+            if (intersects.length > 0 && !this.lookingAtGroceryItem){
+                this.lookingAtGroceryItem = true;
+                shopItems[i].setBeingLookedAt(true);
+            }
+        }
+    }
+    
+    checkLookingAtPickupSpot = (pickupSpots: PickupSpot[]) : void => {
         this.lookingAtPickupSpot = false;
 
         for (let i = 0; i < pickupSpots.length; i++){
