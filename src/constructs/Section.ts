@@ -6,7 +6,6 @@ import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
 import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 import { Shelf } from "./Shelf";
 import { PickupSpot } from "./PickupSpot";
-import { Player } from "./Player";
 import { Box } from "./Box";
 
 // Define the Section class, which extends the Construct class

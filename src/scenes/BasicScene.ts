@@ -60,8 +60,7 @@ export class BasicScene extends Scene {
                 this.interactions,
                 this.userInterface,
                 itemNames[i % itemNames.length],
-                i,
-                2
+                [2, 2, 2]
             );
             this.groceryItems.push(item);
             this.addConstruct(item);
