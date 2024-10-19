@@ -12,9 +12,7 @@
 		{
 			"name":"Scene",
 			"nodes":[
-				0,
-				1,
-				2
+				0
 			]
 		}
 	],
@@ -22,50 +20,23 @@
 		{
 			"mesh":0,
 			"name":"Cube.001",
+			"rotation":[
+				0,
+				0.6981587409973145,
+				0,
+				0.7159429788589478
+			],
 			"scale":[
 				1,
 				0.5268014073371887,
-				1.3792020082473755
-			],
-			"translation":[
-				8.834734916687012,
-				4.296387672424316,
-				-3.4327683448791504
-			]
-		},
-		{
-			"mesh":1,
-			"name":"apple_001.001",
-			"scale":[
-				8.25,
-				8.25,
-				8.25
-			],
-			"translation":[
-				9.356523513793945,
-				3.8670907020568848,
-				-1.7783998250961304
-			]
-		},
-		{
-			"mesh":2,
-			"name":"apple_001.003",
-			"scale":[
-				8.25,
-				8.25,
-				8.25
-			],
-			"translation":[
-				4.825675010681152,
-				3.8670907020568848,
-				-1.7783998250961304
+				1.379201889038086
 			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"Material.002",
+			"name":"Material.149",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
 					0.48288780450820923,
@@ -91,7 +62,7 @@
 					"ior":1.4500000476837158
 				}
 			},
-			"name":"Material.003",
+			"name":"Material.150",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -103,7 +74,7 @@
 	],
 	"meshes":[
 		{
-			"name":"Cube.004",
+			"name":"Cube.003",
 			"primitives":[
 				{
 					"attributes":{
@@ -113,31 +84,12 @@
 					},
 					"indices":3,
 					"material":0
-				}
-			]
-		},
-		{
-			"name":"Mesh.031",
-			"primitives":[
+				},
 				{
 					"attributes":{
 						"POSITION":4,
 						"NORMAL":5,
 						"TEXCOORD_0":6
-					},
-					"indices":7,
-					"material":1
-				}
-			]
-		},
-		{
-			"name":"Mesh.002",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":8,
-						"NORMAL":9,
-						"TEXCOORD_0":10
 					},
 					"indices":7,
 					"material":1
@@ -196,64 +148,36 @@
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":10090,
+			"count":20540,
 			"max":[
-				0.47028690576553345,
-				0.07220910489559174,
-				0.04254448041319847
+				4.4016547203063965,
+				0.3159220218658447,
+				1.4540005922317505
 			],
 			"min":[
-				-0.04266775771975517,
-				6.63039754726924e-05,
-				-0.45640310645103455
+				-4.361069679260254,
+				-0.8138739466667175,
+				-1.5305644273757935
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":5,
 			"componentType":5126,
-			"count":10090,
+			"count":20540,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":10090,
+			"count":20540,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":7,
 			"componentType":5123,
-			"count":12960,
+			"count":25920,
 			"type":"SCALAR"
-		},
-		{
-			"bufferView":8,
-			"componentType":5126,
-			"count":10090,
-			"max":[
-				0.47028690576553345,
-				0.07220910489559174,
-				0.04254448041319847
-			],
-			"min":[
-				-0.04266775771975517,
-				6.63039754726924e-05,
-				-0.45640310645103455
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":9,
-			"componentType":5126,
-			"count":10090,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":10,
-			"componentType":5126,
-			"count":10090,
-			"type":"VEC2"
 		}
 	],
 	"bufferViews":[
@@ -283,45 +207,27 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":121080,
+			"byteLength":246480,
 			"byteOffset":2544,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":121080,
-			"byteOffset":123624,
+			"byteLength":246480,
+			"byteOffset":249024,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":80720,
-			"byteOffset":244704,
+			"byteLength":164320,
+			"byteOffset":495504,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":25920,
-			"byteOffset":325424,
+			"byteLength":51840,
+			"byteOffset":659824,
 			"target":34963
-		},
-		{
-			"buffer":0,
-			"byteLength":121080,
-			"byteOffset":351344,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":121080,
-			"byteOffset":472424,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":80720,
-			"byteOffset":593504,
-			"target":34962
 		}
 	],
 	"samplers":[
@@ -332,7 +238,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":674224,
+			"byteLength":711664,
 			"uri":"red_apple_box.bin"
 		}
 	]

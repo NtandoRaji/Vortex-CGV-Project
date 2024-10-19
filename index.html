@@ -22,28 +22,34 @@
     <!-- How to Play Popup -->
      <div class="popup-wrapper" id="how-to-play-wrapper">
         <div class="popup" id="how-to-play-popup">
-            <h2>How to Play</h2><br>
+            <h2 id="how-to-text">How to Play</h2><br>
             <ul>
-                <li>Use the WASD keys to navigate and control the character.</li>
-                <li>Use the "C" key to change the current scene.</li>
-                <li>Use the "E" key to interact/pick up an object.</li>
-                <li>Use the "Q" key to place the object.</li>
+                <li>Use the <b id="how-to-text">WASD</b> keys to navigate and control the character.</li>
+                <li>Use the <b id="how-to-text">"C"</b> key to change the current scene.</li>
+                <li>Use the <b id="how-to-text">"E"</b> key to interact/pick up an object.</li>
+                <li>Use the <b id="how-to-text">"Q"</b> key to place the object.</li>
             </ul>
             <span class="close-btn" id="close-how-to-play">Close</span>
         </div>
      </div>
     
-
     <!-- Credits Popup -->
      <div class="popup-wrapper" id="credits-popup-wrapper">
         <div class="popup" id="credits-popup">
-            <h2>Credits</h2>
-            <h3>Developers:</h3>
+            <h2 id="credits-headings">Credits</h2>
+            <h3 id="credits-headings">Developers:</h3>
             <p>Tania Bantam, Ntando Raji, Shaneel Kassen, Yassir Ali, Jaedon Moodley, Taruna Naidoo</p>
-            <h3>Game Engine</h3>
+            <h3 id="credits-headings">Game Engine</h3>
             <p>Brenden Giffiths. Explain exactly what was used</p>
-            <h3>Models</h3>
-            <p>Poly</p>
+            <h3 id="credits-headings">Models</h3>
+            <ul>
+                <li>Carton by Kenney (https://poly.pizza/m/T2QjC2ZQya)</li>
+                <li>Peanut Butter by Kenney (https://poly.pizza/m/t3G8zaLjYe)</li>
+                <li>Orange by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/)via Poly Pizza (https://poly.pizza/m/9KbFqwZAqn2)</li>
+                <li>Banana by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/ahOO6wz8sV0)</li>
+                <li>Soda by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/2w4Av7jJ2_B)</li>
+                <li>Container Bathroom A by Isa Lousberg (https://poly.pizza/m/xddz7Cu53w)</li>
+            </ul>
             <br><span class="close-btn" id="close-credits">Close</span>
         </div>
      </div>
@@ -51,7 +57,7 @@
     <!-- Settings Popup -->
     <div class="popup-wrapper" id="settings-popup-wrapper"> <!-- Added Settings Popup -->
         <div class="popup" id="settings-popup">
-            <h2>Settings</h2><br>
+            <h2 id="setting-heading">Settings</h2><br>
             <label for="volume">Volume:</label>
             <input type="range" id="volume" name="volume" min="0" max="100"><br><br>
             <span class="close-btn" id="close-settings">Close</span>

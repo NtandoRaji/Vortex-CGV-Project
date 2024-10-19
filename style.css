@@ -52,7 +52,6 @@ h1 {
     color: #313131;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow for h1 */
 }
-
 .menu-buttons {
     display: flex;
     flex-direction: column;
@@ -74,7 +73,6 @@ h1 {
 .menu-btn:hover {
     transform: translateY(-5px); /* Button lift effect on hover */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
-    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
     outline: 5px solid #313131;
     outline-offset: 5px;
 
@@ -88,15 +86,26 @@ h1 {
 #play-btn{
     background-color: #568fc4;
 }
-
+#play-btn:hover{
+    box-shadow: 0 0 20px 10px #568fc4;
+}
 #how-to-play-btn{
     background-color: #d34283;
+}
+#how-to-play-btn:hover{
+    box-shadow: 0 0 20px 10px #d34283;
 }
 #credits-btn{
     background-color: rgba(60, 126, 54, 0.888);
 }
+#credits-btn:hover{
+    box-shadow: 0 0 20px 10px rgba(60, 126, 54, 0.888);
+}
 #settings-btn{
     background-color: rgba(198, 73, 38, 0.888);
+}
+#settings-btn:hover{
+    box-shadow: 0 0 20px 10px rgba(198, 73, 38, 0.888);
 }
 /* styles for the pop-up menus */
 .popup {
@@ -106,18 +115,37 @@ h1 {
     top: 50%;
     transform: translate(-50%, -50%);
     background-color: rgb(255, 255, 255);
-    border-width: 10px; /* Set the border width */
-    border-style: solid; /* Set border style */
-    border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1; /* Multicolored border */
+    border-width: 10px; 
+    border-style: solid;
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    width: 300px; /* Set width for the popup */
+    width: 500px;
+    max-height: 80vh;
+    overflow-y:auto;
     background-clip: padding-box; /* Ensure background colour doesn't cover border */
+}
+#how-to-play-popup {
+    border-color: #d34283; /* Match with how to play button */
+}
+#credits-popup {
+    border-color: rgba(60, 126, 54, 0.888); /* Match with credits button */
+}
+#settings-popup {
+    border-color: rgba(198, 73, 38, 0.888); /* Match with settings button */
 }
 .popup.active {
     display: block; /* Show the popup */
+}
+#how-to-text{
+    color:#e91e63;
+}
+#credits-headings{
+    color: rgba(60, 126, 54, 0.888);
+}
+#setting-heading{
+    color:rgba(198, 73, 38, 0.888);
 }
 .overlay {
     display: none; /* Initially hidden */
@@ -135,7 +163,7 @@ h1 {
 
 .close-btn {
     margin-left: auto; /* Push the button to the right */
-    background-color: rgb(255, 98, 0);
+    background-color: rgb(110, 102, 97);
     color: white; /* Text color */
     padding: 10px 20px; /* Padding around the text */
     border: none; /* Remove default border */
@@ -149,7 +177,9 @@ h1 {
     width: 80px;
 }
 .close-btn:hover{
-    background-color: rgb(90, 200, 0);
+    background-color: rgb(10, 10, 10);
+    outline: 5px solid #313131;
+    outline-offset: 5px;
 }
 .popup ul {
     list-style-type: square; /* Remove default bullets */

@@ -39,7 +39,7 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 15; // 2 minutes in seconds
+    timeRemaining: number = 2; // 2 minutes in seconds
     timerInterval!: any;
 
     pauseButton!:HTMLButtonElement; //pause button
@@ -295,6 +295,7 @@ export class Player extends Construct {
     
         const message = document.createElement('h1');
         message.textContent = "Mission Failed! We'll get 'em next time";
+        message.id = 'mission-text';
         missionFailedContainer.appendChild(message);
     
         const buttonContainer = document.createElement('div');
@@ -304,6 +305,7 @@ export class Player extends Construct {
         const backToMenuButton = document.createElement('button');
         backToMenuButton.textContent = 'Back to Menu';
         backToMenuButton.className = 'menu-btn';
+        backToMenuButton.id = 'back-to-btn';
         backToMenuButton.onclick = () => {
             window.location.href = '../index.html'; // Navigate back to menu
         };
@@ -312,6 +314,7 @@ export class Player extends Construct {
         const restartLevelButton = document.createElement('button');
         restartLevelButton.textContent = 'Restart Level';
         restartLevelButton.className = 'menu-btn';
+        restartLevelButton.id = 'restart-btn';
         restartLevelButton.onclick = () => {
             window.location.href = '../indexGame.html'; // Restart the game
         };
@@ -350,6 +353,8 @@ export class Player extends Construct {
                 border-radius: 15px;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
                 z-index: 1000; /* Ensure the mission failed message is above the overlay */
+                outline: 10px solid #FF0000;
+                outline-offset: 5px;
             }
             .mission-failed-container h1 {
                 font-size: 4rem;
@@ -365,21 +370,34 @@ export class Player extends Construct {
             .menu-btn {
                 padding: 15px 30px;
                 font-size: 1.5rem;
+                font-weight:bold;
                 color: #fff;
-                background: linear-gradient(45deg, #6a1b9a, #4a148c, #2196F3, #4CAF50, #D81B60);
                 border: none;
                 border-radius: 25px;
                 cursor: pointer;
                 transition: transform 0.3s, box-shadow 0.3s;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                color:#313131;
             }
             .menu-btn:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
+                outline: 5px solid #313131;
+                outline-offset: 5px;
             }
             .menu-btn:active {
                 transform: translateY(2px);
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+            #mission-text{
+                color:#313131;            
+            }           
+            #back-to-btn{
+                background-color: #568fc4;
+            }
+            #restart-btn{
+                background-color: rgba(60, 126, 54, 0.888);
             }
         `;
         document.head.appendChild(style);
