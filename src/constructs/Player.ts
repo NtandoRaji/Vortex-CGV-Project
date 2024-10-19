@@ -487,10 +487,16 @@ export class Player extends Construct {
                 this.startTimer();
             }
         }
-        if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 1; }
-        if (event.key == 's' || event.key == 'S') { scope.direction.backward = 1; }
-        if (event.key == 'a' || event.key == 'A') { scope.direction.left = 1; }
-        if (event.key == 'd' || event.key == 'D') { scope.direction.right = 1; }
+        //if game is paused, ignore normal key movements
+        //player can only jump & change camera view if the game is paused
+        if(this.isPaused){
+            return;
+        }
+        
+        if (event.key == 'w' || event.key == 'W' && this.isPaused===false) { scope.direction.forward = 1; }
+        if (event.key == 's' || event.key == 'S' && this.isPaused===false) { scope.direction.backward = 1; }
+        if (event.key == 'a' || event.key == 'A'  && this.isPaused===false) { scope.direction.left = 1; }
+        if (event.key == 'd' || event.key == 'D' && this.isPaused===false) { scope.direction.right = 1; }
         if (event.key == 'Shift') { scope.speed = sprintSpeed; }
     }
 
