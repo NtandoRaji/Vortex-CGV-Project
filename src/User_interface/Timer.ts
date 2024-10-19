@@ -1,6 +1,6 @@
 import { showGameOverMenu } from './gameOverMenu';
 
-let timerInterval: ReturnType<typeof setInterval>; // Change to this
+let timerInterval: ReturnType<typeof setInterval> | null = null;
 let timeRemaining: number;
 let timerElement: HTMLDivElement;
 
@@ -9,7 +9,9 @@ export function setUpTimer(minutes: number, containerId: string): void {
     const existingTimer = document.querySelector(`#${containerId}`);
     if (existingTimer) {
         existingTimer.remove();
-        clearInterval(timerInterval);
+        if (timerInterval) {
+            clearInterval(timerInterval); // Clear the existing timer
+        }
     }
 
     // Set up the new timer
@@ -51,7 +53,9 @@ function updateTimer(): void {
     if (timeRemaining > 0) {
         timeRemaining--;
     } else {
-        clearInterval(timerInterval);
+        if (timerInterval) {
+            clearInterval(timerInterval); // Clear the existing timer
+        }
         timerElement.textContent = "Timer: Time's up!";
         showGameOverMenu();
         // Trigger end-of-timer actions (e.g. game over)
@@ -60,4 +64,12 @@ function updateTimer(): void {
 
 function startTimer(): void {
     timerInterval = setInterval(() => updateTimer(), 1000);
+}
+export function stopTimer(): void {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null; // Optionally reset the interval variable
+    }
+    // Optionally, update the UI or perform any other actions when stopping the timer
+    timerElement.textContent = "Timer stopped!";
 }

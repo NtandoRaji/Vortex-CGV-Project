@@ -11,8 +11,9 @@ import { PickupSpot } from './PickupSpot';
 import { Shelf } from './Shelf';
 import { Box } from './Box';
 import { generateAndDisplayGroceryItems,updateList } from '../User_interface/listGenerationUI';
-import { setUpTimer } from '../User_interface/Timer';
+import { setUpTimer, stopTimer } from '../User_interface/Timer';
 import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
+import { showGameOverMenu } from '../User_interface/gameOverMenu';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 2;
@@ -44,7 +45,7 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 10; // 2 minutes in seconds
+    timeRemaining: number = 100; // 2 minutes in seconds
     timerInterval!: any;
     list!:any;
     amountOfItemsToFind: number = 1; // Choose how many items to generate for the Player
@@ -89,7 +90,7 @@ export class Player extends Construct {
                 // count up if it is an item on the list
                 this.foundItems += 1;
                 if (this.foundItems === scope.amountOfItemsToFind) {
-                    console.log("PASS");
+                    console.log("Game Won!");
                 }
             }
             else{
@@ -99,10 +100,9 @@ export class Player extends Construct {
                     console.log("FAIL");
                     updateLivesDisplay(this.livesDisplay.id,this.lives); // Update display
                 }
-                
-                if (this.lives === 0) {
-                    // Handle game over scenario
-                    this.handleGameOver();
+                if(this.lives == 0 ){
+                    stopTimer();
+                    showGameOverMenu();
                 }
             }
             // 
@@ -148,13 +148,6 @@ private setUpList(): void {
     generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
   }
 
-      // Game over handling (you can customize this)
-      private handleGameOver(): void {
-        clearInterval(this.timerInterval); // Stop timer if needed
-        // Show game over screen, stop player controls, etc.
-        console.log("Game Over");
-        // Additional game over logic...
-    }
 
 private setUpLifeDisplay(){
     this.livesDisplay = document.createElement("div");
