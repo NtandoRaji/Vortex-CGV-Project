@@ -47,12 +47,15 @@ export class Player extends Construct {
     livesDisplay!: HTMLElement;
     lives: number = 3;
 
+    private isPaused: boolean = false;
+
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
         super(graphics, physics, interactions, userInterface);
 
         // Capture the current instance scope for event listeners
         scope = this;
+        document.addEventListener("keydown", this.onKeyDown.bind(this)); // Ensure context is bound needed this for pause
     }
 
     // Method to initialize player components like camera and controls
@@ -165,27 +168,6 @@ export class Player extends Construct {
             this.livesDisplay.appendChild(heartImage); // Append the heart image to the lives display
             }
     }
-
-    // Call this method when the player loses a life
-    public loseLife(): void {
-        if (this.lives > 0) {
-            this.lives--; // Decrease lives
-            this.updateLivesDisplay(); // Update display
-        }
-        
-        if (this.lives === 0) {
-            // Handle game over scenario
-            this.handleGameOver();
-        }
-    }
-
-    // Game over handling (you can customize this)
-    private handleGameOver(): void {
-        clearInterval(this.timerInterval); // Stop timer if needed
-        // Show game over screen, stop player controls, etc.
-        console.log("Game Over");
-        // Additional game over logic...
-    }
     // Function to format the time as "Timer: MM:SS"
     private formatTime(): string {
         let minutes = Math.floor(this.timeRemaining / 60);
@@ -199,6 +181,9 @@ export class Player extends Construct {
 
     // Function to update the timer display and handle when timer ends
     private updateTimer(): void {
+        //if paused skip timer update
+        if(this.isPaused) return;
+
         // Update the displayed time
         this.timer.textContent = this.formatTime();
 
@@ -493,6 +478,15 @@ export class Player extends Construct {
 
     // Keyboard event handlers for movement keys and speed adjustment
     onKeyDown(event: KeyboardEvent) {
+        if (event.key == 'p' || event.key == 'P') { //pause timer functionalit
+            this.isPaused = !this.isPaused;
+            if(this.isPaused){
+                clearInterval(this.timerInterval);
+            }
+            else{
+                this.startTimer();
+            }
+        }
         if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 1; }
         if (event.key == 's' || event.key == 'S') { scope.direction.backward = 1; }
         if (event.key == 'a' || event.key == 'A') { scope.direction.left = 1; }
