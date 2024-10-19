@@ -15,23 +15,18 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Cube.001",
+			"name":"Cube.024",
 			"scale":[
 				2,
 				0.25999999046325684,
 				4
-			],
-			"translation":[
-				0,
-				5,
-				0
 			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"Material.007",
+			"name":"Material.113",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
 					0.2653980851173401,
@@ -45,7 +40,7 @@
 		},
 		{
 			"doubleSided":true,
-			"name":"Material.008",
+			"name":"Material.114",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
 					0.2653980851173401,
@@ -59,7 +54,7 @@
 		},
 		{
 			"doubleSided":true,
-			"name":"Material.009",
+			"name":"Material.115",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
 					0.2653980851173401,
@@ -73,7 +68,7 @@
 		},
 		{
 			"doubleSided":true,
-			"name":"Material.026",
+			"name":"Material.116",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -85,7 +80,7 @@
 	],
 	"meshes":[
 		{
-			"name":"Cube.001",
+			"name":"Cube.034",
 			"primitives":[
 				{
 					"attributes":{
@@ -239,29 +234,29 @@
 		{
 			"bufferView":11,
 			"componentType":5126,
-			"count":18108,
+			"count":18255,
 			"max":[
-				0.8857861757278442,
-				16.835500717163086,
-				0.8552110195159912
+				0.8534723520278931,
+				-2.189154624938965,
+				0.850860595703125
 			],
 			"min":[
-				0.5764898657798767,
-				-17.474746704101562,
-				-0.8458694219589233
+				0.5441760420799255,
+				-36.49940490722656,
+				-0.8502198457717896
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":12,
 			"componentType":5126,
-			"count":18108,
+			"count":18255,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":13,
 			"componentType":5126,
-			"count":18108,
+			"count":18255,
 			"type":"VEC2"
 		},
 		{
@@ -340,26 +335,26 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":217296,
+			"byteLength":219060,
 			"byteOffset":6648,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":217296,
-			"byteOffset":223944,
+			"byteLength":219060,
+			"byteOffset":225708,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":144864,
-			"byteOffset":441240,
+			"byteLength":146040,
+			"byteOffset":444768,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":54912,
-			"byteOffset":586104,
+			"byteOffset":590808,
 			"target":34963
 		}
 	],
@@ -371,7 +366,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":641016,
+			"byteLength":645720,
 			"uri":"cola_shelf.bin"
 		}
 	]
