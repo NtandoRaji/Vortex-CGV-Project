@@ -7,8 +7,8 @@ export function generateAndDisplayGroceryItems(containerId: string, count: numbe
     const list = document.createElement("div");
     list.id = containerId;
     list.style.position = "absolute";
-    list.style.top = "15%";
-    list.style.left = "1%";
+    list.style.top = "10%";
+    list.style.right = "1%";
     list.style.background = "white";
     list.style.width = "20%";
     list.style.fontFamily = "Arial, sans-serif";

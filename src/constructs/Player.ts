@@ -11,6 +11,8 @@ import { PickupSpot } from './PickupSpot';
 import { Shelf } from './Shelf';
 import { Box } from './Box';
 import { generateAndDisplayGroceryItems,updateList } from '../User_interface/listGenerationUI';
+import { Timer } from '../User_interface/Timer';
+import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 2;
@@ -45,10 +47,10 @@ export class Player extends Construct {
     timeRemaining: number = 1000; // 2 minutes in seconds
     timerInterval!: any;
     list!:any;
-    amountOfItemsToFind: number = 2; // Choose how many items to generate for the Player
+    amountOfItemsToFind: number = 1; // Choose how many items to generate for the Player
     foundItems: number = 0; // Player has found nothing when game begins
-    livesDisplay!: HTMLElement;
-    lives: number = 3;
+    livesDisplay!: any;
+    lives: number = 2;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -87,12 +89,21 @@ export class Player extends Construct {
                 // count up if it is an item on the list
                 this.foundItems += 1;
                 if (this.foundItems === scope.amountOfItemsToFind) {
-                    console.log("Yo bro you did it");
+                    console.log("PASS");
                 }
             }
             else{
                 //Enter what is supposed to happen when player selects wrong thing
-                console.log("You dun goofed");
+                if (this.lives > 0) {
+                    this.lives--; // Decrease lives
+                    console.log("FAIL");
+                    updateLivesDisplay(this.livesDisplay.id,this.lives); // Update display
+                }
+                
+                if (this.lives === 0) {
+                    // Handle game over scenario
+                    this.handleGameOver();
+                }
             }
             // 
 
@@ -126,6 +137,7 @@ export class Player extends Construct {
         });
 
         this.setUpTimer();
+        this.setUpLifeDisplay();
         this.setUpList();
     }
 
@@ -134,9 +146,12 @@ private setUpList(): void {
     this.list = document.createElement("div");
     this.list.id = "grocery-list";
     generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
-    document.body.appendChild(this.list);
   }
-
+private setUpLifeDisplay(){
+    this.livesDisplay = document.createElement("div");
+    this.livesDisplay.id = "life-display";
+    setUpLives(this.livesDisplay.id,this.lives);
+}
 
     private setUpTimer():void{
         // **Check and remove any existing timer before creating a new one**
@@ -167,56 +182,9 @@ private setUpList(): void {
         // [!] Uncomment to start timer
         this.startTimer(); 
 
-        // Create the lives element
-        this.livesDisplay = document.createElement('div');
-        this.livesDisplay.id = 'lives-display';
-        this.livesDisplay.style.position = 'absolute';
-        this.livesDisplay.style.top = '65px'; // Position it below the timer
-        this.livesDisplay.style.left = '10px';
-        this.livesDisplay.style.color = '#000000'; // Text color
-        this.livesDisplay.style.background = '#36454F';
-        this.livesDisplay.style.border = '2px solid #C62828'; // Border
-        this.livesDisplay.style.borderRadius = '20px'; // Rounded corners
-        this.livesDisplay.style.padding = '10px 20px';
-        this.livesDisplay.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow for depth
-        this.livesDisplay.style.textAlign = 'center';
-        this.livesDisplay.style.fontFamily = 'Arial, sans-serif';
-        document.body.appendChild(this.livesDisplay);
-
-        // Initial update to show lives
-        this.updateLivesDisplay();
+     
     }
-
-    // Function to update the lives display with heart images
-    private updateLivesDisplay(): void {
-        // Clear the existing lives display
-        this.livesDisplay.innerHTML = ''; 
-
-        // Create heart images for each life
-        for (let i = 0; i < this.lives; i++) {
-            const heartImage = document.createElement('img');
-            heartImage.src = 'public/icons/heart.png';
-            heartImage.alt = 'Lives';
-            heartImage.style.width = '30px';
-            heartImage.style.height = '30px';
-            heartImage.style.marginRight = '5px'; // Space between hearts
-
-            this.livesDisplay.appendChild(heartImage); // Append the heart image to the lives display
-            }
-    }
-
-    // Call this method when the player loses a life
-    public loseLife(): void {
-        if (this.lives > 0) {
-            this.lives--; // Decrease lives
-            this.updateLivesDisplay(); // Update display
-        }
-        
-        if (this.lives === 0) {
-            // Handle game over scenario
-            this.handleGameOver();
-        }
-    }
+   
 
     // Game over handling (you can customize this)
     private handleGameOver(): void {
@@ -225,6 +193,7 @@ private setUpList(): void {
         console.log("Game Over");
         // Additional game over logic...
     }
+    
     // Function to format the time as "Timer: MM:SS"
     private formatTime(): string {
         let minutes = Math.floor(this.timeRemaining / 60);
