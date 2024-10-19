@@ -1,4 +1,4 @@
-import { Item, getRandomItems,displayItems, items } from './itemManager';
+import { Item, getRandomItems,displayItems, items } from '../constructs/itemManager';
 
 
 // Function to generate and display grocery items

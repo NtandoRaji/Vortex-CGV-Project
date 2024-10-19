@@ -10,7 +10,7 @@ import { GroceryItem } from './GroceryItem';
 import { PickupSpot } from './PickupSpot';
 import { Shelf } from './Shelf';
 import { Box } from './Box';
-import { generateAndDisplayGroceryItems,updateList } from './listGenerationUI';
+import { generateAndDisplayGroceryItems,updateList } from '../User_interface/listGenerationUI';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 2;
