@@ -11,7 +11,7 @@ import { PickupSpot } from './PickupSpot';
 import { Shelf } from './Shelf';
 import { Box } from './Box';
 import { generateAndDisplayGroceryItems,updateList } from '../User_interface/listGenerationUI';
-import { setUpTimer, stopTimer } from '../User_interface/Timer';
+import { setUpTimer, startTimer, stopTimer } from '../User_interface/Timer';
 import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 import { showGameOverMenu } from '../User_interface/gameOverMenu';
 import { showGameWonMenu } from '../User_interface/gameWonMenu';
@@ -54,12 +54,15 @@ export class Player extends Construct {
     livesDisplay!: any;
     lives: number = 2;
 
+    isPaused: boolean = false;
+
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
         super(graphics, physics, interactions, userInterface);
 
         // Capture the current instance scope for event listeners
         scope = this;
+        document.addEventListener("keydown", this.onKeyDown.bind(this)); // Ensure context is bound - needed this for pause
     }
 
     // Method to initialize player components like camera and controls
@@ -302,6 +305,21 @@ private setUpTimer(){
 
     // Keyboard event handlers for movement keys and speed adjustment
     onKeyDown(event: KeyboardEvent) {
+        if (event.key == 'p' || event.key == 'P') { //pause timer functionalit
+            this.isPaused = !this.isPaused;
+            if(this.isPaused){
+                stopTimer();
+            }
+            else{
+                startTimer();
+            }
+        }
+        //if game is paused, i.e. isPaused true, ignore normal key movements
+        //player can only jump & change camera view if the game is paused
+        if(this.isPaused){
+            return;
+        }
+        
         if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 1; }
         if (event.key == 's' || event.key == 'S') { scope.direction.backward = 1; }
         if (event.key == 'a' || event.key == 'A') { scope.direction.left = 1; }
