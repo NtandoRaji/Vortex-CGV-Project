@@ -47,7 +47,7 @@ export class Player extends Construct {
     livesDisplay!: HTMLElement;
     lives: number = 3;
 
-    private isPaused: boolean = false;
+    isPaused: boolean = false;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
