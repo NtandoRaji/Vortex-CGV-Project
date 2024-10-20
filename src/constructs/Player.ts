@@ -47,6 +47,7 @@ export class Player extends Construct {
     crosshair!: any;
     timer!:any;
     timeRemaining: number = 100; // 2 minutes in seconds
+    decrementValue!: number;
     timerInterval!: any;
     list!:any;
     amountOfItemsToFind: number = 1; // Choose how many items to generate for the Player
@@ -55,6 +56,8 @@ export class Player extends Construct {
     lives: number = 2;
 
     isPaused: boolean = false;
+    hasWon: boolean = false;
+    isTopView: boolean = false;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -67,7 +70,7 @@ export class Player extends Construct {
 
     // Method to initialize player components like camera and controls
     create = (): void => {
-        // Create and set up the camera
+        // Create and set up the camera - MAIN
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
         this.graphics.mainCamera = this.camera;
 
@@ -95,6 +98,7 @@ export class Player extends Construct {
                 // count up if it is an item on the list
                 this.foundItems += 1;
                 if (this.foundItems === scope.amountOfItemsToFind) {
+                    stopTimer();
                     showGameWonMenu();
                 }
             }
@@ -105,7 +109,7 @@ export class Player extends Construct {
                     this.lives--; // Decrease lives
                     updateLivesDisplay(this.livesDisplay.id,this.lives); // Update display
                 }
-                if(this.lives == 0 ){
+                if(this.lives == 0 && !this.hasWon){
                     stopTimer();
                     showGameOverMenu();
                 }
@@ -222,6 +226,7 @@ private setUpTimer(){
     // Update player state every frame, including movement and interaction prompts
     //@ts-ignore ignoring the time variable
     update = (time: number, delta: number): void => {
+        if(this.isPaused) return; //skip updating timer if game in paused state
         delta = delta / 1000;
 
         // Get the camera direction (forward vector)
@@ -261,6 +266,12 @@ private setUpTimer(){
             this.userInterface.showPrompt(this.placePrompt);
         } else {
             this.userInterface.hidePrompt(this.placePrompt);
+        }
+
+        //check game over condition
+        if (this.timeRemaining <= 0 && !this.hasWon) {
+            stopTimer();
+            showGameOverMenu();
         }
     }
 
@@ -304,24 +315,58 @@ private setUpTimer(){
             console.log("Pointer lock lost, pausing game.");
         }
     }
+    //handing pause press
+    togglePause() {
+        this.isPaused = !this.isPaused; // Toggle pause state
+        if (this.isPaused) { // If paused, stop the timer
+            stopTimer();
+        } else { // If not paused, resume the timer
+            startTimer();
+        }
+    }
+    // Add a method to toggle the bird's-eye view
+    toggleTopVieww(): void {
+        this.isTopView = !this.isTopView;
+
+        if (this.isTopView) {
+            // Move the camera to a bird's-eye view position
+            this.camera.position.set(0, 18, 0); // Adjust the height and distance as needed
+            this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Look down at the center of the scene
+        } else {
+            // Reset to the player camera view
+            this.camera.position.set(0, 3, 0); // Reset to player camera position
+            this.camera.rotation.set(0, Math.PI / 2, 0); // Adjust rotation back to normal
+        }
+    }
 
     // Keyboard event handlers for movement keys and speed adjustment
     onKeyDown(event: KeyboardEvent) {
-        if (event.key == 'p' || event.key == 'P') { //pause timer functionalit
-            this.isPaused = !this.isPaused;
-            if(this.isPaused){
-                stopTimer();
-            }
-            else{
-                startTimer();
-            }
+        //pause timer functionalit
+        if (event.key == 'p' || event.key == 'P') {
+            this.togglePause();
+            return;
         }
         //if game is paused, i.e. isPaused true, ignore normal key movements
         //player can only jump & change camera view if the game is paused
-        if(this.isPaused){
-            return;
-        }
+        if(this.isPaused && !this.isTopView){return;}
+
+        //top view event
+        if(event.key === 'c' || event.key==='C'){this.toggleTopVieww(); return;}
         
+        // If top view is active, ignore movement keys
+        if(this.isTopView) {
+            scope.direction.forward = 0;
+            scope.direction.backward = 0;
+            scope.direction.left = 0;
+            scope.direction.right = 0;
+            // console.log("Top view active, movement disabled."); // Debug log
+            if (event.key === ' ' || event.key === 'Spacebar') {
+                // console.log("Jump disabled in top view."); // Debug log for jump
+                return 0; // Prevent jumping in top view
+            }
+            return; 
+        }
+
         if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 1; }
         if (event.key == 's' || event.key == 'S') { scope.direction.backward = 1; }
         if (event.key == 'a' || event.key == 'A') { scope.direction.left = 1; }
