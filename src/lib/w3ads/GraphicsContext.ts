@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { FontLoader } from 'three/addons/loaders/FontLoader.js'
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 //@ts-expect-error
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer';

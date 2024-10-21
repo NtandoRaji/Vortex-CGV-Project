@@ -10,9 +10,9 @@ import { Player } from "./Player";
 import { Box } from "./Box";
 import { Section } from "./Section";
 
-// Define the SectionD class, which extends the Section class
-export class SectionD extends Section {
-    // Constructor method for SectionD to initialize necessary contexts
+// Define the SectionC class, which extends the Section class
+export class SectionA extends Section {
+    // Constructor method for SectionC to initialize necessary contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
         // Call the superclass constructor
         super(graphics, physics, interactions, userInterface);
@@ -23,12 +23,12 @@ export class SectionD extends Section {
         // --- Create and Position Shelves ---
 
         // Array of shelf names representing the items
-        const shelfNames = ["tomato_sauce", "mustard_sauce", "mayo_sauce", "bbq_sauce", "peps_c", "orange_twist", "sprite", "sparberry", "jelly"];
+        const shelfNames = ["lilac_bodywash", "orange_bodywash", "lemon_bodywash"," rose_bodywash","corn_cereal","caramel_cereal" , "fruit_cereal","strawberry_cereal", "nutella"];
 
         // Predefined positions and rotations for each shelf
         const shelfPositions = [
-            [0, 5, 18], [0, 5, 8.5], [0, 5, 0], [0, 5, -8.5], 
-            [-4, 5, 18], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
+            [0, 5, 17], [0, 5, 8.5], [0, 5, 0], [0, 5, -8.5], 
+            [-4, 5, 17], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
             [-2, 5, -14.5]
         ];
         const shelfRotations = [

@@ -395,6 +395,7 @@ private setUpTimer(){
         if (scope.root.userData.canInteract && scope.lookingAtGroceryItem && scope.holdingObject === undefined && !scope.paused) {
             if (event.key === 'e' || event.key === 'E') {
                 scope.root.userData.onInteract();
+                console.log(worldPos);
             }
         }
     

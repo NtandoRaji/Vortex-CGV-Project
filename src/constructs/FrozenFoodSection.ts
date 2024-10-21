@@ -23,9 +23,10 @@ export class FrozenFoodSection extends Section {
     create(): void {
         // --- Create & Place Boxes ---
         // Array of box names representing frozen foods
-        const boxesNames = ["Pepperoni Pizza", "Cheese Pizza", "Veg Pizza", "Meatball Pizza", "Fish", "Sausage"];
+        const boxesNames = ["pepperoni_pizza", "cheese_pizza", "vegetarian_pizza", "meatball_pizza", "fish", "sausage"];
         // Predefined positions and rotations for each frozen food box
-        const boxPositions = [[0, 1.5, 19], [0, 1.5, 9.5], [0, 1.5, 0], [0, 1.5, -9.5], [0, 1.5, -19], [0, 1.5, -28.5]];
+        //x,z,y
+        const boxPositions = [[20, 1.5, 70.5], [0, 1.5, 70.5], [0, 1.5, 15], [0, 1.5, -35], [0, 1.5, -70.5], [20, 1.5, -70.5]];
         const boxRotations = [[0, Math.PI / 2, 0], [0, Math.PI / 2, 0], [0, Math.PI / 2, 0], [0, Math.PI / 2, 0], [0, Math.PI / 2, 0], [0, Math.PI / 2, 0]];
 
         // Loop to create boxes and their associated pickup spots
