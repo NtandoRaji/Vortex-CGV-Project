@@ -13,6 +13,7 @@ export function generateAndDisplayGroceryItems(containerId: string, count: numbe
     list.style.width = "20%";
     list.style.fontFamily = "Arial, sans-serif";
     list.style.borderRadius = "8px";
+    list.style.zIndex='2';
 
     // Get random items
     const randomItems: Item[] = getRandomItems(items, count);
