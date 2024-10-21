@@ -39,6 +39,7 @@ export class SectionB extends Section {
 
         // Loop to create and position shelves with associated pickup spots
         for (let i = 0; i < shelfNames.length; i++) {
+         
             // Create a new PickupSpot object for each shelf
             const pickupSpot = new PickupSpot(
                 this.graphics, 

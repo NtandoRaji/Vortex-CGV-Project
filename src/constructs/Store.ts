@@ -83,9 +83,10 @@ export class Store extends Construct {
         this.sections.push(frozenFoodSection);
         this.addConstruct(frozenFoodSection);
 
-        // const sectionA = new SectionA(graphics, physics, interactions, userInterface);
-        // this.sections.push(sectionA);
-        // this.addConstruct(sectionA);
+        const sectionA = new SectionA(graphics, physics, interactions, userInterface);
+        this.sections.push(sectionA);
+        this.addConstruct(sectionA);
+        console.log("going to break");
     }
 
     create(): void {    
@@ -98,7 +99,7 @@ export class Store extends Construct {
 
         // --- Place Sections ---
         // TODO: Position new sections
-        const sectionsPositions = [[0, 0, -30], [30, 0, -27 , -30],[-40, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30],[-73, 0, 0 , -60]];
+        const sectionsPositions = [[0, 0, -30], [30, 0, -27 , -30],[-40, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30],[-78, 0, 0 , -60],[-40, 0 ,  -30]];
         for (let i = 0; i < this.sections.length; i++){
             const position = sectionsPositions[i];
             this.sections[i].root.position.set(position[0], position[1], position[2]);
@@ -194,16 +195,25 @@ export class Store extends Construct {
         // ----------------------------------------
 
         // --- Setup Lighting ---
-        for (let i = 0; i < 4; i++){
-            for (let j = 0; j < 4; j++){
+        for (let i = 0; i < 5; i++){
+            for (let j = 0; j < 5; j++){
                 const storeLight = this.tempStoreLight.clone();
                 storeLight.position.set(50 - 2 * 15 * i, 18, 50 - 2 * 15 * j);
 
+                //last row of lights to not be super bright compared to rest
+                if(i!=5){
+                const light = new THREE.PointLight(0xffffee, 1, 30, 0.1);
+                light.position.set(50 - 2 * 15 * i, 20, 50 - 2 * 15 * j);
+                light.castShadow = true;
+                this.add(light);
+                }
+                else{
                 const light = new THREE.PointLight(0xffffee, 5, 30, 0.1);
                 light.position.set(50 - 2 * 15 * i, 20, 50 - 2 * 15 * j);
                 light.castShadow = true;
-
                 this.add(light);
+                }
+
                 this.add(storeLight);
             }
         }

@@ -23,12 +23,12 @@ export class SectionA extends Section {
         // --- Create and Position Shelves ---
 
         // Array of shelf names representing the items
-        const shelfNames = ["lilac_bodywash", "orange_bodywash", "lemon_bodywash"," rose_bodywash","corn_cereal","caramel_cereal" , "fruit_cereal","strawberry_cereal", "nutella"];
+        const shelfNames = ["lemon_bodywash", "rose_bodywash", "orange_bodywash", "orange_bodywash", "corn_cereal", "fruit_cereal", "strawberry_cereal", "caramel_cereal", "nutella"];
 
         // Predefined positions and rotations for each shelf
         const shelfPositions = [
-            [0, 5, 17], [0, 5, 8.5], [0, 5, 0], [0, 5, -8.5], 
-            [-4, 5, 17], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
+            [0.5, 5, 17], [-1.5, 5.1, 8.5], [0, 5, 0], [0, 5, -8.5], 
+            [-2, 5, 17], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
             [-2, 5, -14.5]
         ];
         const shelfRotations = [
@@ -39,6 +39,7 @@ export class SectionA extends Section {
 
         // Loop to create and position shelves with associated pickup spots
         for (let i = 0; i < shelfNames.length; i++) {
+            console.log("creating", shelfNames[i]);
             // Create a new PickupSpot object for each shelf
             const pickupSpot = new PickupSpot(
                 this.graphics, 
