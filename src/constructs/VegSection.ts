@@ -67,16 +67,4 @@ export class VegSection extends Section {
         }
         // ----------------------------
     }
-
-    // Asynchronous load method (currently a placeholder)
-    async load(): Promise<void> {}
-
-    // Build method (currently a placeholder)
-    build(): void {}
-
-    // Update method (currently a placeholder, used for updating the section)
-    update(time?: TimeS, delta?: TimeMS): void {}
-
-    // Destroy method (currently a placeholder)
-    destroy(): void {}
 }

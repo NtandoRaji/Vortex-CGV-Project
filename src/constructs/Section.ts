@@ -1,5 +1,4 @@
 // Import necessary modules and classes from 'three.js' and custom modules
-import * as THREE from "three";
 import { Construct, GraphicsContext, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";

@@ -6,7 +6,7 @@ import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 import { CashierRegister } from "./CashRegister";
 
 export class CashierCounter extends Construct {
-    mesh!: any;
+    mesh!: THREE.Mesh;
     scale: number = 1;
     cashRegister!: CashierRegister
 
@@ -17,7 +17,10 @@ export class CashierCounter extends Construct {
         this.addConstruct(this.cashRegister);
     }
 
-    create(): void {}
+    create(): void {
+        this.cashRegister.root.position.set(-0.5, 1, 0);
+        this.cashRegister.root.scale.set(0.5, 0.5, 0.5);
+    }
 
     async load(): Promise<void> {
         try {
@@ -31,14 +34,16 @@ export class CashierCounter extends Construct {
 
     build(): void {
         this.mesh.scale.set(this.scale, this.scale, this.scale);
-        this.mesh.castShadow = true;
-        this.mesh.receiveShadow = true;
+        // Enable shadow casting and receiving for self and children
+        this.mesh.traverse((node: any) => {
+            if (node.isMesh){
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
         this.add(this.mesh);
 
         this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(this.scale * 3.5, this.scale, 1));
-
-        this.cashRegister.root.position.set(-0.5, 1, 0);
-        this.cashRegister.root.scale.set(0.5, 0.5, 0.5);
     }
 
     update(time?: TimeS, delta?: TimeMS): void {}

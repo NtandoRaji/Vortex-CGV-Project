@@ -86,7 +86,6 @@ export class Store extends Construct {
         const sectionA = new SectionA(graphics, physics, interactions, userInterface);
         this.sections.push(sectionA);
         this.addConstruct(sectionA);
-        console.log("going to break");
     }
 
     create(): void {    
@@ -195,30 +194,23 @@ export class Store extends Construct {
         // ----------------------------------------
 
         // --- Setup Lighting ---
-        for (let i = 0; i < 5; i++){
-            for (let j = 0; j < 5; j++){
+        // Can't add more lights or store lighting gets f*cked
+        for (let i = 0; i < 3; i++){
+            for (let j = 0; j < 3; j++){
                 const storeLight = this.tempStoreLight.clone();
-                storeLight.position.set(50 - 2 * 15 * i, 18, 50 - 2 * 15 * j);
-
-                //last row of lights to not be super bright compared to rest
-                if(i!=5){
-                const light = new THREE.PointLight(0xffffee, 1, 30, 0.1);
-                light.position.set(50 - 2 * 15 * i, 20, 50 - 2 * 15 * j);
+                storeLight.position.set(50 - 2 * 25 * i, 18, 50 - 2 * 25 * j);
+                
+                // Might not be the best lighting but its the best we're gonna get
+                const light = new THREE.PointLight(0xffffee, 5, 45, 0.05);
+                light.position.set(50 - 2 * 25 * i, 20, 50 - 2 * 25 * j);
                 light.castShadow = true;
-                this.add(light);
-                }
-                else{
-                const light = new THREE.PointLight(0xffffee, 5, 30, 0.1);
-                light.position.set(50 - 2 * 15 * i, 20, 50 - 2 * 15 * j);
-                light.castShadow = true;
-                this.add(light);
-                }
 
+                this.add(light);
                 this.add(storeLight);
             }
         }
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
         ambientLight.position.set(0, 0, 0);
         this.add(ambientLight);
         // ---------------------

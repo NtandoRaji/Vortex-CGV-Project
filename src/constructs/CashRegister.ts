@@ -24,10 +24,13 @@ export class CashierRegister extends Construct {
     }
 
     build(): void {
-        this.mesh.castShadow = true;
-        this.mesh.receiveShadow = true;
+        // Enable shadow casting and receiving for self and children
+        this.mesh.traverse((node: any) => {
+            if (node.isMesh){
+                node.castShadow = true;
+            }
+        });
         this.add(this.mesh);
-
         this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(1, 1, 1));
 
     }

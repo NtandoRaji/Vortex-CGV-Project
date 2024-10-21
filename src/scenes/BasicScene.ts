@@ -6,6 +6,8 @@ import { Room } from "../constructs/Room";
 import { PickupSpot } from "../constructs/PickupSpot";
 import { GroceryItem } from "../constructs/GroceryItem";
 import { CustomInteractManager } from "../lib/customs/CustomInteractManager";
+import { CashierCounter } from "../constructs/CashierCounter";
+import { Shelf } from "../constructs/Shelf";
 
 const getRandomColor = () : number => {
     const r = Math.floor(Math.random() * 128) + 128; // Red component (128–255)
@@ -21,6 +23,8 @@ export class BasicScene extends Scene {
     room!: Room;
     pickupSpots: PickupSpot[] = [];
     groceryItems: GroceryItem[] = [];
+    cashierCounter!:CashierCounter;
+    colaShelf!: Shelf;
 
     constructor(AmmoLib: any){
         super(
@@ -34,6 +38,12 @@ export class BasicScene extends Scene {
 
         this.room = new Room(this.graphics, this.physics, this.interactions, this.userInterface);
         this.addConstruct(this.room);
+
+        this.cashierCounter = new CashierCounter(this.graphics, this.physics, this.interactions, this.userInterface);
+        this.addConstruct(this.cashierCounter);
+
+        this.colaShelf = new Shelf(this.graphics, this.physics, this.interactions, this.userInterface, "cola", [1, 1, 1]);
+        this.addConstruct(this.colaShelf);
 
         const npickupSpots = 4;
         for (let i = 0; i < npickupSpots; i++){
@@ -83,6 +93,9 @@ export class BasicScene extends Scene {
 
             this.groceryItems[i].interactions.addPickupObject(this.groceryItems[i].root, 5, 1, () => {});
         }
+
+        this.cashierCounter.root.position.set(0, 3, -10);
+        this.colaShelf.root.position.set(-5, 8.5, 0);;
     }
 
     async load(): Promise<void> {}
@@ -90,8 +103,16 @@ export class BasicScene extends Scene {
     build(): void {
         const light = new THREE.PointLight(0xffffff, 1, 100, 0);
         light.position.set(0, 20, 5);
+        light.castShadow = true;
 
         this.graphics.add(light);
+        
+        this.graphics.root.traverse((object: any) => {
+            if (object.isMesh){
+                object.castShadow = true;
+                object.receiveShadow = true;
+            }
+        })
     }
 
     update(time?: TimeS, delta?: TimeS): void {

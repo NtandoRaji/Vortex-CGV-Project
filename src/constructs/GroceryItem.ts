@@ -42,8 +42,6 @@ export class GroceryItem extends Construct {
 
     build(): void {
         this.mesh.scale.set(this.scale[0], this.scale[1], this.scale[2]);
-        this.mesh.castShadow = true;
-        this.mesh.receiveShadow = true;
         this.add(this.mesh);
 
         this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(this.scale[0] / 6, this.scale[1] / 3, this.scale[2] / 6));

@@ -35,6 +35,7 @@ export class Project {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setClearColor( 0xbfd1e5 );
         this.renderer.shadowMap.enabled = config.shadows;
+        this.renderer.shadowMap.type = THREE.BasicShadowMap;
 
         this.stats = null;
         if (config.stats) {
@@ -144,7 +145,7 @@ export class Project {
                 nextScene.graphics.compose(); // Add the final output pass to the post processing
                 this.renderer.shadowMap.enabled = true; // Basically caching the shadowmap enabled and disabled to avoid the lag spike
                 this.renderer.render(nextScene.graphics.root, this.currentScene.graphics.mainCamera);
-                this.renderer.shadowMap.enabled = false; 
+                this.renderer.shadowMap.enabled = this.config.shadows; 
                 nextScene.graphics.root.traverse((obj: THREE.Object3D) => obj.frustumCulled = true);
 
                 this.currentScene._destroy(); // destroy the loading screen
