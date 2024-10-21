@@ -52,12 +52,7 @@ export class SectionA extends Section {
             pickupSpot.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
 
             // Add interaction logic for placing objects in the pickup spot
-            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {
-                pickupSpot.root.add(placeObject); // Add the placed object to the spot
-                placeObject.position.set(0, 5, 0); // Reset position of the placed object
-                placeObject.rotation.set(0, 0, 0); // Reset rotation of the placed object
-                placeObject.scale.setScalar(1);    // Reset scale of the placed object
-            });
+            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {});
 
             // Add the PickupSpot to the pickupSpots array and register it in the construct system
             this.pickupSpots.push(pickupSpot);
@@ -78,9 +73,7 @@ export class SectionA extends Section {
             shelf.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
 
             // Add interaction logic for picking up the shelf
-            shelf.interactions.addPickupObject(shelf.root, 8, 0.1, () => {
-                pickupSpot.root.add(shelf.root); // Add the shelf to the PickupSpot when picked up
-            });
+            shelf.interactions.addPickupObject(shelf.root, 8, 0.1, () => {});
 
             // Add the shelf to the items array and register it as a construct
             this.items.push(shelf);
