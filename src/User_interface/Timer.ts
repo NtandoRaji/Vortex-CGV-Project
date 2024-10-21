@@ -25,7 +25,7 @@ export function setUpTimer(minutes: number, containerId: string): void {
     document.body.appendChild(timerElement);
 
     // Start the timer
-    updateTimer();
+    // updateTimer();
     startTimer();
 }
 

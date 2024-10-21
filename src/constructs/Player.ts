@@ -18,8 +18,8 @@ import { showGameWonMenu } from '../User_interface/gameWonMenu';
 import { showGamePausedMenu, hideGamePauseMenu } from '../User_interface/gamePausedMenu';
 
 // Constants for movement speeds and jump physics
-const walkSpeed = 2;
-const sprintSpeed = 10;
+const walkSpeed = 1;
+const sprintSpeed = 4;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
 const jumpGravity = 1.1;
@@ -47,11 +47,11 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 100; // 2 minutes in seconds
+    timeRemaining: number = 12; // 2 minutes in seconds
     decrementValue!: number;
     timerInterval!: any;
     list!:any;
-    amountOfItemsToFind: number = 1; // Choose how many items to generate for the Player
+    amountOfItemsToFind: number = 5; // Choose how many items to generate for the Player
     foundItems: number = 0; // Player has found nothing when game begins
     livesDisplay!: any;
     lives: number = 2;
@@ -399,6 +399,7 @@ private setUpTimer(){
         if (scope.root.userData.canInteract && scope.lookingAtGroceryItem && scope.holdingObject === undefined && !scope.paused) {
             if (event.key === 'e' || event.key === 'E') {
                 scope.root.userData.onInteract();
+                console.log(worldPos);
             }
         }
     
