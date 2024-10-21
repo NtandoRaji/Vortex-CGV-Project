@@ -25,12 +25,12 @@ export function generateAndDisplayGroceryItems(containerId: string, count: numbe
     document.body.appendChild(list);
 }
 
-// Function to update the displayed items to have strikethrough when received
 export function updateList(containerId: string, receivedItem: string): boolean {
     const container = document.getElementById(containerId);
     let itemFound = false; // Track whether the item was found
 
     if (container) {
+        console.log(receivedItem);
         // Find all item divs in the container
         const itemDivs = container.getElementsByClassName("item");
         Array.from(itemDivs).forEach(itemDiv => {
@@ -38,10 +38,38 @@ export function updateList(containerId: string, receivedItem: string): boolean {
             const nameElement = itemDiv.querySelector("p");
             if (nameElement && nameElement.textContent) {
                 // Check if the item name matches the received item
-                if (nameElement.textContent.trim() === receivedItem) { // Compare directly
-                    // Apply strikethrough style
-                    nameElement.style.textDecoration = 'line-through';
-                    itemFound = true; // Mark as found
+                switch(receivedItem) {
+                    case 'Beans Cans':
+                        receivedItem = 'Can of Beans';
+                        break;
+                    case 'Beets Cans':
+                        receivedItem = 'Can of Beets';
+                        break;
+                    case 'Carrot Cans':
+                        receivedItem = 'Can of Carrots';
+                        break;
+                    case 'Corn Cans':
+                        receivedItem = 'Can of Corn';
+                        break;
+                    case 'Mayo Sauce':
+                        receivedItem = 'Mayonnaise';
+                        break;
+                    case 'Bbq Sauce':
+                        receivedItem = 'BBQ Sauce';
+                    default:
+                        // handle other cases if necessary
+                        break;
+                }
+                // Check if the item name matches and is already struck through
+                if (nameElement.textContent.trim() === receivedItem) {
+                    if (nameElement.style.textDecoration === 'line-through') {
+                        // Item is already struck through, return false
+                        return false;
+                    } else {
+                        // Apply strikethrough style if not already struck through
+                        nameElement.style.textDecoration = 'line-through';
+                        itemFound = true; // Mark as found
+                    }
                 }
             }
         });
