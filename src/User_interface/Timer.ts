@@ -5,6 +5,14 @@ let timeRemaining: number;
 let timerElement: HTMLDivElement;
 let pulsateInterval: ReturnType<typeof setInterval> | null = null; // For pulsating effect
 
+// Load the sound file
+const clickSound = new Audio('/musicSound/emergencyAlarm.mp3');
+
+// Function to play sound
+function playWarningSound() {
+    clickSound.play();
+}
+
 
 export function setUpTimer(minutes: number, containerId: string): void {
     // Clear any existing timer
@@ -59,7 +67,7 @@ function updateTimer(): void {
         // Change background color to red
         timerElement.style.background = 'red'; // Change background color
         timerElement.style.border = '3px solid black'; //emphasise border when red
-        
+        playWarningSound()        
         // Apply pulsating effect
         timerElement.style.transform = `scale(${1 + 0.1 * Math.sin(Date.now() / 500)})`; // Pulsate every second
     } else {
