@@ -27,7 +27,6 @@ export const items: Item[] = [
     { name: "Jammy", image: "/icons/jelly.png" },
     { name: "Lemon Bodywash", image: "/icons/lemon_bodywash.png" },
     { name: "Lemon Twist", image: "/icons/lemon_twist.png" },
-    { name: "Lilac Bodywash", image: "/icons/lilac_bodywash.png" },
     { name: "Low Fat Milk", image: "/icons/low_fat_milk.png" },
     { name: "Mayonnaise", image: "/icons/mayo_sauce.png" },
     { name: "Meatball Pizza", image: "/icons/meatball_pizza.png" },
@@ -66,13 +65,12 @@ export function getRandomItems(items: Item[], count: number): Item[] {
     const availableItems = [...items]; // Create a copy to avoid mutating the original array
     const selectedItems: Item[] = [];
 
-    // for (let i = 0; i < count; i++) {
-    //     const randomIndex = Math.floor(Math.random() * availableItems.length);
-    //     const [selectedItem] = availableItems.splice(randomIndex, 1); // Remove and get the item
-    //     selectedItems.push(selectedItem); // Add to the selected items
-    // }
-    const [selectedItem] = availableItems.splice(34,1); // Peanut Butter - 34
-    selectedItems.push(selectedItem);
+    for (let i = 0; i < count; i++) {
+        const randomIndex = Math.floor(Math.random() * availableItems.length);
+        const [selectedItem] = availableItems.splice(randomIndex, 1); // Remove and get the item
+        selectedItems.push(selectedItem); // Add to the selected items
+    }
+
 
     return selectedItems;
 }
@@ -119,3 +117,5 @@ export function displayItems(containerId: string, items: Item[]): void {
         });
     }
 }
+
+// { name: "Lilac Bodywash", image: "/icons/lilac_bodywash.png" },

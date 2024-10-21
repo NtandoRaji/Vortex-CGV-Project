@@ -24,7 +24,7 @@ export function setUpTimer(minutes: number, containerId: string): void {
 
     // Start the timer
     // updateTimer();
-    // startTimer();
+    startTimer();
 }
 
 function applyStylesToTimer(timer: HTMLDivElement): void {

@@ -10,9 +10,9 @@ import { Player } from "./Player";
 import { Box } from "./Box";
 import { Section } from "./Section";
 
-// Define the SectionB class, which extends the Section class
-export class SectionB extends Section {
-    // Constructor method for SectionB to initialize necessary contexts
+// Define the SectionC class, which extends the Section class
+export class SectionA extends Section {
+    // Constructor method for SectionC to initialize necessary contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
         // Call the superclass constructor
         super(graphics, physics, interactions, userInterface);
@@ -23,12 +23,12 @@ export class SectionB extends Section {
         // --- Create and Position Shelves ---
 
         // Array of shelf names representing the items
-        const shelfNames = ["mens_bodywash", "aloe_bodywash", "gentle_bodywash", "oat_bodywash", "soy_milk", "oat_milk", "low_fat_milk", "full_milk", "yeast_spread"];
+        const shelfNames = ["lemon_bodywash", "rose_bodywash", "orange_bodywash", "orange_bodywash", "corn_cereal", "fruit_cereal", "strawberry_cereal", "caramel_cereal", "nutella"];
 
         // Predefined positions and rotations for each shelf
         const shelfPositions = [
-            [0, 5, 17], [0, 5, 8.5], [0, 5, 0], [0, 5, -8.5], 
-            [-5, 5, 17], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
+            [0.5, 5, 17], [-1.5, 5.1, 8.5], [0, 5, 0], [0, 5, -8.5], 
+            [-2, 5, 17], [-4, 5, 8.5], [-4, 5, 0], [-4, 5, -8.5], 
             [-2, 5, -14.5]
         ];
         const shelfRotations = [
@@ -39,7 +39,7 @@ export class SectionB extends Section {
 
         // Loop to create and position shelves with associated pickup spots
         for (let i = 0; i < shelfNames.length; i++) {
-         
+            console.log("creating", shelfNames[i]);
             // Create a new PickupSpot object for each shelf
             const pickupSpot = new PickupSpot(
                 this.graphics, 

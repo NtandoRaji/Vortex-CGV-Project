@@ -17,8 +17,8 @@ import { showGameOverMenu } from '../User_interface/gameOverMenu';
 import { showGameWonMenu } from '../User_interface/gameWonMenu';
 
 // Constants for movement speeds and jump physics
-const walkSpeed = 2;
-const sprintSpeed = 10;
+const walkSpeed = 1;
+const sprintSpeed = 4;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
 const jumpGravity = 1.1;
@@ -50,7 +50,7 @@ export class Player extends Construct {
     decrementValue!: number;
     timerInterval!: any;
     list!:any;
-    amountOfItemsToFind: number = 1; // Choose how many items to generate for the Player
+    amountOfItemsToFind: number = 5; // Choose how many items to generate for the Player
     foundItems: number = 0; // Player has found nothing when game begins
     livesDisplay!: any;
     lives: number = 2;
@@ -395,6 +395,7 @@ private setUpTimer(){
         if (scope.root.userData.canInteract && scope.lookingAtGroceryItem && scope.holdingObject === undefined && !scope.paused) {
             if (event.key === 'e' || event.key === 'E') {
                 scope.root.userData.onInteract();
+                console.log(worldPos);
             }
         }
     
