@@ -17,6 +17,7 @@ export function setUpLives(containerId: string, lives: number): void {
         livesDisplay.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Shadow for depth
         livesDisplay.style.textAlign = 'center';
         livesDisplay.style.fontFamily = 'Arial, sans-serif';
+        livesDisplay.style.zIndex='2';
         
         // Append the lives display to the body
         document.body.appendChild(livesDisplay);

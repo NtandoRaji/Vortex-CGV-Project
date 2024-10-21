@@ -15,6 +15,7 @@ import { setUpTimer, startTimer, stopTimer } from '../User_interface/Timer';
 import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 import { showGameOverMenu } from '../User_interface/gameOverMenu';
 import { showGameWonMenu } from '../User_interface/gameWonMenu';
+import {createFlashlight} from '../User_interface/noLightsFilter';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 1;
@@ -144,6 +145,8 @@ export class Player extends Construct {
         this.graphics.renderer.domElement.addEventListener('click', () => {
             this.controls.lock();
         });
+
+        //you can insert noLightsFilter here
 
         this.setUpTimer();
         this.setUpLifeDisplay();
