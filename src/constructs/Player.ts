@@ -15,6 +15,7 @@ import { setUpTimer, startTimer, stopTimer } from '../User_interface/Timer';
 import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 import { showGameOverMenu } from '../User_interface/gameOverMenu';
 import { showGameWonMenu } from '../User_interface/gameWonMenu';
+import { miniMapCamera } from '../User_interface/minimapCamera';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 2;
@@ -54,6 +55,8 @@ export class Player extends Construct {
     foundItems: number = 0; // Player has found nothing when game begins
     livesDisplay!: any;
     lives: number = 2;
+    minimap!:any;
+    cameraAccess: number = 1;
 
     isPaused: boolean = false;
     hasWon: boolean = false;
@@ -72,7 +75,10 @@ export class Player extends Construct {
     create = (): void => {
         // Create and set up the camera - MAIN
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
+
         this.graphics.mainCamera = this.camera;
+        
+
 
         // Set up PointerLockControls to lock mouse movement to the camera
         this.controls = new PointerLockControls(this.camera, this.graphics.renderer.domElement);
@@ -148,6 +154,8 @@ export class Player extends Construct {
         this.setUpTimer();
         this.setUpLifeDisplay();
         this.setUpList();
+        // this.setUpMiniMap();
+
     }
 
 
@@ -156,6 +164,11 @@ private setUpList(): void {
     this.list.id = "grocery-list";
     generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
   }
+private setUpMiniMap():void{
+    this.minimap = document.createElement("div");
+    this.minimap.id = "minimap";
+   miniMapCamera(this.graphics.root,this.minimap.id,this.graphics.mainCamera);
+}
 
 
 private setUpLifeDisplay(){
@@ -188,6 +201,7 @@ private setUpTimer(){
         this.camera.rotation.set(0, Math.PI / 2, 0);
         this.camera.layers.enable(0);
         this.camera.layers.set(0);
+
 
         // Create the body capsule and add shadows
         const bodyGeometry = new THREE.CapsuleGeometry(1, 3);
@@ -327,11 +341,12 @@ private setUpTimer(){
     // Add a method to toggle the bird's-eye view
     toggleTopVieww(): void {
         this.isTopView = !this.isTopView;
-
-        if (this.isTopView) {
+    
+        if (this.isTopView && this.cameraAccess > 0) {
             // Move the camera to a bird's-eye view position
             this.camera.position.set(0, 18, 0); // Adjust the height and distance as needed
             this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Look down at the center of the scene
+            this.cameraAccess--;
         } else {
             // Reset to the player camera view
             this.camera.position.set(0, 3, 0); // Reset to player camera position
@@ -354,7 +369,7 @@ private setUpTimer(){
         if(event.key === 'c' || event.key==='C'){this.toggleTopVieww(); return;}
         
         // If top view is active, ignore movement keys
-        if(this.isTopView) {
+        if(this.isTopView && this.cameraAccess >0) {
             scope.direction.forward = 0;
             scope.direction.backward = 0;
             scope.direction.left = 0;
