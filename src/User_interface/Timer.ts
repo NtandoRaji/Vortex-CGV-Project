@@ -23,8 +23,8 @@ export function setUpTimer(minutes: number, containerId: string): void {
     document.body.appendChild(timerElement);
 
     // Start the timer
-    // updateTimer();
-    // startTimer();
+    updateTimer();
+    startTimer();
 }
 
 function applyStylesToTimer(timer: HTMLDivElement): void {

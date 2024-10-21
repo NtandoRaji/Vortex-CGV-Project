@@ -120,6 +120,7 @@ body::before {
     }
 }
 h1 {
+    /* Animation of heading in main menu */
     font-size: 4rem; /* Original font size */
     margin-bottom: 20px; /* Original margin */
     /* color: transparent; Start with transparent color for gradient effect */
@@ -185,6 +186,12 @@ h1 {
 #settings-btn:hover{
     box-shadow: 0 0 20px 10px rgba(198, 73, 38, 0.888);
 }
+#levels-btn{
+    background-color: rgba(142, 38, 198, 0.888);
+}
+#levels-btn:hover{
+    box-shadow: 0 0 20px 10px rgba(142, 38, 198, 0.888);
+}
 /* styles for the pop-up menus */
 .popup {
     display: none; /* Hidden by default */
@@ -213,6 +220,9 @@ h1 {
 #settings-popup {
     border-color: rgba(198, 73, 38, 0.888); /* Match with settings button */
 }
+#levels-popup {
+    border-color: rgba(142, 38, 198, 0.888); /* Match with level button */
+}
 .popup.active {
     display: block; /* Show the popup */
 }
@@ -225,6 +235,52 @@ h1 {
 #setting-heading{
     color:rgba(198, 73, 38, 0.888);
 }
+#levels-heading {
+    color: rgba(142, 38, 198, 0.888); /* Same color for heading */
+}
+/* Styling for the level buttons */
+#level-1-btn {
+    background-color: #d5a1f8;
+}
+
+#level-1-btn:hover {
+    box-shadow: 0 0 20px 10px #d5a1f8;
+}
+
+#level-2-btn {
+    background-color: #b97cd9;
+}
+
+#level-2-btn:hover {
+    box-shadow: 0 0 20px 10px #b97cd9;
+}
+
+#level-3-btn {
+    background-color: #8b4c9e;
+}
+
+#level-3-btn:hover {
+    box-shadow: 0 0 20px 10px #8b4c9e;
+}
+
+#levels-popup ul {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Use flexbox for centering */
+    flex-direction: column; /* Arrange items in a column */
+    align-items: center; /* Center items horizontally */
+}
+
+#levels-popup li {
+    margin: 10px 0;
+}
+
+#levels-popup .menu-btn {
+    width: 100%;
+    text-align: center;
+}
+
 .overlay {
     display: none; /* Initially hidden */
     position: fixed;
