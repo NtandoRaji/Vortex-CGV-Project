@@ -28,7 +28,7 @@ export const items: Item[] = [
     { name: "Ginger Ale", image: "/icons/ginger_ale.png" },
     { name: "Green Apple", image: "/icons/green_apple.png" },
     {name: "Green Pepper", image:"/icons/green_pepper.png"},
-    { name: "Jammy", image: "/icons/jelly.png" },
+    { name: "Jelly", image: "/icons/jelly.png" },
     { name: "Lemon Bodywash", image: "/icons/lemon_bodywash.png" },
     { name: "Lemon Twist", image: "/icons/lemon_twist.png" },
     { name: "Low Fat Milk", image: "/icons/low_fat_milk.png" },
