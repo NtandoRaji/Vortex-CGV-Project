@@ -99,8 +99,8 @@ export function displayItems(containerId: string, items: Item[]): void {
             const img = document.createElement("img");
             img.src = item.image;
             img.alt = item.name;
-            img.style.width= '25%';
-            img.style.height= '25%';
+            img.style.width= '14%';
+            img.style.height= '14%';
             img.style.borderRadius = '8px';
 
 
