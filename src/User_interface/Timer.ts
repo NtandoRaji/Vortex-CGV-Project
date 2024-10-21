@@ -51,6 +51,7 @@ function applyStylesToTimer(timer: HTMLDivElement): void {
     timer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
     timer.style.textAlign = 'center';
     timer.style.fontFamily = 'Arial, sans-serif';
+    timer.style.zIndex='2';
 }
 
 function formatTime(): string {
