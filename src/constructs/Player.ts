@@ -19,8 +19,8 @@ import { showGamePausedMenu, hideGamePauseMenu } from '../User_interface/gamePau
 import {createFlashlight} from '../User_interface/noLightsFilter';
 
 // Constants for movement speeds and jump physics
-const walkSpeed = 1;
-const sprintSpeed = 4;
+const walkSpeed = 0.15;
+const sprintSpeed = 0.4;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
 const jumpGravity = 1.1;
@@ -52,7 +52,7 @@ export class Player extends Construct {
     decrementValue!: number;
     timerInterval!: any;
     list!:any;
-    amountOfItemsToFind: number = 5; // Choose how many items to generate for the Player
+    amountOfItemsToFind: number = 8; // Choose how many items to generate for the Player
     foundItems: number = 0; // Player has found nothing when game begins
     livesDisplay!: any;
     lives: number = 2;
