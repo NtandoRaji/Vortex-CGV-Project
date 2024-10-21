@@ -27,7 +27,11 @@ export class Store extends Construct {
     walls!: Array<THREE.Mesh>;
     wallTexture!: THREE.MeshStandardMaterial;
 
-    storeDimensions: Array<number> = [150, 20, 150];
+    storeLightData!: any;
+    tempStoreLight!: any;
+    storeLights: Array<any> = [];
+
+    storeDimensions: Array<number> = [160, 20, 160];
     floor!: any;
     floorTexture!: THREE.MeshLambertMaterial;
     textureFloorData!:any;
@@ -84,7 +88,7 @@ export class Store extends Construct {
 
         // --- Place Sections ---
         // TODO: Position new sections
-        const sectionsPositions = [[0, 0, -30], [30, 0, -27 , -30],[-40, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30]];
+        const sectionsPositions = [[0, 0, -30], [30, 0, -32],[-40, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30]];
         for (let i = 0; i < this.sections.length; i++){
             const position = sectionsPositions[i];
             this.sections[i].root.position.set(position[0], position[1], position[2]);
@@ -105,13 +109,23 @@ export class Store extends Construct {
         catch (error) {
             console.error(`[!] Error: ${error}`);
         }
+
+        try {
+            this.storeLightData = await this.graphics.loadModel("assets/store_light/store_light.gltf");
+            this.tempStoreLight = this.storeLightData.scene;
+        }
+        catch (error) {
+            console.error(`[!] Error: ${error}`);
+        }
     }
 
     build(): void {
         // --- Build walls ---
         const wallPositions = [
-            [-this.storeDimensions[0] / 2, 10, 0], [0, 10, -this.storeDimensions[2] / 2], 
-            [this.storeDimensions[0] / 2, 10, 0], [0, 10, this.storeDimensions[2] / 2]
+            [-this.storeDimensions[0] / 2, this.storeDimensions[1] / 2, 0], 
+            [0, this.storeDimensions[1] / 2, -this.storeDimensions[2] / 2], 
+            [this.storeDimensions[0] / 2, this.storeDimensions[1] / 2, 0], 
+            [0, this.storeDimensions[1] / 2, this.storeDimensions[2] / 2]
         ];
         const wallRotations = [
             [0, Math.PI/2, 0], [0, 0, 0], [0, Math.PI/2, 0], [0, 0, 0]
@@ -169,13 +183,25 @@ export class Store extends Construct {
         }
         // ----------------------------------------
 
-        const light = new THREE.PointLight(0xffffff, 1, 100, 0);
-        light.position.set(20, 20, 5);
-        this.add(light);
+        // --- Setup Lighting ---
+        for (let i = 0; i < 4; i++){
+            for (let j = 0; j < 4; j++){
+                const storeLight = this.tempStoreLight.clone();
+                storeLight.position.set(50 - 2 * 15 * i, 18, 50 - 2 * 15 * j);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-        ambientLight.position.set(0, 5, 0);
+                const light = new THREE.PointLight(0xffffee, 5, 30, 0.1);
+                light.position.set(50 - 2 * 15 * i, 20, 50 - 2 * 15 * j);
+                light.castShadow = true;
+
+                this.add(light);
+                this.add(storeLight);
+            }
+        }
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+        ambientLight.position.set(0, 0, 0);
         this.add(ambientLight);
+        // ---------------------
     }
 
     // Update method to check player interactions with shop items and pickup spots
