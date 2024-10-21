@@ -15,6 +15,7 @@ import { setUpTimer, startTimer, stopTimer } from '../User_interface/Timer';
 import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 import { showGameOverMenu } from '../User_interface/gameOverMenu';
 import { showGameWonMenu } from '../User_interface/gameWonMenu';
+import { showGamePausedMenu, hideGamePauseMenu } from '../User_interface/gamePausedMenu';
 import {createFlashlight} from '../User_interface/noLightsFilter';
 
 // Constants for movement speeds and jump physics
@@ -323,10 +324,13 @@ private setUpTimer(){
         this.isPaused = !this.isPaused; // Toggle pause state
         if (this.isPaused) { // If paused, stop the timer
             stopTimer();
+            showGamePausedMenu();
         } else { // If not paused, resume the timer
+            hideGamePauseMenu();
             startTimer();
         }
     }
+
     // Add a method to toggle the bird's-eye view
     toggleTopVieww(): void {
         this.isTopView = !this.isTopView;
