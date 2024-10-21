@@ -7,7 +7,9 @@ export type Item = {
 // Create an array to store the items
 export const items: Item[] = [
     { name: "Aloe Bodywash", image: "/icons/aloe_bodywash.png" },
+    {name: "Beet", image:"/icons/beet.png"},
     { name: "Banana", image: "/icons/banana.png" },
+    {name: "Broccoli", image:"/icons/broccoli.png"},
     { name: "BBQ Sauce", image: "/icons/bbq_sauce.png" },
     { name: "Can of Beans", image: "/icons/beans_can.png" },
     { name: "Can of Beets", image: "/icons/beets_can.png" },
@@ -18,12 +20,14 @@ export const items: Item[] = [
     { name: "Cola", image: "/icons/cola.png" },
     { name: "Can of Corn", image: "/icons/corn_can.png" },
     { name: "Cream Soda", image: "/icons/cream_soda.png" },
+    {name: "Eggplant", image:"/icons/eggplant.png"},
     { name: "Fish", image: "/icons/fish.png" },
     { name: "Fruit Cereal", image: "/icons/fruit_cereal.png" },
     { name: "Full Milk", image: "/icons/full_milk.png" },
     { name: "Gentle Bodywash", image: "/icons/gentle_bodywash.png" },
     { name: "Ginger Ale", image: "/icons/ginger_ale.png" },
     { name: "Green Apple", image: "/icons/green_apple.png" },
+    {name: "Green Pepper", image:"/icons/green_pepper.png"},
     { name: "Jelly", image: "/icons/jelly.png" },
     { name: "Lemon Bodywash", image: "/icons/lemon_bodywash.png" },
     { name: "Lemon Twist", image: "/icons/lemon_twist.png" },
@@ -99,8 +103,8 @@ export function displayItems(containerId: string, items: Item[]): void {
             const img = document.createElement("img");
             img.src = item.image;
             img.alt = item.name;
-            img.style.width= '25%';
-            img.style.height= '25%';
+            img.style.width= '14%';
+            img.style.height= '14%';
             img.style.borderRadius = '8px';
 
 
