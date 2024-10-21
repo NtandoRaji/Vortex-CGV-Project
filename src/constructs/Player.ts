@@ -148,6 +148,8 @@ export class Player extends Construct {
         this.setUpTimer();
         this.setUpLifeDisplay();
         this.setUpList();
+
+        startTimer();
     }
 
 
