@@ -47,7 +47,7 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 12; // 2 minutes in seconds
+    timeRemaining: number = 100; // 2 minutes in seconds
     decrementValue!: number;
     timerInterval!: any;
     list!:any;
