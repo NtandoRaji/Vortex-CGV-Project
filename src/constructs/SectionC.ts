@@ -1,13 +1,10 @@
 // Import necessary modules and classes from 'three.js' and custom modules
 import * as THREE from "three";
-import { Construct, GraphicsContext, PhysicsContext } from "../lib";
+import { GraphicsContext, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
-import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 import { Shelf } from "./Shelf";
 import { PickupSpot } from "./PickupSpot";
-import { Player } from "./Player";
-import { Box } from "./Box";
 import { Section } from "./Section";
 
 // Define the SectionC class, which extends the Section class
@@ -90,16 +87,4 @@ export class SectionC extends Section {
         }
         // -----------------------------
     }
-
-    // Asynchronous load method (currently a placeholder, used for loading assets)
-    async load(): Promise<void> {}
-
-    // Build method (currently a placeholder, used for constructing the section)
-    build(): void {}
-
-    // Update method (currently a placeholder, used for updating the section)
-    update(time?: TimeS, delta?: TimeMS): void {}
-
-    // Destroy method (currently a placeholder, used for cleanup)
-    destroy(): void {}
 }

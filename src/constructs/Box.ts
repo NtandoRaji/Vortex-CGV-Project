@@ -32,9 +32,12 @@ export class Box extends GroceryItem {
         // Set the scale of the mesh based on the provided scale array
         this.mesh.scale.set(this.scale[0], this.scale[1], this.scale[2]);
 
-        // Enable the box mesh to cast and receive shadows
-        this.mesh.castShadow = true;
-        this.mesh.receiveShadow = true;
+        // Enable the Shelf mesh to cast shadows
+        this.mesh.traverse((node: any) => {
+            if (node.isMesh){
+                node.castShadow = true;
+            }
+        });
 
         // Add the mesh to the Box's root (inherited from Construct), making it part of the 3D scene
         this.add(this.mesh);
