@@ -3,7 +3,6 @@ import { Scene } from "../lib";
 import { TimeS } from "../lib/w3ads/types/misc.type";
 import { Player } from "../constructs/Player";
 import { Store } from "../constructs/Store";
-import { GroceryItem } from "../constructs/GroceryItem";
 import { CustomInteractManager } from "../lib/customs/CustomInteractManager";
 
 
