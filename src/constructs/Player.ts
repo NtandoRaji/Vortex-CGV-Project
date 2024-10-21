@@ -116,17 +116,6 @@ export class Player extends Construct {
                     showGameOverMenu();
                 }
             }
-            // 
-
-            // --- Player lift item into hand ---
-            const inHandScale = object.userData.inHandScale;
-            object.removeFromParent();
-            object.position.set(2, -1.5, -2);
-            object.rotation.set(0, Math.PI / 4, Math.PI / 2);
-            object.scale.setScalar(inHandScale);
-            this.holdingObject = object;
-            this.camera.add(object);
-
         });
 
         // Setup UI prompts for interaction
@@ -395,14 +384,10 @@ private setUpTimer(){
         scope.root.getWorldPosition(worldPos);
 
         if (event.key == ' ') { scope.physics.jumpCharacter(scope.root); }
-        if (event.key == 'b' || event.key == 'B') {
-            console.log(worldPos);
-        }
         // Pick up an item
         if (scope.root.userData.canInteract && scope.lookingAtGroceryItem && scope.holdingObject === undefined && !scope.paused) {
             if (event.key === 'e' || event.key === 'E') {
                 scope.root.userData.onInteract();
-                console.log(worldPos);
             }
         }
     

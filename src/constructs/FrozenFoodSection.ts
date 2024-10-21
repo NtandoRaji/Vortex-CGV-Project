@@ -37,12 +37,7 @@ export class FrozenFoodSection extends Section {
             pickupSpot.root.rotation.set(boxRotations[i][0], boxRotations[i][1], boxRotations[i][2]);
 
             // Add interaction logic for placing objects in the PickupSpot
-            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {
-                pickupSpot.root.add(placeObject); // Place the object at the spot
-                placeObject.position.set(0, 1.5, 0); // Reset object position
-                placeObject.rotation.set(0, 0, 0); // Reset object rotation
-                placeObject.scale.setScalar(1);    // Reset object scale
-            });
+            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {});
 
             // Add the PickupSpot to the pickupSpots array and register it in the construct system
             this.pickupSpots.push(pickupSpot);
@@ -55,9 +50,7 @@ export class FrozenFoodSection extends Section {
             box.root.rotation.set(boxRotations[i][0], boxRotations[i][1], boxRotations[i][2]);
 
             // Add interaction logic for picking up the box (moving to the PickupSpot)
-            box.interactions.addPickupObject(box.root, 8, 0.1, () => {
-                pickupSpot.root.add(box.root); // Add the box to the PickupSpot when picked up
-            });
+            box.interactions.addPickupObject(box.root, 8, 0.1, () => {});
 
             // Add the box to the items array and register it as a construct
             this.items.push(box);

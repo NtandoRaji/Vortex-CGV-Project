@@ -31,9 +31,14 @@ export class CustomInteractManager extends InteractManager {
                             worldPos.z - worldInteractPos.z
                         )**2,
                     };
-                    // Gets squared distance from player to choosen object
-                    objectDistanceSquared = vals.x2 + vals.y2 + vals.z2;
-                    chosenObject = i;
+                    // Gets squared distance from interacting object to choosen object
+                    const distance = vals.x2 + vals.y2 + vals.z2;
+
+                    // Choose the object that's closest to interacting object
+                    if (distance < objectDistanceSquared){
+                        objectDistanceSquared = distance;
+                        chosenObject = i;
+                    }
                }
             }
 
@@ -63,21 +68,26 @@ export class CustomInteractManager extends InteractManager {
             for (let i = 0; i < this.pickupSpots.length; ++i) {
                 if (this.pickupSpots[i].spot.userData.beingLookedAt){
                     let spotPos = new THREE.Vector3();
-                this.pickupSpots[i].spot.getWorldPosition(spotPos);
-                const vals = {
-                    x2: (
-                        spotPos.x - worldInteractPos.x
-                    )**2,
-                    y2: (
-                        spotPos.y - worldInteractPos.y
-                    )**2,
-                    z2: (
-                        spotPos.z - worldInteractPos.z
-                    )**2,
-                };
-                // Gets squared distance from player to choosen spot
-                spotDistanceSquared = vals.x2 + vals.y2 + vals.z2;
-                chosenSpot = i;
+                    this.pickupSpots[i].spot.getWorldPosition(spotPos);
+                    const vals = {
+                        x2: (
+                            spotPos.x - worldInteractPos.x
+                        )**2,
+                        y2: (
+                            spotPos.y - worldInteractPos.y
+                        )**2,
+                        z2: (
+                            spotPos.z - worldInteractPos.z
+                        )**2,
+                    };
+                    // Gets squared distance from interacting object to choosen spot
+                    const distance = vals.x2 + vals.y2 + vals.z2;
+
+                    // Choose the pickup spot that's closest to interacting object
+                    if (distance < spotDistanceSquared){
+                        spotDistanceSquared = spotDistanceSquared;
+                        chosenSpot = i;
+                    }
                 }
             }
 
