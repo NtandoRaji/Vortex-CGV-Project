@@ -60,6 +60,7 @@ export class Player extends Construct {
     isPaused: boolean = false;
     hasWon: boolean = false;
     isTopView: boolean = false;
+    securityCameraClicks: number = 0;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -347,7 +348,17 @@ private setUpTimer(){
         if(this.isPaused && !this.isTopView){return;}
 
         //top view event
-        if(event.key === 'c' || event.key==='C'){this.toggleTopVieww(); return;}
+        if(event.key === 'c' || event.key==='C'){
+            //player can only change to security camera once
+            if(this.securityCameraClicks<2){
+                this.securityCameraClicks++;
+                this.toggleTopVieww();
+            }
+            else{
+                console.log("C key can only pressed twice!!!");
+            }
+            return;
+        }
         
         // If top view is active, ignore movement keys
         if(this.isTopView) {
@@ -355,11 +366,6 @@ private setUpTimer(){
             scope.direction.backward = 0;
             scope.direction.left = 0;
             scope.direction.right = 0;
-            // console.log("Top view active, movement disabled."); // Debug log
-            if (event.key === ' ' || event.key === 'Spacebar') {
-                // console.log("Jump disabled in top view."); // Debug log for jump
-                return 0; // Prevent jumping in top view
-            }
             return; 
         }
 
