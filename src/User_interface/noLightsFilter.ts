@@ -16,8 +16,8 @@ export function createFlashlight(): void {
             height: 100%;
             background: radial-gradient(circle, 
                 rgba(0, 0, 0, 0) 5%,  /* Transparent in the center (smaller radius) */
-                rgba(0, 0, 0, 0.8) 25%, /* Faster darkening transition */
-                rgba(0, 0, 0, 1) 45%   /* Fully black around the edges */
+                rgba(0, 0, 0, 0.8) 20%, /* Faster darkening transition */
+                rgba(0, 0, 0, 1) 40%   /* Fully black around the edges */
             );
             pointer-events: none; /* Non-interactive overlay */
             z-index: 1; /* Keep above other elements */

@@ -61,9 +61,13 @@ export class Player extends Construct {
     hasWon: boolean = false;
     isTopView: boolean = false;
 
+    level!: string;
+
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
-    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
+    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, level: string) {
         super(graphics, physics, interactions, userInterface);
+
+        this.level = level;
 
         // Capture the current instance scope for event listeners
         scope = this;
@@ -137,6 +141,9 @@ export class Player extends Construct {
         });
 
         //you can insert noLightsFilter here
+        if (this.level === "level_2"){
+            createFlashlight();
+        }
 
         this.setUpTimer();
         this.setUpLifeDisplay();

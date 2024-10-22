@@ -6,18 +6,18 @@ import { Store } from "../constructs/Store";
 import { CustomInteractManager } from "../lib/customs/CustomInteractManager";
 
 
-export class Level1 extends Scene {
+export class Level2 extends Scene {
     player!: Player;
     store!: Store;
 
     constructor(AmmoLib: any){
         super(
-            "level_1",
+            "level_2",
             AmmoLib
         );
         this.interactions = new CustomInteractManager();
 
-        this.player = new Player(this.graphics, this.physics, this.interactions, this.userInterface, "level_1");
+        this.player = new Player(this.graphics, this.physics, this.interactions, this.userInterface, "level_2");
         this.addConstruct(this.player);
 
         this.store = new Store(this.graphics, this.physics, this.interactions, this.userInterface, this.player);

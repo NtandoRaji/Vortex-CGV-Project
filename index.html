@@ -118,6 +118,21 @@
             clickSound.play();
         }
 
+        document.getElementById("level-1-btn").onclick=function(){
+            localStorage.setItem("level","level_1");
+            window.location.href="indexGame.html";
+        }
+
+        document.getElementById("level-2-btn").onclick=function(){
+            localStorage.setItem("level","level_2");
+            window.location.href="indexGame.html";
+        }
+
+        document.getElementById("level-3-btn").onclick=function(){
+            localStorage.setItem("level","level_3");
+            window.location.href="indexGame.html";
+        }
+
 
         document.getElementById('play-btn').onclick = function() {
             playClickSound();
