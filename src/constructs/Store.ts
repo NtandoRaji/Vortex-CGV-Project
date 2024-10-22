@@ -20,6 +20,9 @@ import { Section } from "./Section";
 import { FrozenFoodSection } from "./FrozenFoodSection";
 import { SectionA } from "./SectionA";
 import { VegSection2 } from "./VegSection2";
+import { VegSection3 } from "./VegSection3";
+import { IceCreamSection } from "./IceCreamSection";
+import { SectionE } from "./SectionE";
 
 
 
@@ -87,9 +90,22 @@ export class Store extends Construct {
         const sectionA = new SectionA(graphics, physics, interactions, userInterface);
         this.sections.push(sectionA);
         this.addConstruct(sectionA);
+
         const vegSection2 = new VegSection2(graphics, physics, interactions, userInterface);
         this.sections.push(vegSection2);
         this.addConstruct(vegSection2);
+
+        const vegSection3 = new VegSection3(graphics, physics, interactions, userInterface);
+        this.sections.push(vegSection3);
+        this.addConstruct(vegSection3);
+
+        const iceCreamSection = new IceCreamSection(graphics, physics, interactions, userInterface);
+        this.sections.push(iceCreamSection);
+        this.addConstruct(iceCreamSection);
+
+        const sectionE = new SectionE(graphics, physics, interactions, userInterface);
+        this.sections.push(sectionE);
+        this.addConstruct(sectionE);
     }
 
     create(): void {    
@@ -102,7 +118,7 @@ export class Store extends Construct {
 
         // --- Place Sections ---
         // TODO: Position new sections
-        const sectionsPositions = [[0, 0, -30], [30, 0, -27 , -30],[-40, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30],[-78, 0, 0 , -60],[-40, 0 ,  -30],[60, 0, -27 , -30]];
+        const sectionsPositions = [[0, 0, -30], [30, 0, -27 , -30],[-25, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30],[-78, 0, 0 , -60],[-25, 0 ,  -30],[60, 0, -27 , -30],[50, 0, -97, -30],[-10, 0, -97, -30],[-50, 0 ,  30]];
         for (let i = 0; i < this.sections.length; i++){
             const position = sectionsPositions[i];
             this.sections[i].root.position.set(position[0], position[1], position[2]);
