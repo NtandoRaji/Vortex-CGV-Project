@@ -24,7 +24,7 @@ export class CashierCounter extends Construct {
 
     async load(): Promise<void> {
         try {
-            const gltfData: any = await this.graphics.loadModel("/assets/cashier_counter/cashier_counter.gltf");
+            const gltfData: any = await this.graphics.loadModel("assets/cashier_counter/cashier_counter.gltf");
             this.mesh = gltfData.scene;
         }
         catch (error) {
@@ -46,6 +46,7 @@ export class CashierCounter extends Construct {
         this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(this.scale * 3.5, this.scale, 1));
     }
 
+    //@ts-ignore
     update(time?: TimeS, delta?: TimeMS): void {}
 
     destroy(): void {}

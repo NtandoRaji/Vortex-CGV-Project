@@ -30,6 +30,7 @@ export class Section extends Construct {
     build(): void {}
 
     // Update method (currently a placeholder, used for updating the section)
+    // @ts-ignore
     update(time?: TimeS, delta?: TimeMS): void {}
 
     // Destroy method (currently a placeholder, used for cleanup)

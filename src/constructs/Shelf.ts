@@ -18,7 +18,7 @@ export class Shelf extends GroceryItem {
     async load(): Promise<void> {
         try {
             // Load the model using the filename, constructing the path based on the provided filename
-            const gltfData: any = await this.graphics.loadModel(`/assets/${this.filename}_shelf/${this.filename}_shelf.gltf`);
+            const gltfData: any = await this.graphics.loadModel(`assets/${this.filename}_shelf/${this.filename}_shelf.gltf`);
             // Store the loaded 3D mesh into the 'mesh' property
             this.mesh = gltfData.scene;
         } catch (error) {

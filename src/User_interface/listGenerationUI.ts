@@ -56,6 +56,7 @@ export function updateList(containerId: string, receivedItem: string): boolean {
                         break;
                     case 'Bbq Sauce':
                         receivedItem = 'BBQ Sauce';
+                        break;
                     default:
                         // handle other cases if necessary
                         break;
