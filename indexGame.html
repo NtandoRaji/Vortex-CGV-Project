@@ -7,7 +7,7 @@
 			body { margin: 0; }
 		</style>
 		<script>
-			const menuMusic = new Audio('/musicSound/gameMusic.mp3');
+			const menuMusic = new Audio('musicSound/gameMusic.mp3');
 			menuMusic.loop = true; // Make the music loop
 			menuMusic.volume = localStorage.getItem("vol"); // Set initial volume
 			localStorage.setItem("vol",menuMusic.volume);
@@ -17,6 +17,6 @@
 	</head>
 	<body>
 		<div id="app" ></div>
-		<script type="module" src="/src/main.ts"></script>
+		<script type="module" src="src/main.ts"></script>
 	</body>
 </html>

@@ -1,5 +1,4 @@
 // Import necessary modules and classes from 'three.js' and custom modules
-import * as THREE from "three";
 import { GraphicsContext, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
@@ -37,7 +36,7 @@ export class FrozenFoodSection extends Section {
             pickupSpot.root.rotation.set(boxRotations[i][0], boxRotations[i][1], boxRotations[i][2]);
 
             // Add interaction logic for placing objects in the PickupSpot
-            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {});
+            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, () => {});
 
             // Add the PickupSpot to the pickupSpots array and register it in the construct system
             this.pickupSpots.push(pickupSpot);
