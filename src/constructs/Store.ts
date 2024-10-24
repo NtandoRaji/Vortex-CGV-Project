@@ -210,8 +210,8 @@ export class Store extends Construct {
             displacementMap: this.displacementTexture, // Displacement map
             displacementScale: 0.1,                    // Adjust based on desired effect
             side: THREE.DoubleSide,
-            roughness: 0.3,                            // Control material roughness
-            metalness: 0.6,                            // Slight metallic sheen
+            roughness: 0.2,                            // Control material roughness
+            metalness: 0.1,                            // Slight metallic sheen
         });
 
         const floor = new THREE.Mesh(floorGeometry, this.floorTexture);
