@@ -317,36 +317,44 @@ private setUpTimer(){
             showGamePausedMenu();
         } else { // If not paused, resume the timer
             hideGamePauseMenu();
-            startTimer();
+            //startTimer();
         }
     }
 
     // Add a method to toggle the bird's-eye view
     toggleTopVieww(): void {
         this.isTopView = !this.isTopView;
-
+    
         if (this.isTopView) {
-            //player's current position
-            const currPosition = this.camera.position.clone();
-            //find closest camera corner
-            const closestCorner = this.findClosestTopCorner(currPosition);
+            const characterWorldPosition = this.getCharacterWorldPosition();
+            console.log('Character World Position:', characterWorldPosition);
             
-            // Move the camera to a bird's-eye view position
-            this.camera.position.set(0, 18, 0); // Adjust the height and distance as needed
-            this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Look down at the center of the scene
+            const closestCorner = this.findClosestTopCorner(characterWorldPosition);
+            console.log('Closest Corner Position:', closestCorner);
+            
+            // Move the camera to the closest corner position
+            this.camera.position.copy(closestCorner);
+            this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Adjust to look at the center of the store
+    
+            // Clamp the camera's position to stay within the bounds of the store if necessary
+            this.camera.position.x = THREE.MathUtils.clamp(this.camera.position.x, -75, 75);
+            this.camera.position.z = THREE.MathUtils.clamp(this.camera.position.z, -75, 75);
+            this.camera.position.y = THREE.MathUtils.clamp(this.camera.position.y, 1.96, 18);
+    
+            console.log('Camera Position after adjustment:', this.camera.position);
         } else {
-            // Reset to the player camera view
+            // Reset to player camera view
             this.camera.position.set(0, 3, 0); // Reset to player camera position
             this.camera.rotation.set(0, Math.PI / 2, 0); // Adjust rotation back to normal
         }
     }
-
+    
     //the 4 different security camera positions
     topCorners: THREE.Vector3[] = [
-        new THREE.Vector3(-75, 150, -75),  // Corner 1 (Top-left)
-        new THREE.Vector3(75, 150, -75),   // Corner 2 (Top-right)
-        new THREE.Vector3(-75, 150, 75),   // Corner 3 (Top-left far)
-        new THREE.Vector3(75, 150, 75),    // Corner 4 (Top-right far)
+        new THREE.Vector3(71, 18, 71),    // Top-right corner (Cashier area)
+        new THREE.Vector3(-71, 18, 71),   // Top-left corner (Pizza corner)
+        new THREE.Vector3(-71, 18, -71),  // Bottom-left corner (Diagonal to cashier)
+        new THREE.Vector3(71, 18, -71)     // Bottom-right corner (Veggie corner)
     ];
     findClosestTopCorner(position: THREE.Vector3): THREE.Vector3 {
         let minDistance = Infinity;
@@ -365,6 +373,11 @@ private setUpTimer(){
         });
     
         return closestCorner;
+    }
+    getCharacterWorldPosition(): THREE.Vector3 {
+        const worldPosition = new THREE.Vector3();
+        this.body.getWorldPosition(worldPosition); // Get world position from body mesh
+        return worldPosition;
     }
     
 
@@ -389,6 +402,8 @@ private setUpTimer(){
             // else{
             //     console.log("C key can only pressed twice!!!");
             // }
+            const characterWorldPosition = this.getCharacterWorldPosition();
+            console.log('Character World Position:', characterWorldPosition);
             this.toggleTopVieww();
             return;
         }
