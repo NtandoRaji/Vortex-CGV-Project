@@ -3,7 +3,6 @@ import { GraphicsContext, PhysicsColliderFactory, PhysicsContext } from "../lib"
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
 
-
 // Define the SecurityCameras class
 export class SecurityCameras {
     private cameras: THREE.Group[] = [];
@@ -13,16 +12,15 @@ export class SecurityCameras {
     private userInterface: InterfaceContext;
     private filename: string;
     private scale: number[];
-    private scene: THREE.Scene;
+    private scene!: THREE.Scene; // Use definite assignment assertion
 
-    // Constructor initializes SecurityCameras with contexts, a filename, and the 3D scene
+    // Constructor initializes SecurityCameras with contexts and a filename
     constructor(
         graphics: GraphicsContext, 
         physics: PhysicsContext, 
         interactions: InteractManager, 
         userInterface: InterfaceContext,
         filename: string, 
-        scene: THREE.Scene,  // Add the scene here
         scale: number[] = [1, 1, 1]
     ) {
         this.graphics = graphics;
@@ -30,8 +28,12 @@ export class SecurityCameras {
         this.interactions = interactions;
         this.userInterface = userInterface;
         this.filename = filename;
-        this.scene = scene;  // Assign scene to a class property
         this.scale = scale;
+    }
+
+    // Method to set the scene
+    setScene(scene: THREE.Scene): void {
+        this.scene = scene; // Assign the scene to the class property
     }
 
     // Method to asynchronously load the 3D model of the security camera from an external GLTF file
@@ -43,7 +45,7 @@ export class SecurityCameras {
 
             // Define positions for each camera in ceiling corners
             const positions = [
-                new THREE.Vector3(-80, 20, -80), // Corner 1
+                new THREE.Vector3(-15, 20, -15), // Corner 1
                 new THREE.Vector3(80, 20, -80),  // Corner 2
                 new THREE.Vector3(-80, 20, 80),  // Corner 3
                 new THREE.Vector3(80, 20, 80)    // Corner 4
@@ -54,7 +56,7 @@ export class SecurityCameras {
                 const cameraInstance = cameraModel.clone();
                 cameraInstance.position.copy(position);
                 this.cameras.push(cameraInstance);
-                this.scene.add(cameraInstance); // Use the scene from the constructor
+                this.scene.add(cameraInstance); // Use the scene from the property
             });
         } catch (error) {
             console.log(`[!] Error loading ${this.filename}_camera model`);
