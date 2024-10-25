@@ -314,7 +314,7 @@ private setUpTimer(){
             showGamePausedMenu();
         } else { // If not paused, resume the timer
             hideGamePauseMenu();
-            //startTimer();
+            startTimer();
         }
     }
 
