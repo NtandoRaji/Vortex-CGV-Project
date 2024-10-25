@@ -1,5 +1,5 @@
 // Import necessary modules and classes from 'three.js' and custom modules
-import { Construct, GraphicsContext, GraphicsPrimitiveFactory, PhysicsColliderFactory, PhysicsContext } from "../lib";
+import { GraphicsContext, PhysicsColliderFactory, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
 import { GroceryItem } from "./GroceryItem";
@@ -17,7 +17,7 @@ export class Box extends GroceryItem {
     async load(): Promise<void> {
         try {
             // Load the model using the filename, constructing the path based on the provided filename
-            const gltfData: any = await this.graphics.loadModel(`/assets/${this.filename}_box/${this.filename}_box.gltf`);
+            const gltfData: any = await this.graphics.loadModel(`assets/${this.filename}_box/${this.filename}_box.gltf`);
             // Store the loaded 3D mesh into the 'mesh' property
             this.mesh = gltfData.scene;
         } catch (error) {

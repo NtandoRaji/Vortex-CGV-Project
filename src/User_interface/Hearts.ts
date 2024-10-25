@@ -42,7 +42,7 @@ export function updateLivesDisplay(containerId: string, lives: number): void {
             // Create heart images for each life
             for (let i = 0; i < lives; i++) {
                 const heartImage = document.createElement('img');
-                heartImage.src = '../icons/heart.png';
+                heartImage.src = 'icons/heart.png';
                 heartImage.alt = 'Lives';
                 heartImage.style.width = '30px';
                 heartImage.style.height = '30px';

@@ -39,8 +39,9 @@ export class Store extends Construct {
 
     storeDimensions: Array<number> = [160, 20, 160];
     floor!: any;
-    floorTexture!: THREE.MeshLambertMaterial;
+    floorTexture!: THREE.MeshStandardMaterial;
     textureFloorData!:any;
+    displacementTexture!:any
 
     //Store sections
     sections: Array<Section> = [];
@@ -132,12 +133,32 @@ export class Store extends Construct {
 
     async load(): Promise<void> {
         try {
-            // Load Floor Texture Data
-            this.textureFloorData = await this.graphics.loadTexture("assets/floor_image/floor_image.jpg");
+            // Load Diffuse Texture
+            this.textureFloorData = await this.graphics.loadTexture("assets/floor_image/floor_tiles_06_diff_2k.jpg") as THREE.Texture;
+        
+            // Load Displacement Texture
+            this.displacementTexture = await this.graphics.loadTexture("assets/floor_image/floor_tiles_06_disp_2k.png") as THREE.Texture;
+        
+            // Create Normal Map
+            const normalMapTexture = new THREE.Texture(); // Initialize an empty normal map
+        
+            // If the diffuse texture is loaded properly
             if (this.textureFloorData !== undefined) {
+                // Set texture properties for diffuse
                 this.textureFloorData.wrapS = this.textureFloorData.wrapT = THREE.RepeatWrapping;
                 this.textureFloorData.repeat.set(50, 50);
                 this.textureFloorData.anisotropy = 16;
+        
+                // Set displacement map properties
+                this.displacementTexture.wrapS = this.displacementTexture.wrapT = THREE.RepeatWrapping;
+                this.displacementTexture.repeat.set(50, 50);
+                
+                // Optional: Define your own normal map manually here
+                // You can generate it procedurally, load from a file, or use a default map.
+                normalMapTexture.wrapS = normalMapTexture.wrapT = THREE.RepeatWrapping;
+                normalMapTexture.repeat.set(50, 50);
+        
+                
             }
         }
         catch (error) {
@@ -186,15 +207,27 @@ export class Store extends Construct {
 
         // --- Build floor ---
         const floorGeometry = new THREE.PlaneGeometry(this.storeDimensions[0], this.storeDimensions[2]);
-        this.floorTexture = new THREE.MeshLambertMaterial( { map: this.textureFloorData, side: THREE.DoubleSide } );
-        const floor = new THREE.Mesh(floorGeometry, this.floorTexture)
+
+        // Create material using both displacement and diffuse textures
+        this.floorTexture = new THREE.MeshStandardMaterial({
+            map: this.textureFloorData,                // Diffuse map
+            displacementMap: this.displacementTexture, // Displacement map
+            displacementScale: 0.1,                    // Adjust based on desired effect
+            side: THREE.DoubleSide,
+            roughness: 0.2,                            // Control material roughness
+            metalness: 0.1,                            // Slight metallic sheen
+        });
+
+        const floor = new THREE.Mesh(floorGeometry, this.floorTexture);
 
         floor.position.set(0, 0, 0);
         floor.rotation.set(Math.PI/2,0,0);
         floor.receiveShadow = true;
-        
+
         this.physics.addStatic(floor, PhysicsColliderFactory.box(this.storeDimensions[0]/2, this.storeDimensions[2]/2, 1));
         this.add(floor);
+        
+        this.graphics.add(floor);
         // ------------------
 
         // --- Build ceiling ---
@@ -263,6 +296,7 @@ export class Store extends Construct {
 
 
     // Update method to check player interactions with shop items and pickup spots
+    //@ts-ignore
     update(time?: TimeS, delta?: TimeMS): void {
         // Check if the player is looking at any of the shop items (shelves or boxes)
         this.player.checkLookingAtGroceryItem(this.shopItems);

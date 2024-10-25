@@ -6,7 +6,7 @@ let timerElement: HTMLDivElement;
 let pulsateInterval: ReturnType<typeof setInterval> | null = null; // For pulsating effect
 
 // Load the sound file
-const clickSound = new Audio('/musicSound/emergencyAlarm.mp3');
+const clickSound = new Audio('musicSound/emergencyAlarm.mp3');
 
 // Function to play sound
 function playWarningSound() {
@@ -105,7 +105,7 @@ export function stopTimer(): void {
 }
 
 //for timer when 10s or less
-function startPulsating(): void {
+export function startPulsating(): void {
     // Stop any existing pulsating interval
     stopPulsating(); 
 
@@ -116,7 +116,7 @@ function startPulsating(): void {
     }, 50); // Update every 50ms for smoother effect
 }
 
-function stopPulsating(): void {
+export function stopPulsating(): void {
     if (pulsateInterval) {
         clearInterval(pulsateInterval);
         pulsateInterval = null; // Reset pulsate interval

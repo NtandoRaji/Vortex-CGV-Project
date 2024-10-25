@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import { Scene } from "../lib";
 import { TimeS } from "../lib/w3ads/types/misc.type";
 import { Player } from "../constructs/Player";
@@ -32,6 +31,7 @@ export class Level1 extends Scene {
 
     build(): void {}
 
+    //@ts-ignore
     update(time?: TimeS, delta?: TimeS): void {}
 
     destroy(): void {}
