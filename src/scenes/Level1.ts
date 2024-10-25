@@ -3,18 +3,20 @@ import { TimeS } from "../lib/w3ads/types/misc.type";
 import { Player } from "../constructs/Player";
 import { Store } from "../constructs/Store";
 import { CustomInteractManager } from "../lib/customs/CustomInteractManager";
+import { CustomInterfaceContext } from "../lib/customs/CustomInterfaceContext";
 
 
 export class Level1 extends Scene {
     player!: Player;
     store!: Store;
+    interactions: CustomInteractManager = new CustomInteractManager();
+    userInterface: CustomInterfaceContext = new CustomInterfaceContext();
 
     constructor(AmmoLib: any){
         super(
-            "level_1",
+            "level-1",
             AmmoLib
         );
-        this.interactions = new CustomInteractManager();
 
         this.player = new Player(this.graphics, this.physics, this.interactions, this.userInterface);
         this.addConstruct(this.player);

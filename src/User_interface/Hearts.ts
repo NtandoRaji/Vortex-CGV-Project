@@ -6,8 +6,10 @@ export function setUpLives(containerId: string, lives: number): void {
         // Create the lives element only if it doesn't already exist
         livesDisplay = document.createElement("div");
         livesDisplay.id = containerId;
+        livesDisplay.style.display = 'flex';
+        livesDisplay.style.flexDirection = 'row';
         livesDisplay.style.position = 'absolute';
-        livesDisplay.style.top = '65px'; // Position it below the timer
+        livesDisplay.style.top = '75px'; // Position it below the timer
         livesDisplay.style.left = '10px';
         livesDisplay.style.color = '#000000'; // Text color
         livesDisplay.style.background = '#36454F';

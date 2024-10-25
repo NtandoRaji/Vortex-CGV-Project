@@ -97,7 +97,7 @@ body::before {
 
 .menu-container {
     text-align: center;
-    background-color: rgba(237, 235, 235, 0.841); /* Semi-transparent background */
+    background-color: #edebebd6; /* Semi-transparent background */
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), /*large dark shadow*/
@@ -175,19 +175,19 @@ h1 {
     box-shadow: 0 0 20px 10px #d34283;
 }
 #credits-btn{
-    background-color: rgba(60, 126, 54, 0.888);
+    background-color: #3c7e36e2;
 }
 #credits-btn:hover{
     box-shadow: 0 0 20px 10px rgba(60, 126, 54, 0.888);
 }
 #settings-btn{
-    background-color: rgba(198, 73, 38, 0.888);
+    background-color: #c64926e2;
 }
 #settings-btn:hover{
     box-shadow: 0 0 20px 10px rgba(198, 73, 38, 0.888);
 }
 #levels-btn{
-    background-color: rgba(142, 38, 198, 0.888);
+    background-color: #8e26c6e2;
 }
 #levels-btn:hover{
     box-shadow: 0 0 20px 10px rgba(142, 38, 198, 0.888);
@@ -218,7 +218,7 @@ h1 {
     border-color: rgba(60, 126, 54, 0.888); /* Match with credits button */
 }
 #settings-popup {
-    border-color: rgba(198, 73, 38, 0.888); /* Match with settings button */
+    border-color: #c64926e2; /* Match with settings button */
 }
 #levels-popup {
     border-color: rgba(142, 38, 198, 0.888); /* Match with level button */
@@ -230,7 +230,7 @@ h1 {
     color:#e91e63;
 }
 #credits-headings{
-    color: rgba(60, 126, 54, 0.888);
+    color: #3c7e36e2;
 }
 #setting-heading{
     color:rgba(198, 73, 38, 0.888);
