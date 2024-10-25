@@ -11,6 +11,7 @@ export class Level1 extends Scene {
     store!: Store;
     interactions: CustomInteractManager = new CustomInteractManager();
     userInterface: CustomInterfaceContext = new CustomInterfaceContext();
+    levelMusic!: HTMLAudioElement;
 
     constructor(AmmoLib: any){
         super(
@@ -23,15 +24,23 @@ export class Level1 extends Scene {
 
         this.store = new Store(this.graphics, this.physics, this.interactions, this.userInterface, this.player);
         this.addConstruct(this.store);
+
+        this.levelMusic = new Audio('musicSound/gameMusic.mp3');
     }
 
     create(): void {
         this.store.root.position.set(0, 0, 0);
+
+        this.levelMusic.loop = true; // Make the music loop
+        this.levelMusic.volume = Number(localStorage.getItem("vol")); // Set initial volume
     }
 
     async load(): Promise<void> {}
 
-    build(): void {}
+    build(): void {
+        // Play Level Music
+        this.levelMusic.play().catch(error => console.error('Music playback failed:', error));
+    }
 
     //@ts-ignore
     update(time?: TimeS, delta?: TimeS): void {}
