@@ -32,7 +32,7 @@ export class GroceryItem extends Construct {
 
     async load(): Promise<void> {
         try {
-            const gltfData: any = await this.graphics.loadModel(`/assets/${this.filename}/${this.filename}.gltf`);
+            const gltfData: any = await this.graphics.loadModel(`assets/${this.filename}/${this.filename}.gltf`);
             this.mesh = gltfData.scene;
         }
         catch (error) {
@@ -47,6 +47,7 @@ export class GroceryItem extends Construct {
         this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(this.scale[0] / 6, this.scale[1] / 3, this.scale[2] / 6));
     }
 
+    //@ts-ignore
     update(time?: TimeS, delta?: TimeMS): void {}
 
     destroy(): void {}

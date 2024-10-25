@@ -15,7 +15,7 @@ export class CashierRegister extends Construct {
 
     async load(): Promise<void> {
         try {
-            const gltfData: any = await this.graphics.loadModel("/assets/cash_register/cash_register.gltf");
+            const gltfData: any = await this.graphics.loadModel("assets/cash_register/cash_register.gltf");
             this.mesh = gltfData.scene;
         }
         catch (error) {
@@ -35,6 +35,7 @@ export class CashierRegister extends Construct {
 
     }
 
+    //@ts-ignore
     update(time?: TimeS, delta?: TimeMS): void {}
 
     destroy(): void {}

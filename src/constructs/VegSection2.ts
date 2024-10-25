@@ -1,12 +1,8 @@
 // Import necessary modules and classes from 'three.js' and custom modules
-import * as THREE from "three";
-import { Construct, GraphicsContext, PhysicsContext } from "../lib";
+import { GraphicsContext, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
-import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
-import { Shelf } from "./Shelf";
 import { PickupSpot } from "./PickupSpot";
-import { Player } from "./Player";
 import { Box } from "./Box";
 import { Section } from "./Section";
 
@@ -39,7 +35,7 @@ export class VegSection2 extends Section {
             pickupSpot.root.rotation.set(boxRotations[i][0], boxRotations[i][1], boxRotations[i][2]);
 
             // Add interaction logic for placing objects in the PickupSpot
-            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {});
+            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, () => {});
 
             // Add the PickupSpot to the pickupSpots array and register it in the construct system
             this.pickupSpots.push(pickupSpot);

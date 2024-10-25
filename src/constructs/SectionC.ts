@@ -1,5 +1,4 @@
 // Import necessary modules and classes from 'three.js' and custom modules
-import * as THREE from "three";
 import { GraphicsContext, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
@@ -51,7 +50,7 @@ export class SectionC extends Section {
             pickupSpot.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
 
             // Add interaction logic for placing objects in the pickup spot
-            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {});
+            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, () => {});
 
             // Add the PickupSpot to the pickupSpots array and register it in the construct system
             this.pickupSpots.push(pickupSpot);

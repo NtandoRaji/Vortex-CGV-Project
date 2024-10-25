@@ -115,6 +115,7 @@ export class BasicScene extends Scene {
         })
     }
 
+    //@ts-ignore
     update(time?: TimeS, delta?: TimeS): void {
         this.player.checkLookingAtGroceryItem(this.groceryItems);
         this.player.checkLookingAtPickupSpot(this.pickupSpots);
