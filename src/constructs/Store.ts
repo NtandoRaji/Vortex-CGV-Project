@@ -54,10 +54,6 @@ export class Store extends Construct {
     // Store decoration constructs
     cashierCounter!: CashierCounter
 
-    //security cameras
-    securityCameraData!: any; // For the security camera model
-    cameras: Array<THREE.Group> = []; // Array to hold camera instances
-
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, player: Player) {
         super(graphics, physics, interactions, userInterface);
 
@@ -272,26 +268,6 @@ export class Store extends Construct {
         this.add(ambientLight);
         // ---------------------
 
-        //add security cameras
-        this.setupSecurityCameras();
-    }
-
-    setupSecurityCameras(): void {
-        const positions = [
-            [-this.storeDimensions[0] / 2 + 5, 18, -this.storeDimensions[2] / 2 + 5],  // Bottom Left
-            [this.storeDimensions[0] / 2 - 5, 18, -this.storeDimensions[2] / 2 + 5], // Bottom Right
-            [-this.storeDimensions[0] / 2 + 5, 18, this.storeDimensions[2] / 2 - 5],  // Top Left
-            [this.storeDimensions[0] / 2 - 5, 18, this.storeDimensions[2] / 2 - 5]    // Top Right
-        ];
-
-        for (let pos of positions) {
-            const camera = this.securityCameraData.scene.clone(); // Clone the camera model
-            camera.position.set(pos[0], pos[1], pos[2]);
-            camera.scale.set(1, 1, 1); // Adjust the scale as needed
-            this.cameras.push(camera); // Store camera for future reference
-            this.add(camera); // Add to the scene
-            this.graphics.add(camera);
-        }
     }
 
 
