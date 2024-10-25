@@ -1,11 +1,15 @@
 import { CustomInterfaceContext } from "../../lib/customs/CustomInterfaceContext"
 import { popupCloseButton } from "../utility";
 
-export const drawHowToPlay = (ui: CustomInterfaceContext) : number => {
+export const drawHowToPlay = (ui: CustomInterfaceContext, clickSound: HTMLAudioElement) : number => {
     let pink = "#e91e63";
     const {popup, popupID} = ui.addPopup("How to Play", pink);
 
-    const closeButton = popupCloseButton("", pink,() => ui.hidePopup(popupID));
+    const closeButton = popupCloseButton("x", pink,() => {
+        clickSound.play();
+        ui.hidePopup(popupID);
+    });
+
     popup.appendChild(closeButton);
 
     let text = document.createElement("p");

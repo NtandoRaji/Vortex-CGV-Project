@@ -20,7 +20,7 @@ export const buildButton = (text: string, colour:string = "white", onclick: Func
 
     button.addEventListener("mouseover", () => {
         button.style.transform = 'translateY(-5px)';  // Button lift effect
-        button.style.boxShadow = `0 8px 25px ${colour}`;  // Increase shadow
+        button.style.boxShadow = `0 15px 50px ${colour}`;  // Increase shadow
         button.style.outline = '5px solid #313131';  // Outline
         button.style.outlineOffset = '5px';  // Outline offset
     });
@@ -53,7 +53,7 @@ export const popupCloseButton = (text: string, colour: string = "white", onclick
     button.className = "text-2xl";
     button.style.backgroundColor = colour;
     button.textContent = text;
-    button.style.margin = "0"
+    button.style.margin = "0px";
     button.style.position = 'absolute';
     button.style.top = '10px';
     button.style.right = '15px';
@@ -61,14 +61,54 @@ export const popupCloseButton = (text: string, colour: string = "white", onclick
     button.style.cursor = 'pointer';
     button.style.color = '#000';
     button.style.borderRadius = '8px';
-    button.style.padding = '15px';
+    button.style.padding = '0px 6px 6px 6px';
     button.onclick = () => onclick();
 
     return button;
 }
 
+// Helper function to create section headers
+export const createHeading = (text: string, colour: string): HTMLHeadingElement => {
+    const heading = document.createElement("h2");
+    heading.textContent = text;
+    heading.style.color = colour;
+    heading.style.fontWeight = "bold";
+    heading.style.fontSize = "18px";
+    return heading;
+};
 
+// Helper function to create paragraphs with plain text
+export const createParagraph = (text: string): HTMLParagraphElement => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    paragraph.style.marginTop = "5px";
+    paragraph.style.marginBottom = "5px";
+    paragraph.style.textAlign = "center";
+    paragraph.style.width = "45%";
+    return paragraph;
+};
 
+// Helper function to create link lists
+export interface Link {
+    name: string;
+    url: string;
+}
 
+export const createLinkList = (links: Link[]): HTMLUListElement => {
+    const list = document.createElement("ul");
+    list.style.display = "flex";
+    list.style.flexDirection = "column";
+    list.style.alignItems = "center";
 
-
+    links.forEach((link) => {
+        const listItem = document.createElement("li");
+        const anchor = document.createElement("a");
+        anchor.href = link.url;
+        // anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
+        anchor.textContent = link.name;
+        listItem.appendChild(anchor);
+        list.appendChild(listItem);
+    });
+    return list;
+};

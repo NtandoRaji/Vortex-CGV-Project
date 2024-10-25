@@ -30,8 +30,9 @@ export class MainMenu extends Scene {
     }
 
     private setupAudio(): void {
+        const volume = Number(localStorage.getItem("vol"));
         this.menuMusic.loop = true;
-        this.menuMusic.volume = 0.5;
+        this.menuMusic.volume = volume;
         this.menuMusic.muted = false;
 
         // Add both mousemove and click handlers for better autoplay support
@@ -151,6 +152,9 @@ export class MainMenu extends Scene {
                 this.circles[i].position.z += this.directions[i] * 0.01;
             }
         }
+
+        // Update menu music volume
+        this.menuMusic.volume = Number(localStorage.getItem("vol"));
     }
 
     destroy(): void {

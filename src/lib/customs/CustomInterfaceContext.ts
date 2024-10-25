@@ -17,7 +17,7 @@ export class CustomInterfaceContext extends InteractManager{
         this.root.appendChild(this.menuRoot);
 
         this.promptRoot = document.createElement('div');
-        this.promptRoot.className = 'row-span-1 row-start-2 flex flex-col items-center justify-center gap-1 p-2';
+        this.promptRoot.className = 'absolute left-10 top-10 flex flex-col items-center justify-center gap-1 p-2';
         this.root.appendChild(this.promptRoot);
 
         this.elements = [];
@@ -68,7 +68,7 @@ export class CustomInterfaceContext extends InteractManager{
         this.elements.push( document.createElement('div') );
         this.elements[menuId].className = `flex flex-${row ? 'row': 'col' } justify-center gap-5`;
         this.elements[menuId].style.width = "580px";
-        this.elements[menuId].style.height = "550px";
+        this.elements[menuId].style.height = "auto";
         this.elements[menuId].style.backgroundColor;
         this.elements[menuId].style.padding = '30px';
         this.elements[menuId].style.borderRadius = '15px';
@@ -119,7 +119,7 @@ export class CustomInterfaceContext extends InteractManager{
         popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
         popup.style.zIndex = '1000';
         popup.style.width = '500px';
-        popup.style.height = '400px';
+        popup.style.height = 'auto';
         popup.style.maxHeight = '80vh';
         popup.style.overflowY = 'auto';
         popup.style.backgroundClip = 'padding-box';
