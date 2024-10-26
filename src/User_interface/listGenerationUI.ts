@@ -17,12 +17,11 @@ export function generateAndDisplayGroceryItems(containerId: string, count: numbe
 
     // Get random items
     const randomItems: Item[] = getRandomItems(items, count);
-    
-    // Display the items in the specified container
-    displayItems(list.id, randomItems);
-    
+
     // Append the list to the document body
     document.body.appendChild(list);
+    // Display the items in the specified container
+    displayItems(list.id, randomItems);
 }
 
 export function updateList(containerId: string, receivedItem: string): boolean {
