@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GraphicsContext, PhysicsColliderFactory, PhysicsContext } from "../lib";
-import { InteractManager } from "../lib/w3ads/InteractManager";
-import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
+// import { InteractManager } from "../lib/w3ads/InteractManager";
+// import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
 
 // Define the SecurityCameras class
 export class SecurityCameras {
