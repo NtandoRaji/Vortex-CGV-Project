@@ -55,7 +55,7 @@ export class Store extends Construct {
     cashierCounter!: CashierCounter
 
     //security cameras
-    securityCameraData!: any; // For the security camera model
+    securityCameraData: any = []; // For the security camera model
     cameras: Array<THREE.Group> = []; // Array to hold camera instances
 
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, player: Player) {
@@ -273,7 +273,7 @@ export class Store extends Construct {
         // ---------------------
 
         //add security cameras
-        this.setupSecurityCameras();
+        // this.setupSecurityCameras();
     }
 
     setupSecurityCameras(): void {

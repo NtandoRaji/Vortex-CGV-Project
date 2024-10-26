@@ -58,6 +58,7 @@ export class Player extends Construct {
     hasWon: boolean = false;
     isTopView: boolean = false;
     securityCameraClicks: number = 0;
+    FirstPersonCameraRotation!: THREE.Euler;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -184,12 +185,12 @@ private setUpTimer(){
         const bodyGeometry = new THREE.CapsuleGeometry(1, 3);
         const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0x0000FF });
         this.body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        this.body.castShadow = true;
 
         // Attach the camera to the face, and the face to the body
         this.face.add(this.camera);
         this.body.add(this.face);
         this.add(this.body);
-        this.body.layers.set(1); //Makes body invisible to camera
 
         // Add physics properties to the player for jumping & movement
         this.physics.addCharacter(this.root, PhysicsColliderFactory.box(1, 1, 1), {
@@ -323,26 +324,30 @@ private setUpTimer(){
         this.isTopView = !this.isTopView;
     
         if (this.isTopView) {
-            const characterWorldPosition = this.getCharacterWorldPosition();
-            console.log('Character World Position:', characterWorldPosition);
+            // Get the camera's world position
+            const cameraWorldPosition = this.getCameraWorldPosition();
+            console.log('Camera World Position:', cameraWorldPosition);
             
-            const closestCorner = this.findClosestTopCorner(characterWorldPosition);
+            // Get the closest corner from the camera position
+            const closestCorner = this.findClosestTopCorner(cameraWorldPosition);
             console.log('Closest Corner Position:', closestCorner);
             
+            // Get displacement from camera to closest corner
+            const displacement = closestCorner.sub(cameraWorldPosition);
+            console.log("Displacement", displacement);
+
+            // Keep a copy of the camera's rotation
+            this.FirstPersonCameraRotation = this.camera.rotation.clone();
+
             // Move the camera to the closest corner position
-            this.camera.position.copy(closestCorner);
+            this.camera.position.add(displacement);
             this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Adjust to look at the center of the store
-    
-            // Clamp the camera's position to stay within the bounds of the store if necessary
-            this.camera.position.x = THREE.MathUtils.clamp(this.camera.position.x, -75, 75);
-            this.camera.position.z = THREE.MathUtils.clamp(this.camera.position.z, -75, 75);
-            this.camera.position.y = THREE.MathUtils.clamp(this.camera.position.y, 1.96, 18);
     
             console.log('Camera Position after adjustment:', this.camera.position);
         } else {
             // Reset to player camera view
-            this.camera.position.set(0, 3, 0); // Reset to player camera position
-            this.camera.rotation.set(0, Math.PI / 2, 0); // Adjust rotation back to normal
+            this.camera.position.set(0, 0, 0); // Reset to player camera position
+            this.camera.rotation.copy(this.FirstPersonCameraRotation); // Adjust rotation back to normal
         }
     }
     
@@ -368,12 +373,12 @@ private setUpTimer(){
                 closestCorner = corner;
             }
         });
-    
-        return closestCorner;
+        return closestCorner.clone();
     }
-    getCharacterWorldPosition(): THREE.Vector3 {
+
+    getCameraWorldPosition(): THREE.Vector3 {
         const worldPosition = new THREE.Vector3();
-        this.body.getWorldPosition(worldPosition); // Get world position from body mesh
+        this.camera.getWorldPosition(worldPosition); // Get world position from body mesh
         return worldPosition;
     }
     
@@ -399,8 +404,8 @@ private setUpTimer(){
             // else{
             //     console.log("C key can only pressed twice!!!");
             // }
-            const characterWorldPosition = this.getCharacterWorldPosition();
-            console.log('Character World Position:', characterWorldPosition);
+            const cameraWorldPosition = this.getCameraWorldPosition();
+            console.log('Camera World Position:', cameraWorldPosition);
             this.toggleTopVieww();
             return;
         }
