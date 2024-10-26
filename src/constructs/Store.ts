@@ -23,7 +23,6 @@ import { VegSection2 } from "./VegSection2";
 import { VegSection3 } from "./VegSection3";
 import { IceCreamSection } from "./IceCreamSection";
 import { SectionE } from "./SectionE";
-import { SecurityCameras } from "./SecurityCameras";
 
 
 

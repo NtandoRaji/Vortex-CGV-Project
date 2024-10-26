@@ -8,8 +8,8 @@ export class SecurityCameras {
     private cameras: THREE.Group[] = [];
     private graphics: GraphicsContext;
     private physics: PhysicsContext;
-    private interactions: InteractManager;
-    private userInterface: InterfaceContext;
+    // private interactions: InteractManager;
+    // private userInterface: InterfaceContext;
     private filename: string;
     private scale: number[];
     private scene!: THREE.Scene; // Use definite assignment assertion
@@ -18,15 +18,15 @@ export class SecurityCameras {
     constructor(
         graphics: GraphicsContext, 
         physics: PhysicsContext, 
-        interactions: InteractManager, 
-        userInterface: InterfaceContext,
+        // interactions: InteractManager, 
+        // userInterface: InterfaceContext,
         filename: string, 
         scale: number[] = [1, 1, 1]
     ) {
         this.graphics = graphics;
         this.physics = physics;
-        this.interactions = interactions;
-        this.userInterface = userInterface;
+        // this.interactions = interactions;
+        // this.userInterface = userInterface;
         this.filename = filename;
         this.scale = scale;
     }
