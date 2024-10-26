@@ -20,7 +20,7 @@ const walkSpeed = 0.15;
 const sprintSpeed = 0.4;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
-const jumpGravity = 1.1;
+const jumpGravity = 2;
 
 // A variable to hold the current scope of the Player instance, useful for event listeners
 let scope: any;
@@ -135,10 +135,6 @@ export class Player extends Construct {
         });
 
         //you can insert noLightsFilter here
-
-        this.setUpTimer();
-        this.setUpLifeDisplay();
-        this.setUpList();
     }
 
 
@@ -212,6 +208,13 @@ private setUpTimer(){
         this.crosshair.style.border = '2px solid white';
         this.crosshair.style.borderRadius = '50%';
         document.body.appendChild(this.crosshair);
+
+
+        // You can insert noLightsFilter here
+
+        this.setUpTimer();
+        this.setUpLifeDisplay();
+        this.setUpList();
     }
 
     // Update player state every frame, including movement and interaction prompts
