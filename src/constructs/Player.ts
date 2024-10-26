@@ -236,6 +236,13 @@ private setUpTimer(){
         const moveVector = forward.multiplyScalar(xLocal).add(right.multiplyScalar(zLocal));
         this.physics.moveCharacter(this.root, -moveVector.x, 0, -moveVector.z, this.speed * delta);
 
+        // When in security camera mode, keep camera stationary but watch player move around store
+        if (this.isTopView) {
+            // Keep the camera at the selected corner and look at the player
+            const playerPosition = this.root.position; // Assuming this.root represents the player
+            this.camera.lookAt(playerPosition);
+        }
+        
         this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
 
         if (this.lookingAtGroceryItem){
@@ -407,25 +414,17 @@ private setUpTimer(){
             const cameraWorldPosition = this.getCameraWorldPosition();
             console.log('Camera World Position:', cameraWorldPosition);
             this.toggleTopVieww();
-
-            //if player moving and using c prevent movement
-            if (this.isTopView) {
-                scope.direction.forward = 0;
-                scope.direction.backward = 0;
-                scope.direction.left = 0;
-                scope.direction.right = 0;
-            }
             return;
         }
         
         // If top view is active, ignore movement keys
-        if(this.isTopView) {
-            scope.direction.forward = 0;
-            scope.direction.backward = 0;
-            scope.direction.left = 0;
-            scope.direction.right = 0;
-            return; 
-        }
+        // if(this.isTopView) {
+        //     scope.direction.forward = 0;
+        //     scope.direction.backward = 0;
+        //     scope.direction.left = 0;
+        //     scope.direction.right = 0;
+        //     return; 
+        // }
 
         if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 1; }
         if (event.key == 's' || event.key == 'S') { scope.direction.backward = 1; }
