@@ -36,7 +36,7 @@ export class SecurityCameras {
         this.scene = scene; // Assign the scene to the class property
     }
 
-    // Method to asynchronously load the 3D model of the security camera from an external GLTF file
+    // asynchronously load the 3D model of the security camera from GLTF file
     async load(): Promise<void> {
         try {
             // Load the model using the filename, constructing the path based on the provided filename
@@ -45,10 +45,10 @@ export class SecurityCameras {
 
             // Define positions for each camera in ceiling corners
             const positions = [
-                new THREE.Vector3(-15, 20, -15), // Corner 1
-                new THREE.Vector3(80, 20, -80),  // Corner 2
-                new THREE.Vector3(-80, 20, 80),  // Corner 3
-                new THREE.Vector3(80, 20, 80)    // Corner 4
+                new THREE.Vector3(20, 18, -30), // Corner 1
+                new THREE.Vector3(80, 18, -80),  // Corner 2
+                new THREE.Vector3(-80, 18, 80),  // Corner 3
+                new THREE.Vector3(80, 18, 80)    // Corner 4
             ];
 
             // Place cameras at each corner
@@ -64,7 +64,7 @@ export class SecurityCameras {
         }
     }
 
-    // Method to build the SecurityCameras, setting scale, shadows, and physics for each camera
+    // build the SecurityCameras, setting scale, shadows, and physics for each camera
     build(): void {
         this.cameras.forEach((camera) => {
             // Set scale for each camera instance
