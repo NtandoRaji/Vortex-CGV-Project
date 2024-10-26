@@ -407,6 +407,14 @@ private setUpTimer(){
             const cameraWorldPosition = this.getCameraWorldPosition();
             console.log('Camera World Position:', cameraWorldPosition);
             this.toggleTopVieww();
+
+            //if player moving and using c prevent movement
+            if (this.isTopView) {
+                scope.direction.forward = 0;
+                scope.direction.backward = 0;
+                scope.direction.left = 0;
+                scope.direction.right = 0;
+            }
             return;
         }
         

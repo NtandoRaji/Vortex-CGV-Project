@@ -45,7 +45,7 @@ export class SecurityCameras {
 
             // Define positions for each camera in ceiling corners
             const positions = [
-                new THREE.Vector3(20, 18, -30), // Corner 1
+                new THREE.Vector3(80, 18, 80), // Corner 1
                 new THREE.Vector3(80, 18, -80),  // Corner 2
                 new THREE.Vector3(-80, 18, 80),  // Corner 3
                 new THREE.Vector3(80, 18, 80)    // Corner 4
