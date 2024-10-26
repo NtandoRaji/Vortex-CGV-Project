@@ -62,6 +62,9 @@ export class MainMenu extends Scene {
         this.camera.position.set(20, 0, 0);
         this.camera.lookAt(0, 0, 0);
 
+        //background colour
+        this.graphics.renderer.setClearColor(0xAACCBB);
+
         // Handle window resize
         window.addEventListener('resize', () => this.handleResize());
 
@@ -84,7 +87,7 @@ export class MainMenu extends Scene {
 
     build(): void {
         const circlePositions = [
-            [0, -7.3, 3.4],
+            [0, -10, 3.4],
             [0, -4.1, -8.1],
             [0, 1.8, -0.4],
             [0, 13.3, 0.8],
@@ -97,6 +100,7 @@ export class MainMenu extends Scene {
             [0, 9.2, 8.8],
             [0, -9.9, -1.9],
             [0, 15.3, 6.2],
+            
         ];
 
         const circleColors = [
@@ -133,6 +137,27 @@ export class MainMenu extends Scene {
         // Add ambient light
         const ambientLight = new THREE.AmbientLight(0XFFFFFF, 2);
         this.graphics.add(ambientLight);
+
+        //directional light from front view for brighter effect
+        const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 2);  // Brighter intensity for vivid colors
+        directionalLight.position.set(0, 0, 20);  // Position in front of the circles
+        directionalLight.target.position.set(0, 0, 0);  // Target the center of the scene
+        this.graphics.add(directionalLight);
+        this.graphics.add(directionalLight.target);  // Required to make the light target effective
+    
+        // Directional light from the left
+        const leftLight = new THREE.DirectionalLight(0xFFFFFF, 1.5);
+        leftLight.position.set(-20, 0, 10); // Position on the left side
+        leftLight.target.position.set(0, 0, 0);
+        this.graphics.add(leftLight);
+        this.graphics.add(leftLight.target);
+
+        // Directional light from the right
+        const rightLight = new THREE.DirectionalLight(0xFFFFFF, 1.5);
+        rightLight.position.set(20, 0, 10); // Position on the right side
+        rightLight.target.position.set(0, 0, 0);
+        this.graphics.add(rightLight);
+        this.graphics.add(rightLight.target);
     }
 
     //@ts-ignore

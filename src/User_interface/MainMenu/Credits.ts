@@ -15,7 +15,7 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
 
     const popupHeading = createHeading("Behind the Scenes Magic Awards", green);
     popupHeading.style.fontSize = "2.5em";
-    popupHeading.style.paddingTop = "500px";
+    popupHeading.style.paddingTop = "550px";
     popupHeading.style.textAlign = "center";
     popup.appendChild(popupHeading);
 
@@ -35,8 +35,14 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
 
     // Section 2: Quest Creator
     popup.appendChild(createHeading("Quest Creator (Game Engine)", green));
-    popup.appendChild(createParagraph("Brenden Griffiths - Explain exactly what was used"));
-
+    const questCreatorParagraph = createParagraph("");
+    const link = document.createElement('a');
+    link.href = "https://github.com/Wits-SG/CGV-Project/tree/main/src/lib/w3ads";
+    link.textContent = "Game Engine Used - Attributed to Brenden (Surname)";
+    link.target = "_blank";
+    
+    questCreatorParagraph.appendChild(link);
+    popup.appendChild(questCreatorParagraph);
     // Section 3: Sculpted Spectacles
     popup.appendChild(createHeading("Sculpted Spectacles (Models)", green));
     const modelLinks: Link[] = [
