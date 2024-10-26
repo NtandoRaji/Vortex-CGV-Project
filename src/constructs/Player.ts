@@ -353,10 +353,10 @@ private setUpTimer(){
     
     //the 4 different security camera positions
     topCorners: THREE.Vector3[] = [
-        new THREE.Vector3(20, 18, 30),    // (Cashier area)
-        new THREE.Vector3(-20, 18, 30),   // (Pizza corner)
-        new THREE.Vector3(-20, 18, -30),  // (Diagonal to cashier)
-        new THREE.Vector3(20, 18, -30)    // (Veggie corner)
+        new THREE.Vector3(80, 18, 80),    // (Cashier area)
+        new THREE.Vector3(-80, 18, 80),   // (Pizza corner)
+        new THREE.Vector3(-80, 18, -80),  // (Diagonal to cashier)
+        new THREE.Vector3(80, 18, -80)    // (Veggie corner)
     ];
     findClosestTopCorner(position: THREE.Vector3): THREE.Vector3 {
         let minDistance = Infinity;
