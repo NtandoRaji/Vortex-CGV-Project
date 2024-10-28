@@ -1,6 +1,5 @@
 // Import necessary modules and classes from 'three.js' and custom modules
 import * as THREE from "three"; 
-import { AnimationMixer } from 'three';
 import {
   GraphicsContext,
   PhysicsColliderFactory,
