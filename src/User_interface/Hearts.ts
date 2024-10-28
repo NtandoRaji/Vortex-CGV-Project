@@ -6,8 +6,10 @@ export function setUpLives(containerId: string, lives: number): void {
         // Create the lives element only if it doesn't already exist
         livesDisplay = document.createElement("div");
         livesDisplay.id = containerId;
+        livesDisplay.style.display = 'flex';
+        livesDisplay.style.flexDirection = 'row';
         livesDisplay.style.position = 'absolute';
-        livesDisplay.style.top = '65px'; // Position it below the timer
+        livesDisplay.style.top = '75px'; // Position it below the timer
         livesDisplay.style.left = '10px';
         livesDisplay.style.color = '#000000'; // Text color
         livesDisplay.style.background = '#36454F';
@@ -42,7 +44,7 @@ export function updateLivesDisplay(containerId: string, lives: number): void {
             // Create heart images for each life
             for (let i = 0; i < lives; i++) {
                 const heartImage = document.createElement('img');
-                heartImage.src = '../icons/heart.png';
+                heartImage.src = 'icons/heart.png';
                 heartImage.alt = 'Lives';
                 heartImage.style.width = '30px';
                 heartImage.style.height = '30px';

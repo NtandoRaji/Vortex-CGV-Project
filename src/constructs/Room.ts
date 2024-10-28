@@ -37,6 +37,7 @@ export class Room extends Construct {
         );
     }
 
+    // @ts-ignore
     update(time?: TimeS, delta?: TimeMS): void {}
 
     destroy(): void {}

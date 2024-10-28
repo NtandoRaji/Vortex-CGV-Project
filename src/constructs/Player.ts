@@ -8,22 +8,19 @@ import { InterfaceContext } from '../lib/w3ads/InterfaceContext';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
 import { GroceryItem } from './GroceryItem';
 import { PickupSpot } from './PickupSpot';
-import { Shelf } from './Shelf';
-import { Box } from './Box';
 import { generateAndDisplayGroceryItems,updateList } from '../User_interface/listGenerationUI';
 import { setUpTimer, startTimer, stopTimer } from '../User_interface/Timer';
 import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 import { showGameOverMenu } from '../User_interface/gameOverMenu';
 import { showGameWonMenu } from '../User_interface/gameWonMenu';
 import { showGamePausedMenu, hideGamePauseMenu } from '../User_interface/gamePausedMenu';
-import {createFlashlight} from '../User_interface/noLightsFilter';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 0.15;
 const sprintSpeed = 0.4;
 const jumpHeight = 1;
 const jumpSpeed = 2.7;
-const jumpGravity = 1.1;
+const jumpGravity = 2;
 
 // A variable to hold the current scope of the Player instance, useful for event listeners
 let scope: any;
@@ -97,7 +94,7 @@ export class Player extends Construct {
             // check if item is on list
             const found = updateList(this.list.id, itemName);
             if (found){
-                let sound = new Audio('/musicSound/correctItemSelected.mp3').play();
+                new Audio('musicSound/correctItemSelected.mp3').play();
                 // count up if it is an item on the list
                 this.foundItems += 1;
                 if (this.foundItems === scope.amountOfItemsToFind) {
@@ -108,7 +105,7 @@ export class Player extends Construct {
             else{
                 //Enter what is supposed to happen when player selects wrong thing
                 if (this.lives > 0) {
-                    let sound = new Audio('/musicSound/lifeLost.mp3').play();
+                    new Audio('musicSound/lifeLost.mp3').play();
                     this.lives--; // Decrease lives
                     updateLivesDisplay(this.livesDisplay.id,this.lives); // Update display
                 }
@@ -138,10 +135,6 @@ export class Player extends Construct {
         });
 
         //you can insert noLightsFilter here
-
-        this.setUpTimer();
-        this.setUpLifeDisplay();
-        this.setUpList();
     }
 
 
@@ -215,6 +208,13 @@ private setUpTimer(){
         this.crosshair.style.border = '2px solid white';
         this.crosshair.style.borderRadius = '50%';
         document.body.appendChild(this.crosshair);
+
+
+        // You can insert noLightsFilter here
+
+        this.setUpTimer();
+        this.setUpLifeDisplay();
+        this.setUpList();
     }
 
     // Update player state every frame, including movement and interaction prompts

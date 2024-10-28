@@ -1,4 +1,13 @@
 {
+  "name": "vortex-cgv-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "i": "^0.3.7",
     "three": "^0.169.0",
@@ -6,6 +15,7 @@
   },
   "devDependencies": {
     "@types/three": "^0.169.0",
+    "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3",
     "vite": "^5.4.8"
   }
