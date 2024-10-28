@@ -35,7 +35,6 @@ export class Fridge extends GroceryItem {
 
       // Store the loaded 3D mesh into the 'mesh' property
       this.mesh = gltfData.scene;
-      this.logMeshNames(this.mesh);
     } catch (error) {
       // Log any error that occurs during the model loading process
       console.log(`[!] Error loading ${this.filename}_shelf model`);

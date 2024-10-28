@@ -104,7 +104,7 @@ export function displayItems(containerId: string, items: Item[]): void {
 
         items.forEach(item => {
             // Create a div for each item
-            console.log(item.name);
+            //console.log(item.name);
             const itemDiv = document.createElement("div");
             itemDiv.classList.add("item");
 
