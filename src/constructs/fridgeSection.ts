@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { GraphicsContext, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
+import { Fridge } from "./fridge";
 import { Shelf } from "./Shelf";
 import { PickupSpot } from "./PickupSpot";
 import { Section } from "./Section";
@@ -20,14 +21,14 @@ export class fridgeSection extends Section {
         // --- Create and Position Shelves ---
 
         // Array of shelf names representing the items
-        const shelfNames = ["fridgeTRY"];
+        const shelfNames = ["fridge_try","fridge_try","fridge_try"];
 
         // Predefined positions and rotations for each shelf
         const shelfPositions = [
-            [0, 0, 17]
+            [0,0,8],[0, 0, 17],[0, 0, 26]
         ];
         const shelfRotations = [
-            [0, 0, 0]
+            [0, 0, 0],[0,0, 0],[0,0,0]
         ];
 
         // Loop to create and position shelves with associated pickup spots
@@ -48,14 +49,14 @@ export class fridgeSection extends Section {
             pickupSpot.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
 
             // Add interaction logic for placing objects in the pickup spot
-            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, (placeObject: THREE.Object3D) => {});
+            pickupSpot.interactions.addPickupSpot(pickupSpot.root, 10, () => {});
 
             // Add the PickupSpot to the pickupSpots array and register it in the construct system
             this.pickupSpots.push(pickupSpot);
             this.addConstruct(pickupSpot);
 
             // Create a new Shelf object for each item, with a specific name and scale
-            const shelf = new Shelf(
+            const fridge = new Fridge(
                 this.graphics, 
                 this.physics, 
                 this.interactions, 
@@ -65,15 +66,15 @@ export class fridgeSection extends Section {
             );
 
             // Set the position and rotation for each shelf
-            shelf.root.position.set(shelfPositions[i][0], shelfPositions[i][1], shelfPositions[i][2]);
-            shelf.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
+            fridge.root.position.set(shelfPositions[i][0], shelfPositions[i][1], shelfPositions[i][2]);
+            fridge.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
 
             // Add interaction logic for picking up the shelf
-            shelf.interactions.addPickupObject(shelf.root, 8, 0.1, () => {});
+            fridge.interactions.addPickupObject(fridge.root, 8, 0.1, () => {});
 
             // Add the shelf to the items array and register it as a construct
-            this.items.push(shelf);
-            this.addConstruct(shelf);
+            this.items.push(fridge);
+            this.addConstruct(fridge);
         }
         // -----------------------------
     }

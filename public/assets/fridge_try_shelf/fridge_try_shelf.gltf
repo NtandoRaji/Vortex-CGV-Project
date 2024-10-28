@@ -26,12 +26,12 @@
 			"scale":[
 				5.548601150512695,
 				0.21680021286010742,
-				2.56288743019104
+				4.3039445877075195
 			],
 			"translation":[
 				-2.4933414459228516,
 				5.33003044128418,
-				0
+				0.0017936103977262974
 			]
 		},
 		{
@@ -46,12 +46,76 @@
 			"scale":[
 				4.617089748382568,
 				0.0522022470831871,
-				1.7505884170532227
+				2.9398231506347656
 			],
 			"translation":[
-				2.4488718509674072,
+				2.5079407691955566,
 				5.342718124389648,
-				-0.005280494689941406
+				0.03392308950424194
+			]
+		}
+	],
+	"animations":[
+		{
+			"channels":[
+				{
+					"sampler":0,
+					"target":{
+						"node":1,
+						"path":"translation"
+					}
+				},
+				{
+					"sampler":1,
+					"target":{
+						"node":1,
+						"path":"rotation"
+					}
+				}
+			],
+			"name":"[Action Stash]",
+			"samplers":[
+				{
+					"input":20,
+					"interpolation":"LINEAR",
+					"output":21
+				},
+				{
+					"input":20,
+					"interpolation":"LINEAR",
+					"output":22
+				}
+			]
+		},
+		{
+			"channels":[
+				{
+					"sampler":0,
+					"target":{
+						"node":1,
+						"path":"translation"
+					}
+				},
+				{
+					"sampler":1,
+					"target":{
+						"node":1,
+						"path":"rotation"
+					}
+				}
+			],
+			"name":"[Action Stash].002",
+			"samplers":[
+				{
+					"input":23,
+					"interpolation":"LINEAR",
+					"output":24
+				},
+				{
+					"input":23,
+					"interpolation":"LINEAR",
+					"output":25
+				}
 			]
 		}
 	],
@@ -85,18 +149,8 @@
 			}
 		},
 		{
-			"alphaMode":"BLEND",
 			"doubleSided":true,
-			"name":"door.glass",
-			"pbrMetallicRoughness":{
-				"baseColorFactor":[
-					0.800000011920929,
-					0.800000011920929,
-					0.800000011920929,
-					0.4000000059604645
-				],
-				"roughnessFactor":0
-			}
+			"name":"door.glass"
 		},
 		{
 			"doubleSided":true,
@@ -152,7 +206,7 @@
 			]
 		},
 		{
-			"name":"Cube.019",
+			"name":"fridge.door.mesh",
 			"primitives":[
 				{
 					"attributes":{
@@ -354,6 +408,54 @@
 			"componentType":5123,
 			"count":84,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":20,
+			"componentType":5126,
+			"count":41,
+			"max":[
+				1.6666666666666667
+			],
+			"min":[
+				0
+			],
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":21,
+			"componentType":5126,
+			"count":41,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":22,
+			"componentType":5126,
+			"count":41,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":23,
+			"componentType":5126,
+			"count":21,
+			"max":[
+				0.8333333333333334
+			],
+			"min":[
+				0
+			],
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":24,
+			"componentType":5126,
+			"count":21,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":25,
+			"componentType":5126,
+			"count":21,
+			"type":"VEC4"
 		}
 	],
 	"bufferViews":[
@@ -476,12 +578,42 @@
 			"byteLength":168,
 			"byteOffset":13344,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":164,
+			"byteOffset":13512
+		},
+		{
+			"buffer":0,
+			"byteLength":492,
+			"byteOffset":13676
+		},
+		{
+			"buffer":0,
+			"byteLength":656,
+			"byteOffset":14168
+		},
+		{
+			"buffer":0,
+			"byteLength":84,
+			"byteOffset":14824
+		},
+		{
+			"buffer":0,
+			"byteLength":252,
+			"byteOffset":14908
+		},
+		{
+			"buffer":0,
+			"byteLength":336,
+			"byteOffset":15160
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":13512,
-			"uri":"fridgeTRY_shelf.bin"
+			"byteLength":15496,
+			"uri":"fridge_try_shelf.bin"
 		}
 	]
 }
