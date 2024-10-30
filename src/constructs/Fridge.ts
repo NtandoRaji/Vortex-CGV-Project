@@ -12,6 +12,8 @@ import { Reflector } from "../lib/CustomReflector";
 
 // Define the Shelf class, which extends from the abstract Construct class
 export class Fridge extends GroceryItem {
+  private mixer: THREE.AnimationMixer | null = null;
+  private action: THREE.AnimationAction | null = null;
   // Constructor initializes the Shelf with contexts (graphics, physics, etc.), a filename, and scale
   constructor(
     graphics: GraphicsContext,
@@ -35,6 +37,17 @@ export class Fridge extends GroceryItem {
 
       // Store the loaded 3D mesh into the 'mesh' property
       this.mesh = gltfData.scene;
+       // Initialize the mixer for animations
+       if (gltfData.animations && gltfData.animations.length > 0) {
+        this.mixer = new THREE.AnimationMixer(this.mesh);
+        this.mixer.timeScale = 4.5;
+        this.action = this.mixer.clipAction(gltfData.animations[1]);
+        this.action.clampWhenFinished = true; 
+        this.action.loop = THREE.LoopOnce;
+         // const action = this.mixer.clipAction(gltfData.animations[1]);
+        // action.play()
+        //console.log(`Animation loaded for item: ${this.filename}`);
+       }
     } catch (error) {
       // Log any error that occurs during the model loading process
       console.log(`[!] Error loading ${this.filename}_shelf model`);
@@ -42,16 +55,25 @@ export class Fridge extends GroceryItem {
     }
   }
 
+  update(deltaTime: number): void {
+    if (this.mixer) {
+        // Smooth the delta time to avoid jumps
+        const smoothedDelta = Math.min(deltaTime, 0.016); // Clamps delta to about 60 FPS
+        this.mixer.update(smoothedDelta);
+    }
+}
+
   // Method to build the Shelf, setting its scale, shadows, and adding it to the scene and physics world
   build(): void {
     // Set the scale of the mesh based on the provided scale array
     this.mesh.scale.set(this.scale[0], this.scale[1], this.scale[2]);
     // Enable the Shelf mesh to cast shadows
+    //this.logMeshNames(this.mesh);
     this.mesh.traverse((node: any) => {
       if (node.isMesh) {
-        if (node.name == "fridgedoormesh") {
+        if (node.name == "fridgedoorstatic_3") {
               // Create and set up the Reflector for the fridge door mesh
-          const reflectorGeometry = new THREE.PlaneGeometry(6.5, 9.5); // Adjust dimensions as needed
+          const reflectorGeometry = new THREE.PlaneGeometry(3, 9.5); // Adjust dimensions as needed
           const reflector = new Reflector(reflectorGeometry, {
             color: 0x0077ff, // You can adjust the color
             textureWidth: 512,
@@ -61,32 +83,13 @@ export class Fridge extends GroceryItem {
 
           // Position the Reflector correctly relative to the fridgedoormesh
           reflector.position.copy(node.position);
-          reflector.position.x = 2.75; // Ensure it's horizontal
+          reflector.position.x = 2.5; // Ensure it's horizontal
           reflector.position.y += 5.4; // Adjust to sit just above the door
           reflector.rotation.y = Math.PI/2;
-          reflector.rotation.z =0;
-
-          // Add the Reflector to the scene
-          this.add(reflector); // Assuming this class extends a Three.js Object3D
-          const transparentOverlayGeometry = new THREE.PlaneGeometry(6.75, 9.5);
-          const transparentOverlayMaterial = new THREE.MeshStandardMaterial({
-            color: 0xa0a9b0, // Adjust to your preference
-            transparent: true,
-            opacity: 0.95, // Adjust opacity as desired
-            roughness: 0.8, // To make it less reflective than the Reflector
-          });
-          const transparentOverlay = new THREE.Mesh(
-            transparentOverlayGeometry,
-            transparentOverlayMaterial
-          );
-
-          // Position the overlay slightly in front of the Reflector
-          transparentOverlay.position.copy(reflector.position);
-          transparentOverlay.position.x += 0.02; // Offset to avoid z-fighting
-          transparentOverlay.rotation.copy(reflector.rotation);
+          reflector.position.z =1.68;
 
           // Add the overlay to the scene
-          this.add(transparentOverlay);
+          this.add(reflector);
           }
         node.castShadow = true;
       }
@@ -112,6 +115,13 @@ export class Fridge extends GroceryItem {
         console.log(node.name); // Log the name of the mesh
       }
     });
+  }
+  interact() {
+    if (this.action) {
+      this.action.reset(); // Reset animation to start from the beginning
+      this.action.play();
+      //console.log(`Animation played for fridge: ${this.filename}`);
+    }
   }
 
 }

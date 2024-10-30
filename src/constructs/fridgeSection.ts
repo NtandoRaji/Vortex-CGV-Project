@@ -1,4 +1,5 @@
 // Import necessary modules and classes from 'three.js' and custom modules
+import * as THREE from "three";
 import { GraphicsContext, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
@@ -8,6 +9,7 @@ import { Section } from "./Section";
 
 // Define the SectionC class, which extends the Section class
 export class fridgeSection extends Section {
+    
     // Constructor method for SectionC to initialize necessary contexts
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
         // Call the superclass constructor
@@ -31,7 +33,7 @@ export class fridgeSection extends Section {
 
         // Loop to create and position shelves with associated pickup spots
         for (let i = 0; i < shelfNames.length; i++) {
-            console.log("creating", shelfNames[i]);
+            //console.log("creating", shelfNames[i]);
             // Create a new PickupSpot object for each shelf
             const pickupSpot = new PickupSpot(
                 this.graphics, 
@@ -68,7 +70,11 @@ export class fridgeSection extends Section {
             fridge.root.rotation.set(shelfRotations[i][0], shelfRotations[i][1], shelfRotations[i][2]);
 
             // Add interaction logic for picking up the shelf
-            fridge.interactions.addPickupObject(fridge.root, 8, 0.1, () => {});
+            fridge.interactions.addPickupObject(fridge.root, 8, 0.1, () => {
+                fridge.interact(); // Call the interact method to play the fridge animation
+
+
+            });
 
             // Add the shelf to the items array and register it as a construct
             this.items.push(fridge);
