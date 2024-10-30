@@ -31,7 +31,7 @@ export class fridgeSection extends Section {
 
         // Loop to create and position shelves with associated pickup spots
         for (let i = 0; i < shelfNames.length; i++) {
-            //console.log("creating", shelfNames[i]);
+            console.log("creating", shelfNames[i]);
             // Create a new PickupSpot object for each shelf
             const pickupSpot = new PickupSpot(
                 this.graphics, 
