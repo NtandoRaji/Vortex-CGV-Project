@@ -28,7 +28,7 @@ import { SectionE } from "./SectionE";
 
 export class Store extends Construct {
     ceiling!:any;
-    ceilingTexture!: THREE.MeshLambertMaterial;
+    ceilingTexture!: THREE.ShaderMaterial;
 
     walls!: Array<THREE.Mesh>;
     wallTexture!: THREE.MeshStandardMaterial;
@@ -156,6 +156,76 @@ export class Store extends Construct {
         
                 
             }
+
+            // Load textures for the sky and clouds
+            const skyTexture = await this.graphics.loadTexture("assets/sky_box/sky.jpg");
+            const cloudTexture = await this.graphics.loadTexture("assets/sky_box/cloud3.png");
+
+        // Create shader material for blending white ceiling and animated clouds in the center
+        this.ceilingTexture = new THREE.ShaderMaterial({
+            uniforms: {
+                uTime: { value: 0.0 },
+                uSkyTexture: { value: skyTexture },
+                uCloudTexture: { value: cloudTexture },
+                uBaseColor: { value: new THREE.Color(0x909090) }, // color for the base ceiling
+                uCloudSpeed: { value: 0.01 },
+                uCenterSize: { value: 0.18 }, // Adjust the size of the center area % of total ceiling
+                uRimWidth: { value: 0.03 }, // Width of the black rim (adjust as needed)
+            },
+            vertexShader: `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform float uTime;
+                uniform sampler2D uSkyTexture;
+                uniform sampler2D uCloudTexture;
+                uniform vec3 uBaseColor;
+                uniform float uCloudSpeed;
+                uniform float uCenterSize;
+                uniform float uRimWidth; // New uniform for the black rim width
+                varying vec2 vUv;
+
+                void main() {
+                    // Calculate distance from the center
+                    float centerDist = distance(vUv, vec2(0.5, 0.5));
+
+                    // Set threshold to determine where the white ceiling starts
+                    float threshold = uCenterSize;
+
+                    // Use white base color for the outer region
+                    vec4 baseColor = vec4(0.0, 0.0, 0.0, 1.0);
+
+                    // Create a black color for the rim
+                    vec4 rimColor = vec4(uBaseColor, 1.0);
+
+                    // Display skybox animation in the center region
+                    if (centerDist < threshold) {
+                        vec2 cloudUv = vUv + vec2(uTime * uCloudSpeed, 0.0);
+                        vec4 skyColor = texture2D(uSkyTexture, vUv);
+                        vec4 cloudColor = texture2D(uCloudTexture, cloudUv);
+
+                        // Blend sky and clouds in the center region
+                        gl_FragColor = mix(skyColor, cloudColor, cloudColor.a);
+                    } else {
+                        // Check if within the black rim region
+                        float rimStart = threshold;
+                        float rimEnd = threshold + uRimWidth;
+                        float rimFactor = smoothstep(rimStart, rimEnd, centerDist);
+
+                        // Blend between the base color and the rim color
+                        gl_FragColor = mix(baseColor, rimColor, rimFactor);
+                    }
+                }
+            `,
+            side: THREE.DoubleSide,
+            transparent: true,
+            depthWrite: false,
+        });
+
         }
         catch (error) {
             console.error(`[!] Error: ${error}`);
@@ -226,19 +296,43 @@ export class Store extends Construct {
         this.graphics.add(floor);
         // ------------------
 
-        // --- Build ceiling ---
+
+        // --- Build combined ceiling with dynamic skybox ---
         const ceilingGeometry = new THREE.PlaneGeometry(this.storeDimensions[0], this.storeDimensions[2]);
-        this.ceilingTexture = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+
+        // Create combined ceiling mesh with animated shader material (Skybox + Base)
+        this.ceiling = new THREE.Mesh(ceilingGeometry, this.ceilingTexture);
+        this.ceiling.position.set(0, this.storeDimensions[1], 0);
+        this.ceiling.rotation.set(Math.PI / 2, 0, 0);
+        this.ceiling.receiveShadow = true;
+
+        this.physics.addStatic(this.ceiling, PhysicsColliderFactory.box(this.storeDimensions[0] / 2, this.storeDimensions[2] / 2, 1));
+        this.add(this.ceiling);
+        this.graphics.add(this.ceiling);
+        // -----------------
+
+    
+        // --- Add natural light from the sky (ceiling area) ---
+        const naturalLight = new THREE.DirectionalLight(0xffffff, 0.8); // Soft white light for natural effect
+        naturalLight.position.set(0, this.storeDimensions[1] - 1, 0); // Position it slightly below the ceiling
+        naturalLight.target.position.set(0, 0, 0); // Aim directly at the floor center
+
+        // Adjust the shadow properties for natural, soft lighting
+        naturalLight.castShadow = true;
+        naturalLight.shadow.camera.left = -this.storeDimensions[0] / 2;
+        naturalLight.shadow.camera.right = this.storeDimensions[0] / 2;
+        naturalLight.shadow.camera.top = this.storeDimensions[2] / 2;
+        naturalLight.shadow.camera.bottom = -this.storeDimensions[2] / 2;
+        naturalLight.shadow.mapSize.width = 2048;
+        naturalLight.shadow.mapSize.height = 2048;
+        naturalLight.shadow.camera.near = 1;
+        naturalLight.shadow.camera.far = this.storeDimensions[1] + 10;
+
+        this.graphics.add(naturalLight);
+        this.graphics.add(naturalLight.target); // Ensures the light is targeted at the floor center
+        // -------------------
+
         
-        const ceiling = new THREE.Mesh(ceilingGeometry, this.ceilingTexture);
-        ceiling.position.set(0, this.storeDimensions[1], 0);
-        ceiling.rotation.set(Math.PI/2,0,0);
-        ceiling.receiveShadow = true;
-
-        this.physics.addStatic(ceiling, PhysicsColliderFactory.box(this.storeDimensions[0]/2, this.storeDimensions[2]/2, 1));
-        this.add(ceiling);
-        // ---------------------
-
         // --- Get Section Items & Pickup Spots ---
         for (let i = 0; i < this.sections.length; i++){
             this.shopItems.push(...this.sections[i].getItems());
@@ -247,17 +341,21 @@ export class Store extends Construct {
         // ----------------------------------------
 
         // --- Setup Lighting ---
-        // Can't add more lights or store lighting gets f*cked
-        for (let i = 0; i < 3; i++){
-            for (let j = 0; j < 3; j++){
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                // Skip adding light in the center position (1, 1)
+                if (i === 1 && j === 1) continue;
+
+                // Clone the light model
                 const storeLight = this.tempStoreLight.clone();
                 storeLight.position.set(50 - 2 * 25 * i, 18, 50 - 2 * 25 * j);
-                
-                // Might not be the best lighting but its the best we're gonna get
+
+                // Create a point light at this position
                 const light = new THREE.PointLight(0xffffee, 5, 45, 0.05);
                 light.position.set(50 - 2 * 25 * i, 20, 50 - 2 * 25 * j);
                 light.castShadow = true;
 
+                // Add the light and store light model to the scene
                 this.add(light);
                 this.add(storeLight);
             }
@@ -278,6 +376,9 @@ export class Store extends Construct {
         this.player.checkLookingAtGroceryItem(this.shopItems);
         // Check if the player is looking at any of the pickup spots
         this.player.checkLookingAtPickupSpot(this.shopPickupSpots);
+
+        // Increment time uniform for cloud animation
+        this.ceilingTexture.uniforms.uTime.value += delta ? delta * 0.00075 : 0; // Adjust speed as needed
     }
 
     // Destroy method (currently a placeholder, used for cleanup)

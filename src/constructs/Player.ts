@@ -241,17 +241,28 @@ private setUpTimer(){
 
         // When in security camera mode, keep camera stationary but watch player move around store
         if (this.isTopView) {
-            // Keep the camera at the selected corner and look at the player
-            //const playerPosition = this.root.position;
-            //this.camera.lookAt(playerPosition);
-
-            const playerPosition = this.root.position;
-            const closestCorner = this.findClosestTopCorner(playerPosition);
-            this.camera.position.copy(closestCorner);
-            
             //keeps looking at center of store while watching player move
-            //this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-            this.camera.lookAt(playerPosition);
+            // this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+            const cameraWorldPosition = this.getCameraWorldPosition();
+            //console.log('Camera World Position:', cameraWorldPosition);
+            
+            // Get the closest corner from the camera position
+            const closestCorner = this.findClosestTopCorner(cameraWorldPosition);
+            //console.log('Closest Corner Position:', closestCorner);
+            
+            // Get displacement from camera to closest corner
+            const displacement = closestCorner.sub(cameraWorldPosition);
+            //console.log("Displacement", displacement);
+
+            // Keep a copy of the camera's rotation
+            this.FirstPersonCameraRotation = this.camera.rotation.clone();
+
+
+
+            // Move the camera to the closest corner position
+            this.camera.position.add(displacement);
+            this.camera.lookAt(new THREE.Vector3(0, 0, 0));
         }
 
         this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
