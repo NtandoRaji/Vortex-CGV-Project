@@ -29,7 +29,7 @@ export class Fridge extends GroceryItem {
     try {
       // Load the model using the filename, constructing the path based on the provided filename
       const gltfData: any = await this.graphics.loadModel(
-        `assets/${this.filename}_shelf/${this.filename}_shelf.gltf`
+        `assets/${this.filename}_shelf/${this.filename}_fridge.gltf`
       );
 
       // Store the loaded 3D mesh into the 'mesh' property

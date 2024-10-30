@@ -2,7 +2,7 @@
 import { GraphicsContext, PhysicsContext } from "../lib";
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
-import { Fridge } from "./fridge";
+import { Fridge } from "./Fridge";
 import { PickupSpot } from "./PickupSpot";
 import { Section } from "./Section";
 
@@ -19,7 +19,7 @@ export class fridgeSection extends Section {
         // --- Create and Position Shelves ---
 
         // Array of shelf names representing the items
-        const shelfNames = ["fridge_try","fridge_try","fridge_try"];
+        const shelfNames = ["lasagna","spaghetti","beef_burger"];
 
         // Predefined positions and rotations for each shelf
         const shelfPositions = [
