@@ -7,6 +7,7 @@ export type Item = {
 // Create an array to store the items
 export const items: Item[] = [
     { name: "Aloe Bodywash", image: "icons/aloe_bodywash.png" },
+    { name: "Beef Burger", image: "icons/beef_burger.png" },
     {name: "Beet", image:"icons/beet.png"},
     { name: "Banana", image: "icons/banana.png" },
     {name: "Broccoli", image:"icons/broccoli.png"},
@@ -30,6 +31,7 @@ export const items: Item[] = [
     { name: "Green Apple", image: "icons/green_apple.png" },
     {name: "Green Pepper", image:"icons/green_pepper.png"},
     { name: "Jelly", image: "icons/jelly.png" },
+    { name: "Lasagna", image: "icons/lasagna.png" },
     { name: "Lemon Bodywash", image: "icons/lemon_bodywash.png" },
     { name: "Lemon Twist", image: "icons/lemon_twist.png" },
     { name: "Low Fat Milk", image: "icons/low_fat_milk.png" },
@@ -56,6 +58,7 @@ export const items: Item[] = [
     { name: "Red Pepper", image: "icons/red_pepper.png" },
     { name: "Sausage", image: "icons/sausage.png" },
     { name: "Soy Milk", image: "icons/soy_milk.png" },
+    { name: "Spaghetti", image: "icons/spaghetti.png" },
     { name: "Sparberry", image: "icons/sparberry.png" },
     { name: "Sprite", image: "icons/sprite.png" },
     { name: "Strawberry Ice Cream", image: "icons/strawberry_ice_cream.png" },
