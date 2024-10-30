@@ -14,6 +14,7 @@ import { setUpLives,updateLivesDisplay} from '../User_interface/Hearts';
 import { showGameOverMenu } from '../User_interface/gameOverMenu';
 import { showGameWonMenu } from '../User_interface/gameWonMenu';
 import { showGamePausedMenu, hideGamePauseMenu } from '../User_interface/gamePausedMenu';
+import { createFlashlight } from '../User_interface/noLightsFilter';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 0.15;
@@ -45,7 +46,7 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 100; // 2 minutes in seconds
+    timeRemaining: number = 120; // 2 minutes in seconds
     decrementValue!: number;
     timerInterval!: any;
     list!:any;
@@ -59,9 +60,14 @@ export class Player extends Construct {
     isTopView: boolean = false;
     securityCameraClicks: number = 0;
 
+    level!:string;
+
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
-    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
+    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, level: string) {
         super(graphics, physics, interactions, userInterface);
+
+        this.level=level;
+        console.log(level);
 
         // Capture the current instance scope for event listeners
         scope = this;
@@ -135,6 +141,9 @@ export class Player extends Construct {
         });
 
         //you can insert noLightsFilter here
+        if(this.level==="level_2"){
+            createFlashlight();
+        }
     }
 
 
