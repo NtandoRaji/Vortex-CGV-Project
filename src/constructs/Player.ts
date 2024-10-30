@@ -242,24 +242,13 @@ private setUpTimer(){
         // When in security camera mode, keep camera stationary but watch player move around store
         if (this.isTopView) {
             //keeps looking at center of store while watching player move
-            // this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-
             const cameraWorldPosition = this.getCameraWorldPosition();
-            //console.log('Camera World Position:', cameraWorldPosition);
-            
             // Get the closest corner from the camera position
             const closestCorner = this.findClosestTopCorner(cameraWorldPosition);
-            //console.log('Closest Corner Position:', closestCorner);
-            
             // Get displacement from camera to closest corner
             const displacement = closestCorner.sub(cameraWorldPosition);
-            //console.log("Displacement", displacement);
-
             // Keep a copy of the camera's rotation
             this.FirstPersonCameraRotation = this.camera.rotation.clone();
-
-
-
             // Move the camera to the closest corner position
             this.camera.position.add(displacement);
             this.camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -382,10 +371,10 @@ private setUpTimer(){
     
     //the 4 different security camera positions
     topCorners: THREE.Vector3[] = [
-        new THREE.Vector3(80, 18, 80),    // (Cashier area)
-        new THREE.Vector3(-80, 18, 80),   // (Pizza corner)
-        new THREE.Vector3(-80, 18, -80),  // (Diagonal to cashier)
-        new THREE.Vector3(80, 18, -80)    // (Veggie corner)
+        new THREE.Vector3(70, 18, 70),    // (Cashier area)
+        new THREE.Vector3(-70, 18, 70),   // (Pizza corner)
+        new THREE.Vector3(-70, 18, -70),  // (Diagonal to cashier)
+        new THREE.Vector3(70, 18, -70)    // (Veggie corner)
     ];
     findClosestTopCorner(position: THREE.Vector3): THREE.Vector3 {
         let minDistance = Infinity;
