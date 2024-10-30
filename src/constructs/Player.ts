@@ -245,8 +245,13 @@ private setUpTimer(){
             //const playerPosition = this.root.position;
             //this.camera.lookAt(playerPosition);
 
+            const playerPosition = this.root.position;
+            const closestCorner = this.findClosestTopCorner(playerPosition);
+            this.camera.position.copy(closestCorner);
+            
             //keeps looking at center of store while watching player move
-            this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+            //this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+            this.camera.lookAt(playerPosition);
         }
 
         this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
@@ -333,7 +338,7 @@ private setUpTimer(){
     }
 
     // Add a method to toggle the bird's-eye view
-    toggleTopVieww(): void {
+    toggleTopView(): void {
         this.isTopView = !this.isTopView;
     
         if (this.isTopView) {
@@ -412,14 +417,14 @@ private setUpTimer(){
             //player can only change to security camera once
             // if(this.securityCameraClicks<2){
             //     this.securityCameraClicks++;
-            //     this.toggleTopVieww();
+            //     this.toggleTopView();
             // }
             // else{
             //     console.log("C key can only pressed twice!!!");
             // }
             const cameraWorldPosition = this.getCameraWorldPosition();
             console.log('Camera World Position:', cameraWorldPosition);
-            this.toggleTopVieww();
+            this.toggleTopView();
             return;
         }
         
