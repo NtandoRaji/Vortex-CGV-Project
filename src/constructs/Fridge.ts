@@ -8,6 +8,7 @@ import {
 import { InteractManager } from "../lib/w3ads/InteractManager";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
 import { GroceryItem } from "./GroceryItem";
+import { Reflector } from "../lib/CustomReflector";
 
 // Define the Shelf class, which extends from the abstract Construct class
 export class Fridge extends GroceryItem {
@@ -49,14 +50,44 @@ export class Fridge extends GroceryItem {
     this.mesh.traverse((node: any) => {
       if (node.isMesh) {
         if (node.name == "fridgedoormesh") {
-            node.material = new THREE.MeshStandardMaterial({
-                color: 0xffffff, // or adjust to a suitable color
-                metalness: 0.1, // Slightly reflective
-                roughness: 0.1, // Smooth surface for sharper reflections
-                transparent: true, // Make it transparent
-                opacity: 0.8, // Adjust opacity as needed
-            });
-        }
+              // Create and set up the Reflector for the fridge door mesh
+          const reflectorGeometry = new THREE.PlaneGeometry(6.5, 9.5); // Adjust dimensions as needed
+          const reflector = new Reflector(reflectorGeometry, {
+            color: 0x0077ff, // You can adjust the color
+            textureWidth: 512,
+            textureHeight: 512,
+  
+          });
+
+          // Position the Reflector correctly relative to the fridgedoormesh
+          reflector.position.copy(node.position);
+          reflector.position.x = 2.75; // Ensure it's horizontal
+          reflector.position.y += 5.4; // Adjust to sit just above the door
+          reflector.rotation.y = Math.PI/2;
+          reflector.rotation.z =0;
+
+          // Add the Reflector to the scene
+          this.add(reflector); // Assuming this class extends a Three.js Object3D
+          const transparentOverlayGeometry = new THREE.PlaneGeometry(6.75, 9.5);
+          const transparentOverlayMaterial = new THREE.MeshStandardMaterial({
+            color: 0xa0a9b0, // Adjust to your preference
+            transparent: true,
+            opacity: 0.95, // Adjust opacity as desired
+            roughness: 0.8, // To make it less reflective than the Reflector
+          });
+          const transparentOverlay = new THREE.Mesh(
+            transparentOverlayGeometry,
+            transparentOverlayMaterial
+          );
+
+          // Position the overlay slightly in front of the Reflector
+          transparentOverlay.position.copy(reflector.position);
+          transparentOverlay.position.x += 0.02; // Offset to avoid z-fighting
+          transparentOverlay.rotation.copy(reflector.rotation);
+
+          // Add the overlay to the scene
+          this.add(transparentOverlay);
+          }
         node.castShadow = true;
       }
     });

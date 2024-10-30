@@ -29,7 +29,7 @@ export function showGamePausedMenu(): void {
     backToMenuButton.className = 'menu-btn';
     backToMenuButton.id = 'back-to-btn';
     backToMenuButton.onclick = () => {
-        window.location.href = '../index.html'; // Navigate back to menu
+        window.location.href = '../Vortex-CGV-Project/index.html'; // Navigate back to menu
     };
 
     // Restart level button
@@ -38,7 +38,7 @@ export function showGamePausedMenu(): void {
     restartLevelButton.className = 'menu-btn';
     restartLevelButton.id = 'restart-btn';
     restartLevelButton.onclick = () => {
-        window.location.href = '../indexGame.html'; // Restart the game
+        window.location.href = '../Vortex-CGV-Project/indexGame.html'; // Restart the game
     };
 
     // Append buttons to button container
