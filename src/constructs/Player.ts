@@ -251,7 +251,7 @@ private setUpTimer(){
             this.FirstPersonCameraRotation = this.camera.rotation.clone();
             // Move the camera to the closest corner position
             this.camera.position.add(displacement);
-            this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+            this.camera.lookAt(new THREE.Vector3(0, 0, 0)); //comment to add swivel control when in secuirty camera
         }
 
         this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
