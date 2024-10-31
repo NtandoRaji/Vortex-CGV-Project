@@ -52,6 +52,7 @@ export class Player extends Construct {
     foundItems: number = 0; // Player has found nothing when game begins
     livesDisplay!: any;
 
+    doneMemorizing = true;
     isPaused: boolean = false;
     hasWon: boolean = false;
     isTopView: boolean = false;
@@ -235,22 +236,31 @@ export class Player extends Construct {
         this.setUpLifeDisplay();
         this.setUpList();
         this.setUpCrosshair();
+
+        if (this.levelConfig.level === "level-3"){
+            stopTimer();
+            this.doneMemorizing = false;
+        }
     }
 
     // Update player state every frame, including movement and interaction prompts
     //@ts-ignore ignoring the time variable
     update = (time: number, delta: number): void => {
-        if(this.isPaused) return; //skip updating timer if game in paused state
         delta = delta / 1000;
 
         
         // Delete grocery list once memorization time has concluded
-        if (this.levelConfig.memorizationTime < time){
+        if (this.levelConfig.memorizationTime < time && !this.doneMemorizing){
             const groceryList: HTMLElement | null = document.getElementById("grocery-list");
             if (groceryList !== null){
                 groceryList.style.display = "none";
+                startTimer(this.levelConfig.level);
+                this.doneMemorizing = true;
             }
         }
+
+        if(this.isPaused || !this.doneMemorizing) return;
+        
 
         // Get the camera direction (forward vector)
         const direction = new THREE.Vector3();
