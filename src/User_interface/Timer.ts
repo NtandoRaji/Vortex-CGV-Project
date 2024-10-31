@@ -13,6 +13,10 @@ function playWarningSound() {
     clickSound.play();
 }
 
+function pauseWarningSound() {
+    clickSound.pause();
+    clickSound.currentTime = 0;
+}
 
 export function setUpTimer(minutes: number, containerId: string, currentLevel: string): void {
     // Clear any existing timer
@@ -101,6 +105,7 @@ export function stopTimer(): void {
     }
     // Optionally, update the UI or perform any other actions when stopping the timer
     timerElement.textContent = "Timer stopped!";
+    pauseWarningSound();
 }
 
 //for timer when 10s or less

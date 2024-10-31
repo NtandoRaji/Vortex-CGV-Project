@@ -23,7 +23,7 @@ export class Level2 extends Scene {
             level: "level-2",
             nextLevel: "level-3",
             levelTime: 120, // seconds
-            memorizationTime: 122, // +2 seconds (Level Timer has 2 second delay)
+            memorizationTime:  150, // +2 seconds (Level Timer has 2 second delay)
             amountOfItemsToFind: 8,
             lives: 2
         }
@@ -54,5 +54,9 @@ export class Level2 extends Scene {
     //@ts-ignore
     update(time?: TimeS, delta?: TimeS): void {}
 
-    destroy(): void {}
+    destroy(): void {
+        this.levelMusic.pause();
+        this.levelMusic.muted = true;
+        this.levelMusic.currentTime = 0;
+    }
 };

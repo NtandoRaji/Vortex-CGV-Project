@@ -54,5 +54,9 @@ export class Level3 extends Scene {
     //@ts-ignore
     update(time?: TimeS, delta?: TimeS): void {}
 
-    destroy(): void {}
+    destroy(): void {
+        this.levelMusic.pause();
+        this.levelMusic.muted = true;
+        this.levelMusic.currentTime = 0;
+    }
 };
