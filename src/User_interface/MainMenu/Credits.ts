@@ -38,7 +38,7 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
     const questCreatorParagraph = createParagraph("");
     const link = document.createElement('a');
     link.href = "https://github.com/Wits-SG/CGV-Project/tree/main/src/lib/w3ads";
-    link.textContent = "Game Engine Used - Attributed to Brenden (Surname)";
+    link.textContent = "Game Engine Used - Attributed to Brendan Griffiths";
     link.target = "_blank";
     
     questCreatorParagraph.appendChild(link);

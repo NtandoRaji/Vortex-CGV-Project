@@ -12,7 +12,7 @@ export const drawPickLevel = (ui: CustomInterfaceContext, clickSound: HTMLAudioE
     popup.appendChild(closeButton);
 
     const levels = ["level-1", "level-2", "level-3"];
-    const levelNames = ["Easy Sunday", "Mid-Week Mayhem", "Month-End Disaster"];
+    const levelNames = ["Beginner's Basket", "Hidden Haul", "Speed Shopper"];
     const buttonColours = ["#d5a1f8", "#b97cd9", "#8b4c9e"];
 
     for (let i = 0; i < levels.length; i++){
