@@ -24,7 +24,13 @@ import { VegSection3 } from "./VegSection3";
 import { IceCreamSection } from "./IceCreamSection";
 import { SectionE } from "./SectionE";
 import { fridgeSection } from "./fridgeSection";
+import { Fountain } from "./Fountain";
+import { ShoppingCart } from "./ShoppingCart";
+import { VendingMachine } from "./VendingMachine";
+import { RecordPlayer } from "./RecordPlayer";
 
+import { Roomba } from "./Roomba";
+import { NPCs } from "./NPCs/NPCs";
 
 
 export class Store extends Construct {
@@ -51,9 +57,20 @@ export class Store extends Construct {
 
     //Game loop stuff
     player!: Player;
+    agents: Array<Roomba> = [];
+    checkpoints: Array<number []> = [[65, 65], [65, -65], [-65, -65], [-65, 65]];
+
+    npcs!: NPCs;
 
     // Store decoration constructs
     cashierCounter!: CashierCounter
+    fountain!: Fountain
+    vending1! : VendingMachine
+    vending2! : VendingMachine
+    cart!: ShoppingCart
+    cart2!: ShoppingCart
+    cart3!: ShoppingCart
+    recordPlayer!:RecordPlayer
 
     //Camera easier models
     cameras: THREE.Group[] = []; 
@@ -65,6 +82,27 @@ export class Store extends Construct {
 
         this.cashierCounter = new CashierCounter(graphics, physics, interactions, userInterface);
         this.addConstruct(this.cashierCounter);
+
+        this.fountain = new Fountain(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.fountain);
+
+        this.vending1 = new VendingMachine(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.vending1);
+
+        this.vending2 = new VendingMachine(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.vending2);
+
+        this.recordPlayer = new RecordPlayer(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.recordPlayer);
+
+
+
+        this.cart = new ShoppingCart(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.cart);
+        this.cart2 = new ShoppingCart(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.cart2);
+        this.cart3 = new ShoppingCart(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.cart3);
 
         // Add Sections
         // TODO: Add more sections
@@ -115,8 +153,25 @@ export class Store extends Construct {
         const fridge_section1 = new fridgeSection(graphics, physics, interactions, userInterface);
         this.sections.push(fridge_section1);
         this.addConstruct(fridge_section1);
+        // ------------------------------
 
-    
+        // --- Add Roomba ---
+        for (let i = 0; i < 1; i++){
+            const agentCheckpoints: Array<number []> = []
+            for (let j = 0; j < this.checkpoints.length; j++){
+                agentCheckpoints.push(this.checkpoints[(i + 1 + j) % this.checkpoints.length]);
+            } 
+
+            const agent = new Roomba(graphics, physics, interactions, userInterface, 1, agentCheckpoints);
+            this.agents.push(agent);
+            this.addConstruct(agent);
+        }
+        // -----------------
+
+        // --- Add NPC ---
+        this.npcs = new NPCs(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.npcs);
+        // ---------------
     }
   
 
@@ -128,6 +183,28 @@ export class Store extends Construct {
         this.cashierCounter.root.position.set(50, 1.5, 40);
         this.cashierCounter.root.scale.setScalar(1.3);
 
+        // Place Fountain
+        this.fountain.root.position.set(-15, 0, 3); 
+
+        // Place Carts
+        this.cart.root.position.set(60, 0, 70); 
+        this.cart.root.rotation.set(0, Math.PI/2, 0); 
+
+        this.cart2.root.position.set(55, 0, 70); 
+        this.cart2.root.rotation.set(0, Math.PI/2, 0); 
+
+        this.cart3.root.position.set(50, 0, 70); 
+        this.cart3.root.rotation.set(0, Math.PI/2, 0); 
+
+        //Place Vending Machine
+        this.vending1.root.position.set(10, 0, 77);
+        this.vending2.root.position.set(20, 0, 77);  
+        
+        this.recordPlayer.root.position.set(78.5, 0.3, 40);
+        this.recordPlayer.root.rotation.y = -Math.PI/2;
+        this.recordPlayer.root.scale.setScalar(0.81);
+
+
         // --- Place Sections ---
         // TODO: Position new sections
         const sectionsPositions = [[0, 0, -30], [30, 0, -27 , -30],[-25, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30],[-78, 0, 0 , -60],[-25, 0 ,  -30],[60, 0, -27 , -30],[50, 0, -97, -30],[-10, 0, -97, -30],[-50, 0 ,  30],[-78, 0 ,-15]];
@@ -136,6 +213,19 @@ export class Store extends Construct {
             this.sections[i].root.position.set(position[0], position[1], position[2]);
         }
         // -------------------------
+
+        // --- Place Agents ---
+        for (let i = 0; i < this.agents.length; i++){
+            const startPosition = this.checkpoints[i];
+            console.log(startPosition);
+            this.agents[i].root.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2 + i * (Math.PI / 2));
+            this.agents[i].root.position.set(startPosition[0], 0, startPosition[1]);
+        }
+        // --------------------
+
+        // --- Place NPCs ---
+        this.npcs.root.position.set(0, 0, 0);
+        // ------------------
          // Positions for security cameras
          const cameraPositions = [
             new THREE.Vector3(70, 20, 70),
