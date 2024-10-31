@@ -1,15 +1,21 @@
 import { CustomInterfaceContext } from "../../lib/customs/CustomInterfaceContext";
-import { popupCloseButton } from "../utility";
+import { popupCloseButton, createHeading  } from "../utility";
 
 export const drawSettings = (ui: CustomInterfaceContext, clickSound: HTMLAudioElement) : number => {
     const orange = "#c64926e2";
-    const {popup, popupID} = ui.addPopup("Settings", orange);
+    const {popup, popupID} = ui.addPopup("", orange);
 
     const closeButton = popupCloseButton("x", orange, () => {
         clickSound.play();
         ui.hidePopup(popupID);
     });
     popup.appendChild(closeButton);
+
+    const popupHeading = createHeading("Settings", orange);
+    popupHeading.style.fontSize = "2.5em";
+    popupHeading.style.paddingTop = "2px";
+    popupHeading.style.textAlign = "center";
+    popup.appendChild(popupHeading);
 
     const musicVolumeSection = document.createElement("section");
     musicVolumeSection.style.display = "flex";
