@@ -38,7 +38,7 @@ export function showGameOverMenu(): void {
     restartLevelButton.className = 'menu-btn';
     restartLevelButton.id = 'restart-btn';
     restartLevelButton.onclick = () => {
-        window.location.href = '../indexGame.html'; // Restart the game
+        window.location.href = '../index.html'; // Restart the game
     };
 
     // Append buttons to button container

@@ -24,7 +24,8 @@ import { VegSection3 } from "./VegSection3";
 import { IceCreamSection } from "./IceCreamSection";
 import { SectionE } from "./SectionE";
 import { fridgeSection } from "./fridgeSection";
-
+import { Agent } from "./Agent";
+import { Roomba } from "./Roomba";
 
 
 export class Store extends Construct {
@@ -51,6 +52,8 @@ export class Store extends Construct {
 
     //Game loop stuff
     player!: Player;
+    agents: Array<Roomba> = [];
+    checkpoints: Array<number []> = [[5, 0], [5, -50], [-10, -50], [-10, 0]];
 
     // Store decoration constructs
     cashierCounter!: CashierCounter
@@ -112,8 +115,18 @@ export class Store extends Construct {
         const fridge_section1 = new fridgeSection(graphics, physics, interactions, userInterface);
         this.sections.push(fridge_section1);
         this.addConstruct(fridge_section1);
+        // ------------------------------
 
-    
+        for (let i = 0; i < 4; i++){
+            const agentCheckpoints: Array<number []> = []
+            for (let j = 0; j < 4; j++){
+                agentCheckpoints.push(this.checkpoints[(i + 1 + j) % 4]);
+            } 
+
+            const agent = new Roomba(graphics, physics, interactions, userInterface, 1, agentCheckpoints);
+            this.agents.push(agent);
+            this.addConstruct(agent);
+        }
     }
     
 
@@ -133,6 +146,14 @@ export class Store extends Construct {
             this.sections[i].root.position.set(position[0], position[1], position[2]);
         }
         // -------------------------
+
+        // --- Place Agents ---
+        for (let i = 0; i < this.agents.length; i++){
+            const startPosition = this.checkpoints[i];
+            console.log(startPosition);
+            this.agents[i].root.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2 + i * (Math.PI / 2));
+            this.agents[i].root.position.set(startPosition[0], 1, startPosition[1]);
+        }
     }
 
     async load(): Promise<void> {
