@@ -7,7 +7,7 @@ import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
 
 export class VendingMachine extends Construct {
     mesh!: THREE.Mesh;
-    scale: number = 4.5;
+    scale: number = 5;
 
 
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
