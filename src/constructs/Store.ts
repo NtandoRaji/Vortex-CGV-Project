@@ -27,6 +27,7 @@ import { fridgeSection } from "./fridgeSection";
 import { Fountain } from "./Fountain";
 import { ShoppingCart } from "./ShoppingCart";
 import { VendingMachine } from "./VendingMachine";
+import { RecordPlayer } from "./RecordPlayer";
 
 
 
@@ -63,6 +64,7 @@ export class Store extends Construct {
     cart!: ShoppingCart
     cart2!: ShoppingCart
     cart3!: ShoppingCart
+    recordPlayer!:RecordPlayer
 
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, player: Player) {
         super(graphics, physics, interactions, userInterface);
@@ -80,6 +82,9 @@ export class Store extends Construct {
 
         this.vending2 = new VendingMachine(graphics, physics, interactions, userInterface);
         this.addConstruct(this.vending2);
+
+        this.recordPlayer = new RecordPlayer(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.recordPlayer);
 
 
 
@@ -169,6 +174,10 @@ export class Store extends Construct {
         this.vending1.root.position.set(10, 0, 75);
         this.vending2.root.position.set(20, 0, 75);  
         
+        this.recordPlayer.root.position.set(78.5, 0.3, 40);
+        this.recordPlayer.root.rotation.y = -Math.PI/2;
+        this.recordPlayer.root.scale.setScalar(0.81);
+
 
         // --- Place Sections ---
         // TODO: Position new sections
