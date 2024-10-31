@@ -6,13 +6,15 @@ import { MainMenu } from "./scenes/MainMenu.js";
 import { BasicScene } from "./scenes/BasicScene.js";
 import { Level1 } from "./scenes/Level1.js";
 import { Level2 } from "./scenes/Level2.js";
+import { Level3 } from "./scenes/Level3.js";
 
 AmmoLib()
 .then((result: any) => {
     const sceneMap = new Map<string, typeof Scene>([
         ["main-menu", MainMenu],
-        ["level-2",Level2],
         ["level-1", Level1],
+        ["level-2", Level2],
+        ["level-3", Level3],
         ["basic-scene", BasicScene],
     ]);
 
