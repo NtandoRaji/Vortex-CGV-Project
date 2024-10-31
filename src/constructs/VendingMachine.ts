@@ -5,9 +5,9 @@ import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
 
 
 
-export class ShoppingCart extends Construct {
+export class VendingMachine extends Construct {
     mesh!: THREE.Mesh;
-    scale: number = 4;
+    scale: number = 4.5;
 
 
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext) {
@@ -22,7 +22,7 @@ export class ShoppingCart extends Construct {
 
     async load(): Promise<void> {
         try {
-            const gltfData: any = await this.graphics.loadModel("assets/shopping_cart/shopping_cart.gltf");
+            const gltfData: any = await this.graphics.loadModel("assets/vending_machine/vending_machine.gltf");
             this.mesh = gltfData.scene;
         } catch (error) {
             console.error(`[!] Error: ${error}`);

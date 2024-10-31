@@ -26,6 +26,7 @@ import { SectionE } from "./SectionE";
 import { fridgeSection } from "./fridgeSection";
 import { Fountain } from "./Fountain";
 import { ShoppingCart } from "./ShoppingCart";
+import { VendingMachine } from "./VendingMachine";
 
 
 
@@ -57,6 +58,8 @@ export class Store extends Construct {
     // Store decoration constructs
     cashierCounter!: CashierCounter
     fountain!: Fountain
+    vending1! : VendingMachine
+    vending2! : VendingMachine
     cart!: ShoppingCart
     cart2!: ShoppingCart
     cart3!: ShoppingCart
@@ -71,6 +74,14 @@ export class Store extends Construct {
 
         this.fountain = new Fountain(graphics, physics, interactions, userInterface);
         this.addConstruct(this.fountain);
+
+        this.vending1 = new VendingMachine(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.vending1);
+
+        this.vending2 = new VendingMachine(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.vending2);
+
+
 
         this.cart = new ShoppingCart(graphics, physics, interactions, userInterface);
         this.addConstruct(this.cart);
@@ -153,6 +164,10 @@ export class Store extends Construct {
 
         this.cart3.root.position.set(50, 0, 70); 
         this.cart3.root.rotation.set(0, Math.PI/2, 0); 
+
+        //Place Vending Machine
+        this.vending1.root.position.set(15, 0, 75);
+        this.vending2.root.position.set(20, 0, 75);  
         
 
         // --- Place Sections ---
