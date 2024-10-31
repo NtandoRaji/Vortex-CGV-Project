@@ -57,7 +57,7 @@ export class WalkingNPC extends Agent {
     // @ts-ignore
     update(time: number, delta: number): void {
         delta = delta / 200;
-        this.mixer.update(delta / 4.5);
+        this.mixer.update(delta / 4.2);
 
         if (this.goalReached) {
             const grid = Array.from({ length: 160 }, () => Array(160).fill(0));

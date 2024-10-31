@@ -57,7 +57,7 @@ export class Store extends Construct {
     //Game loop stuff
     player!: Player;
     agents: Array<Roomba> = [];
-    checkpoints: Array<number []> = [[5, 0], [5, -50], [-10, -50], [-10, 0]];
+    checkpoints: Array<number []> = [[65, 65], [65, -65], [-65, -65], [-65, 65]];
 
     npcs!: NPCs;
 
@@ -150,8 +150,8 @@ export class Store extends Construct {
         // --- Add Roomba ---
         for (let i = 0; i < 1; i++){
             const agentCheckpoints: Array<number []> = []
-            for (let j = 0; j < 4; j++){
-                agentCheckpoints.push(this.checkpoints[(i + 1 + j) % 4]);
+            for (let j = 0; j < this.checkpoints.length; j++){
+                agentCheckpoints.push(this.checkpoints[(i + 1 + j) % this.checkpoints.length]);
             } 
 
             const agent = new Roomba(graphics, physics, interactions, userInterface, 1, agentCheckpoints);
@@ -189,8 +189,8 @@ export class Store extends Construct {
         this.cart3.root.rotation.set(0, Math.PI/2, 0); 
 
         //Place Vending Machine
-        this.vending1.root.position.set(10, 0, 75);
-        this.vending2.root.position.set(20, 0, 75);  
+        this.vending1.root.position.set(10, 0, 77);
+        this.vending2.root.position.set(20, 0, 77);  
         
 
         // --- Place Sections ---

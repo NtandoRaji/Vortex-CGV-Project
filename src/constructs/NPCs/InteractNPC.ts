@@ -1,20 +1,22 @@
 import * as THREE from "three";
-import { Construct, GraphicsContext, PhysicsContext } from "../../lib";
+import { Construct, GraphicsContext, PhysicsColliderFactory, PhysicsContext } from "../../lib";
 import { InterfaceContext } from "../../lib/w3ads/InterfaceContext";
 import { InteractManager } from "../../lib/w3ads/InteractManager";
 
 
 export class InteractNPC extends Construct {
-    private scale!: number;
-    private mesh!: THREE.Mesh;
+    scale!: number;
+    mesh!: THREE.Mesh;
     mixer!: THREE.AnimationMixer;
     animationMap: Map<string, THREE.AnimationAction> = new Map();
     action!: string;
     filename!:string;
+    lastAnimationTime: number = 0;
+    currentAction: string = "Idle";
 
     constructor(
         graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, 
-        userInterface: InterfaceContext, scale: number | undefined = 4, filename:string, action: string){
+        userInterface: InterfaceContext, scale: number = 4, filename:string, action: string){
         super(graphics, physics, interactions, userInterface);
 
         this.scale = scale;
@@ -52,21 +54,41 @@ export class InteractNPC extends Construct {
             }
         });
         this.add(this.mesh);
+
+        this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(1, 2, 1));
+
+        this.animationMap.forEach((value, key) => {
+            if (key === "Idle") {
+                value.play();
+            }
+        });
     }
 
     // @ts-ignore
     update(time: number, delta: number): void {
         delta = delta / 200;
-        this.mixer.update(delta / 4.5);
+        this.mixer.update(delta / 5);
 
+        // Check if 2 seconds have passed since the last animation change
+        if (time - this.lastAnimationTime >= 3.2) { // 2 seconds in 'time' units
+            this.lastAnimationTime = time; // Reset the timer
 
-        this.animationMap.forEach((value, key) => {
-            if (key === this.action){
-                if (!value.isRunning){
-                    value.play();
+            // Toggle between "Idle" and the specified action
+            this.currentAction = this.currentAction === "Idle" ? this.action : "Idle";
+
+            // Loop through the animation map to set the active action
+            this.animationMap.forEach((value, key) => {
+                if (key === this.currentAction) {
+                    if (!value.isRunning()) {
+                        value.reset().play();
+                        }
+                    }   
+                    else {
+                        value.stop();
+                    }
                 }
-            }
-        });
+            );
+        }
     }
 
     destroy(): void {
