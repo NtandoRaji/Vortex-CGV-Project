@@ -99,7 +99,7 @@ export function getRandomItems(items: Item[], count: number): Item[] {
 }
 
 // Function to display items on the page
-export function displayItems(containerId: string, items: Item[]): void {
+export function displayItems(containerId: string, items: Item[],level:number): void {
     const container = document.getElementById(containerId);
     if (container) {
         // Clear any existing items
@@ -138,6 +138,17 @@ export function displayItems(containerId: string, items: Item[]): void {
             // Append the item div to the container
             container.appendChild(itemDiv);
         });
+        if (level == 3){
+            const memorizeText = document.createElement("div");
+            memorizeText.textContent = "MEMORIZE!";
+            memorizeText.style.color = "red";
+            memorizeText.style.fontWeight = "bold";
+            memorizeText.style.textAlign = "center";
+            memorizeText.style.padding = "8px 0";
+            
+            // Append "MEMORIZE!" to the list container
+            container.appendChild(memorizeText);
+        }
     }
 }
 
