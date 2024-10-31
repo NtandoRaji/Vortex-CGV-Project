@@ -24,6 +24,7 @@ import { VegSection3 } from "./VegSection3";
 import { IceCreamSection } from "./IceCreamSection";
 import { SectionE } from "./SectionE";
 import { fridgeSection } from "./fridgeSection";
+import { Fountain } from "./Fountain";
 
 
 
@@ -54,6 +55,7 @@ export class Store extends Construct {
 
     // Store decoration constructs
     cashierCounter!: CashierCounter
+    fountain!: Fountain
 
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, player: Player) {
         super(graphics, physics, interactions, userInterface);
@@ -62,6 +64,9 @@ export class Store extends Construct {
 
         this.cashierCounter = new CashierCounter(graphics, physics, interactions, userInterface);
         this.addConstruct(this.cashierCounter);
+
+        this.fountain = new Fountain(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.fountain);
 
         // Add Sections
         // TODO: Add more sections
@@ -124,6 +129,9 @@ export class Store extends Construct {
         // Place Cashier Counter
         this.cashierCounter.root.position.set(50, 1.5, 40);
         this.cashierCounter.root.scale.setScalar(1.3);
+
+        // Place Fountain
+        this.fountain.root.position.set(-15, 0, 3); 
 
         // --- Place Sections ---
         // TODO: Position new sections
