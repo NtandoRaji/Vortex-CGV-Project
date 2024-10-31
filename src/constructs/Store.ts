@@ -27,6 +27,7 @@ import { fridgeSection } from "./fridgeSection";
 import { Fountain } from "./Fountain";
 import { ShoppingCart } from "./ShoppingCart";
 import { VendingMachine } from "./VendingMachine";
+import { RecordPlayer } from "./RecordPlayer";
 
 import { Roomba } from "./Roomba";
 import { NPCs } from "./NPCs/NPCs";
@@ -69,6 +70,10 @@ export class Store extends Construct {
     cart!: ShoppingCart
     cart2!: ShoppingCart
     cart3!: ShoppingCart
+    recordPlayer!:RecordPlayer
+
+    //Camera easier models
+    cameras: THREE.Group[] = []; 
 
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, player: Player) {
         super(graphics, physics, interactions, userInterface);
@@ -86,6 +91,9 @@ export class Store extends Construct {
 
         this.vending2 = new VendingMachine(graphics, physics, interactions, userInterface);
         this.addConstruct(this.vending2);
+
+        this.recordPlayer = new RecordPlayer(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.recordPlayer);
 
 
 
@@ -165,7 +173,7 @@ export class Store extends Construct {
         this.addConstruct(this.npcs);
         // ---------------
     }
-    
+  
 
     create(): void {    
         // Place Player
@@ -192,6 +200,10 @@ export class Store extends Construct {
         this.vending1.root.position.set(10, 0, 77);
         this.vending2.root.position.set(20, 0, 77);  
         
+        this.recordPlayer.root.position.set(78.5, 0.3, 40);
+        this.recordPlayer.root.rotation.y = -Math.PI/2;
+        this.recordPlayer.root.scale.setScalar(0.81);
+
 
         // --- Place Sections ---
         // TODO: Position new sections
@@ -213,6 +225,59 @@ export class Store extends Construct {
         // --- Place NPCs ---
         this.npcs.root.position.set(0, 0, 0);
         // ------------------
+         // Positions for security cameras
+         const cameraPositions = [
+            new THREE.Vector3(70, 20, 70),
+            new THREE.Vector3(-70, 20, 70),
+            new THREE.Vector3(-70, 20, -70),
+            new THREE.Vector3(70, 20, -70)
+        ];
+
+        cameraPositions.forEach((position) => {
+            const cameraGroup = new THREE.Group();
+        
+            // Camera body (cylinder) - light gray
+            const bodyGeometry = new THREE.CylinderGeometry(0.5, 0.5, 2, 32);
+            const bodyMaterial = new THREE.MeshBasicMaterial({ color: 0xd3d3d3 }); // Light gray
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.rotation.z = Math.PI / 2; // Rotate the body
+        
+            // Outline for the body (darker gray)
+            const outlineBodyMaterial = new THREE.MeshBasicMaterial({ color: 0x303030 }); // Darker gray for the outline
+            const outlineBody = new THREE.Mesh(bodyGeometry, outlineBodyMaterial);
+            outlineBody.rotation.z = Math.PI / 2; // Rotate the outline
+            outlineBody.scale.set(1.05, 1.05, 1.05); // Scale up slightly for the outline
+            cameraGroup.add(outlineBody); // Add outline before the body
+        
+            // Camera lens (cone)
+            const lensGeometry = new THREE.ConeGeometry(0.3, 0.7, 32);
+            const lensMaterial = new THREE.MeshBasicMaterial({ color: 0x5f5f5f }); // Medium gray
+            const lens = new THREE.Mesh(lensGeometry, lensMaterial);
+            lens.position.set(1.3, 0, 0); // Position in front of the body
+            lens.rotation.z = Math.PI / 2; // Rotate the lens
+            lens.rotation.x = Math.PI; // Rotate the lens to face the origin if needed
+        
+            // Outline for the lens (darker gray)
+            const outlineLensMaterial = new THREE.MeshBasicMaterial({ color: 0x4f4f4f }); // Slightly darker gray for the outline
+            const outlineLens = new THREE.Mesh(lensGeometry, outlineLensMaterial);
+            outlineLens.position.set(1.3, 0, 0);
+            outlineLens.rotation.z = Math.PI / 2; // Rotate the outline
+            outlineLens.rotation.x = Math.PI; // Rotate to match lens
+            outlineLens.scale.set(1.05, 1.05, 1.05); // Scale up slightly for the outline
+            cameraGroup.add(outlineLens); // Add outline before the lens
+        
+            // Assemble camera
+            cameraGroup.add(body);
+            cameraGroup.add(lens);
+        
+            // Position and orient camera towards the origin
+            cameraGroup.position.copy(position);
+            cameraGroup.lookAt(new THREE.Vector3(0, 0, 0));  // Makes the camera face the origin
+        
+            // Add to scene and cameras array
+            this.cameras.push(cameraGroup);
+            this.add(cameraGroup);  // or this.graphics.add(cameraGroup);
+        });
     }
 
     async load(): Promise<void> {
