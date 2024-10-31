@@ -2,7 +2,6 @@ import * as THREE from "three"
 import { Construct, GraphicsContext, PhysicsContext } from "../lib";
 import { InterfaceContext } from "../lib/w3ads/InterfaceContext";
 import { InteractManager } from "../lib/w3ads/InteractManager";
-import { TimeS, TimeMS } from "../lib/w3ads/types/misc.type";
 
 //@ts-ignore
 import vertexShader from  '../shaders/vertex.glsl';
