@@ -1,4 +1,4 @@
-export function showGameWonMenu(): void {
+export function showGameWonMenu(currentLevel:string, nextLevel: string): void {
     // Release the pointer lock
     if (document.pointerLockElement) {
         document.exitPointerLock();
@@ -6,8 +6,8 @@ export function showGameWonMenu(): void {
 
     // Create a semi-transparent overlay behind the message
     const overlay = document.createElement('div');
+    overlay.id = "gamewon-menu";
     overlay.className = 'overlay';
-    document.body.appendChild(overlay);
 
     // Create the mission failed message and buttons
     const missionFailedContainer = document.createElement('div');
@@ -27,7 +27,18 @@ export function showGameWonMenu(): void {
     backToMenuButton.className = 'menu-btn';
     backToMenuButton.id = 'back-to-btn';
     backToMenuButton.onclick = () => {
-        window.location.href = '../index.html'; // Navigate back to menu
+        const event = new CustomEvent("changeScene", {detail: "main-menu"});
+        document.dispatchEvent(event);
+    };
+
+    // Next level button
+    const nextLevelButton = document.createElement('button');
+    nextLevelButton.textContent = 'Next Level';
+    nextLevelButton.className = 'menu-btn';
+    nextLevelButton.id = 'next-btn';
+    nextLevelButton.onclick = () => {
+        const event = new CustomEvent("changeScene", {detail: nextLevel});
+        document.dispatchEvent(event);
     };
 
     // Restart level button
@@ -36,18 +47,25 @@ export function showGameWonMenu(): void {
     restartLevelButton.className = 'menu-btn';
     restartLevelButton.id = 'restart-btn';
     restartLevelButton.onclick = () => {
-        window.location.href = '../indexGame.html'; // Restart the game
+        const event = new CustomEvent("changeScene", {detail: currentLevel});
+        document.dispatchEvent(event);
     };
 
     // Append buttons to button container
+    if (currentLevel !== "level-3"){
+        buttonContainer.appendChild(nextLevelButton);
+    }
+    
     buttonContainer.appendChild(backToMenuButton);
     buttonContainer.appendChild(restartLevelButton);
 
     // Append button container to mission failed container
     missionFailedContainer.appendChild(buttonContainer);
 
+    overlay.appendChild(missionFailedContainer);
+
     // Append the mission failed container to the body
-    document.body.appendChild(missionFailedContainer);
+    document.body.appendChild(overlay);
 
     // Style the overlay and the message
     const style = document.createElement('style');

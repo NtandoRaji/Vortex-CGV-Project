@@ -19,7 +19,16 @@ export class Level3 extends Scene {
             AmmoLib
         );
 
-        this.player = new Player(this.graphics, this.physics, this.interactions, this.userInterface, "level_3");
+        const levelConfig = {
+            level: "level-3",
+            nextLevel: "main-menu",
+            levelTime: 120, // seconds
+            memorizationTime: 22, // 20 seconds (Level Timer has 2 seconds delay)
+            amountOfItemsToFind: 5,
+            lives: 3
+        }
+
+        this.player = new Player(this.graphics, this.physics, this.interactions, this.userInterface, levelConfig);
         this.addConstruct(this.player);
 
         this.store = new Store(this.graphics, this.physics, this.interactions, this.userInterface, this.player);
@@ -45,5 +54,9 @@ export class Level3 extends Scene {
     //@ts-ignore
     update(time?: TimeS, delta?: TimeS): void {}
 
-    destroy(): void {}
+    destroy(): void {
+        this.levelMusic.pause();
+        this.levelMusic.muted = true;
+        this.levelMusic.currentTime = 0;
+    }
 };

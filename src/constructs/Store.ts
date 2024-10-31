@@ -217,7 +217,6 @@ export class Store extends Construct {
         // --- Place Agents ---
         for (let i = 0; i < this.agents.length; i++){
             const startPosition = this.checkpoints[i];
-            console.log(startPosition);
             this.agents[i].root.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2 + i * (Math.PI / 2));
             this.agents[i].root.position.set(startPosition[0], 0, startPosition[1]);
         }

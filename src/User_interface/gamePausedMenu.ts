@@ -1,6 +1,6 @@
 // gamePausedMenu.ts
 
-export function showGamePausedMenu(): void {
+export function showGamePausedMenu(currentLevel: string): void {
     // Release the pointer lock
     if (document.pointerLockElement) {
         document.exitPointerLock();
@@ -8,8 +8,8 @@ export function showGamePausedMenu(): void {
 
     // Create a semi-transparent overlay behind the message
     const overlay = document.createElement('div');
+    overlay.id = "gamepaused-menu";
     overlay.className = 'overlay';
-    document.body.appendChild(overlay);
 
     // Create the mission failed message and buttons
     const missionPausedContainer = document.createElement('div');
@@ -29,7 +29,8 @@ export function showGamePausedMenu(): void {
     backToMenuButton.className = 'menu-btn';
     backToMenuButton.id = 'back-to-btn';
     backToMenuButton.onclick = () => {
-        window.location.href = '../index.html'; // Navigate back to menu
+        const event = new CustomEvent("changeScene", {detail: "main-menu"});
+        document.dispatchEvent(event);
     };
 
     // Restart level button
@@ -38,7 +39,8 @@ export function showGamePausedMenu(): void {
     restartLevelButton.className = 'menu-btn';
     restartLevelButton.id = 'restart-btn';
     restartLevelButton.onclick = () => {
-        window.location.href = '../indexGame.html'; // Restart the game
+        const event = new CustomEvent("changeScene", {detail: currentLevel});
+        document.dispatchEvent(event);
     };
 
     // Append buttons to button container
@@ -48,8 +50,10 @@ export function showGamePausedMenu(): void {
     // Append button container to mission failed container
     missionPausedContainer.appendChild(buttonContainer);
 
+    overlay.appendChild(missionPausedContainer);
+
     // Append the mission failed container to the body
-    document.body.appendChild(missionPausedContainer);
+    document.body.appendChild(overlay);
 
     // Style the overlay and the message
     const style = document.createElement('style');

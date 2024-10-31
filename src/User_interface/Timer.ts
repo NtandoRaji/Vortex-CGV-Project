@@ -13,8 +13,12 @@ function playWarningSound() {
     clickSound.play();
 }
 
+function pauseWarningSound() {
+    clickSound.pause();
+    clickSound.currentTime = 0;
+}
 
-export function setUpTimer(minutes: number, containerId: string): void {
+export function setUpTimer(minutes: number, containerId: string, currentLevel: string): void {
     // Clear any existing timer
     const existingTimer = document.querySelector(`#${containerId}`);
     if (existingTimer) {
@@ -33,8 +37,7 @@ export function setUpTimer(minutes: number, containerId: string): void {
     document.body.appendChild(timerElement);
 
     // Start the timer
-    // updateTimer();
-    startTimer();
+    startTimer(currentLevel);
 }
 
 function applyStylesToTimer(timer: HTMLDivElement): void {
@@ -60,7 +63,7 @@ function formatTime(): string {
     return `Timer: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 }
 
-function updateTimer(): void {
+function updateTimer(currentLevel: string): void {
     timerElement.textContent = formatTime();
 
     //from 10 seconds counting down timer pulsates & changes colour to red
@@ -85,14 +88,14 @@ function updateTimer(): void {
         // }
         stopTimer();
         timerElement.textContent = "Timer: Time's up!";
-        showGameOverMenu();
+        showGameOverMenu(currentLevel);
         // Trigger end-of-timer actions (e.g. game over)
     }
 }
 
-export function startTimer(): void {
+export function startTimer(currentLeveL: string): void {
     if (!timerInterval) { // Prevent multiple intervals
-        timerInterval = setInterval(updateTimer, 1000); // Call updateTimer every second
+        timerInterval = setInterval(() => updateTimer(currentLeveL), 1000); // Call updateTimer every second
     }
 }
 export function stopTimer(): void {
@@ -102,6 +105,7 @@ export function stopTimer(): void {
     }
     // Optionally, update the UI or perform any other actions when stopping the timer
     timerElement.textContent = "Timer stopped!";
+    pauseWarningSound();
 }
 
 //for timer when 10s or less
