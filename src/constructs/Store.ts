@@ -322,7 +322,7 @@ export class Store extends Construct {
                 uCloudTexture: { value: cloudTexture },
                 uBaseColor: { value: new THREE.Color(0x909090) }, // color for the base ceiling
                 uCloudSpeed: { value: 0.01 },
-                uCenterSize: { value: 0.18 }, // Adjust the size of the center area % of total ceiling
+                uCenterSize: { value: 0.15 }, // Adjust the size of the center area % of total ceiling
                 uRimWidth: { value: 0.03 }, // Width of the black rim (adjust as needed)
             },
             vertexShader: `
@@ -394,7 +394,13 @@ export class Store extends Construct {
     }
 
     build(): void {
-        // --- Build walls ---
+        // --- Load Textures --- outside of the store
+        const textureLoader = new THREE.TextureLoader();
+        const texture1 = textureLoader.load('assets/outdoor_area/parking9.jpg'); // Update with actual paths
+        const texture2 = textureLoader.load('assets/outdoor_area/parking10.jpg');
+        const texture3 = textureLoader.load('assets/outdoor_area/wall.jpg');
+    
+        // --- Wall Positions and Rotations ---
         const wallPositions = [
             [-this.storeDimensions[0] / 2, this.storeDimensions[1] / 2, 0], 
             [0, this.storeDimensions[1] / 2, -this.storeDimensions[2] / 2], 
@@ -402,27 +408,308 @@ export class Store extends Construct {
             [0, this.storeDimensions[1] / 2, this.storeDimensions[2] / 2]
         ];
         const wallRotations = [
-            [0, Math.PI/2, 0], [0, 0, 0], [0, Math.PI/2, 0], [0, 0, 0]
+            [0, Math.PI / 2, 0], [0, 0, 0], [0, Math.PI / 2, 0], [0, 0, 0]
         ];
-
+    
+        // --- Create Walls with Segmented Textures ---
         this.walls = [];
-        for (let i = 0; i < wallPositions.length; i++){
-            const wallGeometry = new THREE.PlaneGeometry(this.storeDimensions[0], this.storeDimensions[1]);
-            this.wallTexture = new THREE.MeshStandardMaterial({ color:  i % 2 != 0? 0x08a4ec : 0xffffff, side: THREE.DoubleSide });
-            const wall = new THREE.Mesh(wallGeometry, this.wallTexture);
+        const wallTextures = [texture3, texture3]; // List of textures to cycle through
+        const wallTextures2 = [texture1, texture3];
+        const wallTextures3 = [texture1, texture1];
+        const wallTextures4 = [texture2, texture3];
 
-            wall.position.set(wallPositions[i][0], wallPositions[i][1], wallPositions[i][2]);
-            wall.rotation.set(wallRotations[i][0], wallRotations[i][1], wallRotations[i][2]);
+        const numSegments = 2; // Number of segments per wall
+        const segmentWidth = this.storeDimensions[0] / numSegments; // Divide wall width into segments
 
-            wall.receiveShadow = true;
-            this.walls.push(wall);
+        // wall 1
+        for (let j = 0; j < numSegments; j++) {
+            // Create geometry for each segment
+            const wallGeometry = new THREE.PlaneGeometry(segmentWidth, this.storeDimensions[1]);
 
-            this.physics.addStatic(wall, PhysicsColliderFactory.box(this.storeDimensions[0] / 2, this.storeDimensions[1], 1));
-            this.add(wall);
+            // Select texture cyclically
+            const wallMaterial = new THREE.MeshStandardMaterial({
+                map: wallTextures[j % wallTextures.length],
+                side: THREE.DoubleSide,
+            });
 
-            this.graphics.add(wall);
+            const wallSegment = new THREE.Mesh(wallGeometry, wallMaterial);
+
+            // Calculate position offsets for each wall
+            if (wallRotations[0][1] === Math.PI / 2 || wallRotations[0][1] === -Math.PI / 2) {
+                // For walls perpendicular to the x-axis, offset along z-axis
+                wallSegment.position.set(
+                    wallPositions[0][0], // x remains constant for these walls
+                    wallPositions[0][1], // y position (height of the wall)
+                    wallPositions[0][2] + (j - (numSegments - 1) / 2) * segmentWidth // Adjust z position based on segment width
+                );
+            } else {
+                // For walls perpendicular to the z-axis, offset along x-axis
+                wallSegment.position.set(
+                    wallPositions[0][0] + (j - (numSegments - 1) / 2) * segmentWidth, // Adjust x position based on segment width
+                    wallPositions[0][1], // y position (height of the wall)
+                    wallPositions[0][2] // z remains constant for these walls
+                );
+            }
+
+            // Set the rotation of each segment
+            wallSegment.rotation.set(wallRotations[0][0], wallRotations[0][1], wallRotations[0][2]);
+
+            // Set shadow properties and add to the store
+            wallSegment.receiveShadow = true;
+            this.walls.push(wallSegment);
+
+            // Add physics collider for each wall segment
+            this.physics.addStatic(wallSegment, PhysicsColliderFactory.box(segmentWidth / 2, this.storeDimensions[1], 1));
+
+            // Add each segment to the scene
+            this.add(wallSegment);
+            this.graphics.add(wallSegment);
         }
-        // -----------------
+
+        // Wall 2 with glass finish on the first segment and regular texture on others
+        for (let j = 0; j < numSegments; j++) {
+            // Create geometry for each segment
+            const wallGeometry = new THREE.PlaneGeometry(segmentWidth, this.storeDimensions[1]);
+
+            // Apply a different material for the first segment (glass with grid) and regular texture for others
+            let wallMaterial;
+            if (j === 0) {
+                // Glass material with semi-transparency and grid structure for the first segment
+                wallMaterial = new THREE.MeshStandardMaterial({
+                    map: wallTextures2[j % wallTextures2.length], // Glass texture
+                    transparent: true,
+                    opacity: 0.7, // Semi-transparency for glass effect
+                    side: THREE.DoubleSide,
+                });
+            } else {
+                // Regular texture for other segments
+                wallMaterial = new THREE.MeshStandardMaterial({
+                    map: wallTextures2[j % wallTextures2.length],
+                    side: THREE.DoubleSide,
+                });
+            }
+
+            const wallSegment = new THREE.Mesh(wallGeometry, wallMaterial);
+
+            // Calculate position offsets for each wall
+            if (wallRotations[1][1] === Math.PI / 2 || wallRotations[1][1] === -Math.PI / 2) {
+                // For walls perpendicular to the x-axis, offset along z-axis
+                wallSegment.position.set(
+                    wallPositions[1][0],
+                    wallPositions[1][1],
+                    wallPositions[1][2] + (j - (numSegments - 1) / 2) * segmentWidth
+                );
+            } else {
+                // For walls perpendicular to the z-axis, offset along x-axis
+                wallSegment.position.set(
+                    wallPositions[1][0] + (j - (numSegments - 1) / 2) * segmentWidth,
+                    wallPositions[1][1],
+                    wallPositions[1][2]
+                );
+            }
+
+            // Set the rotation of each segment
+            wallSegment.rotation.set(wallRotations[1][0], wallRotations[1][1], wallRotations[1][2]);
+
+            // Set shadow properties and add to the store
+            wallSegment.receiveShadow = true;
+            this.walls.push(wallSegment);
+
+            // Add physics collider for each wall segment
+            this.physics.addStatic(wallSegment, PhysicsColliderFactory.box(segmentWidth / 2, this.storeDimensions[1], 1));
+
+            // Add each segment to the scene
+            this.add(wallSegment);
+            this.graphics.add(wallSegment);
+
+            // --- Only add grid lines for the first segment ---
+            if (j === 0) {
+                const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+
+                // Vertical grid lines
+                const verticalOffsets = [-segmentWidth / 3, 0, segmentWidth / 3];
+                for (const offset of verticalOffsets) {
+                    const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(offset, -this.storeDimensions[1] / 2, 0.01),
+                        new THREE.Vector3(offset, this.storeDimensions[1] / 2, 0.01)
+                    ]);
+                    const frameLine = new THREE.Line(lineGeometry, lineMaterial);
+                    frameLine.position.copy(wallSegment.position);
+                    frameLine.rotation.copy(wallSegment.rotation);
+                    this.add(frameLine);
+                    this.graphics.add(frameLine);
+                }
+
+                // Horizontal grid line (middle of the segment)
+                const horizontalLineGeometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(-segmentWidth / 2, 0, 0.01),
+                    new THREE.Vector3(segmentWidth / 2, 0, 0.01)
+                ]);
+                const doorLine = new THREE.Line(horizontalLineGeometry, lineMaterial);
+                doorLine.position.copy(wallSegment.position);
+                doorLine.rotation.copy(wallSegment.rotation);
+                this.add(doorLine);
+                this.graphics.add(doorLine);
+            }
+        }
+
+
+        // Wall 3: Glass Wall with Frames and Doors
+        for (let j = 0; j < numSegments; j++) {
+            // Create geometry for each glass segment
+            const wallGeometry = new THREE.PlaneGeometry(segmentWidth, this.storeDimensions[1]);
+
+            // Apply a transparent glass material with the glass texture
+            const wallMaterial = new THREE.MeshStandardMaterial({
+                map: wallTextures3[j % wallTextures3.length], // Use glass texture here
+                transparent: true,
+                opacity: 0.7, // Set semi-transparency for the glass effect
+                side: THREE.DoubleSide,
+            });
+
+            const wallSegment = new THREE.Mesh(wallGeometry, wallMaterial);
+
+            // Position the wall segment
+            if (wallRotations[2][1] === Math.PI / 2 || wallRotations[2][1] === -Math.PI / 2) {
+                wallSegment.position.set(
+                    wallPositions[2][0],
+                    wallPositions[2][1],
+                    wallPositions[2][2] + (j - (numSegments - 1) / 2) * segmentWidth
+                );
+            } else {
+                wallSegment.position.set(
+                    wallPositions[2][0] + (j - (numSegments - 1) / 2) * segmentWidth,
+                    wallPositions[2][1],
+                    wallPositions[2][2]
+                );
+            }
+
+            wallSegment.rotation.set(wallRotations[2][0], wallRotations[2][1], wallRotations[2][2]);
+            wallSegment.receiveShadow = true;
+            this.walls.push(wallSegment);
+            this.physics.addStatic(wallSegment, PhysicsColliderFactory.box(segmentWidth / 2, this.storeDimensions[1], 1));
+            this.add(wallSegment);
+            this.graphics.add(wallSegment);
+
+            // --- Add Frames and Door Lines using Lines ---
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 }); // Black color for frames
+
+            // Frame Lines: Vertical Dividers
+            const verticalOffsets = [-segmentWidth / 3, 0, segmentWidth / 3]; // Left, Center, Right positions
+
+            for (const offset of verticalOffsets) {
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(offset, -this.storeDimensions[1] / 2, 0.01), // bottom
+                    new THREE.Vector3(offset, this.storeDimensions[1] / 2, 0.01)  // top
+                ]);
+                const frameLine = new THREE.Line(lineGeometry, lineMaterial);
+                frameLine.position.copy(wallSegment.position);
+                frameLine.rotation.copy(wallSegment.rotation);
+                this.add(frameLine);
+                this.graphics.add(frameLine);
+            }
+
+            // Frame Lines: Horizontal Divider for Door Panel
+            const horizontalLineGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-segmentWidth / 2, 0, 0.01), // left
+                new THREE.Vector3(segmentWidth / 2, 0, 0.01)  // right
+            ]);
+            const doorLine = new THREE.Line(horizontalLineGeometry, lineMaterial);
+            doorLine.position.copy(wallSegment.position);
+            doorLine.rotation.copy(wallSegment.rotation);
+            this.add(doorLine);
+            this.graphics.add(doorLine);
+        }
+
+        // Wall 4 with glass finish on the first segment and regular texture on others
+        for (let j = 0; j < numSegments; j++) {
+            // Create geometry for each segment
+            const wallGeometry = new THREE.PlaneGeometry(segmentWidth, this.storeDimensions[1]);
+
+            // Apply different material for the first segment (glass with grid) and regular texture for others
+            let wallMaterial;
+            if (j === 0) {
+                // Glass material with semi-transparency and grid structure for the first segment
+                wallMaterial = new THREE.MeshStandardMaterial({
+                    map: wallTextures4[j % wallTextures4.length], // Glass texture
+                    transparent: true,
+                    opacity: 0.7, // Semi-transparency for glass effect
+                    side: THREE.DoubleSide,
+                });
+            } else {
+                // Regular texture for other segments
+                wallMaterial = new THREE.MeshStandardMaterial({
+                    map: wallTextures4[j % wallTextures4.length],
+                    side: THREE.DoubleSide,
+                });
+            }
+
+            const wallSegment = new THREE.Mesh(wallGeometry, wallMaterial);
+
+            // Calculate position offsets for each wall segment
+            if (wallRotations[3][1] === Math.PI / 2 || wallRotations[3][1] === -Math.PI / 2) {
+                // For walls perpendicular to the x-axis, offset along z-axis
+                wallSegment.position.set(
+                    wallPositions[3][0],
+                    wallPositions[3][1],
+                    wallPositions[3][2] + (j - (numSegments - 1) / 2) * segmentWidth
+                );
+            } else {
+                // For walls perpendicular to the z-axis, offset along x-axis
+                wallSegment.position.set(
+                    wallPositions[3][0] + (j - (numSegments - 1) / 2) * segmentWidth,
+                    wallPositions[3][1],
+                    wallPositions[3][2]
+                );
+            }
+
+            // Set the rotation of each segment
+            wallSegment.rotation.set(wallRotations[3][0], wallRotations[3][1], wallRotations[3][2]);
+
+            // Set shadow properties and add to the store
+            wallSegment.receiveShadow = true;
+            this.walls.push(wallSegment);
+
+            // Add physics collider for each wall segment
+            this.physics.addStatic(wallSegment, PhysicsColliderFactory.box(segmentWidth / 2, this.storeDimensions[1], 1));
+
+            // Add each segment to the scene
+            this.add(wallSegment);
+            this.graphics.add(wallSegment);
+
+            // --- Only add grid lines for the first segment ---
+            if (j === 0) {
+                const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+
+                // Vertical grid lines
+                const verticalOffsets = [-segmentWidth / 3, 0, segmentWidth / 3];
+                for (const offset of verticalOffsets) {
+                    const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(offset, -this.storeDimensions[1] / 2, 0.01),
+                        new THREE.Vector3(offset, this.storeDimensions[1] / 2, 0.01)
+                    ]);
+                    const frameLine = new THREE.Line(lineGeometry, lineMaterial);
+                    frameLine.position.copy(wallSegment.position);
+                    frameLine.rotation.copy(wallSegment.rotation);
+                    this.add(frameLine);
+                    this.graphics.add(frameLine);
+                }
+
+                // Horizontal grid line (middle of the segment)
+                const horizontalLineGeometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(-segmentWidth / 2, 0, 0.01),
+                    new THREE.Vector3(segmentWidth / 2, 0, 0.01)
+                ]);
+                const doorLine = new THREE.Line(horizontalLineGeometry, lineMaterial);
+                doorLine.position.copy(wallSegment.position);
+                doorLine.rotation.copy(wallSegment.rotation);
+                this.add(doorLine);
+                this.graphics.add(doorLine);
+            }
+        }
+
+
+        /////////////////////////////
 
         // --- Build floor ---
         const floorGeometry = new THREE.PlaneGeometry(this.storeDimensions[0], this.storeDimensions[2]);
@@ -531,7 +818,7 @@ export class Store extends Construct {
         this.player.checkLookingAtPickupSpot(this.shopPickupSpots);
 
         // Increment time uniform for cloud animation
-        this.ceilingTexture.uniforms.uTime.value += delta ? delta * 0.00075 : 0; // Adjust speed as needed
+        this.ceilingTexture.uniforms.uTime.value += delta ? delta * 0.0006 : 0; // Adjust speed as needed
     }
 
     // Destroy method (currently a placeholder, used for cleanup)
