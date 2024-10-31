@@ -59,6 +59,7 @@ export class Player extends Construct {
     hasWon: boolean = false;
     isTopView: boolean = false;
     securityCameraClicks: number = 0;
+    FirstPersonCameraRotation!: THREE.Euler;
 
     level!:string;
 
@@ -189,12 +190,12 @@ private setUpTimer(){
         const bodyGeometry = new THREE.CapsuleGeometry(1, 3);
         const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0x0000FF });
         this.body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        this.body.castShadow = true;
 
         // Attach the camera to the face, and the face to the body
         this.face.add(this.camera);
         this.body.add(this.face);
         this.add(this.body);
-        this.body.layers.set(1); //Makes body invisible to camera
 
         // Add physics properties to the player for jumping & movement
         this.physics.addCharacter(this.root, PhysicsColliderFactory.box(1, 1, 1), {
@@ -246,6 +247,21 @@ private setUpTimer(){
         // Determine the final movement direction and apply it
         const moveVector = forward.multiplyScalar(xLocal).add(right.multiplyScalar(zLocal));
         this.physics.moveCharacter(this.root, -moveVector.x, 0, -moveVector.z, this.speed * delta);
+
+        // When in security camera mode, keep camera stationary but watch player move around store
+        if (this.isTopView) {
+            //keeps looking at center of store while watching player move
+            const cameraWorldPosition = this.getCameraWorldPosition();
+            // Get the closest corner from the camera position
+            const closestCorner = this.findClosestTopCorner(cameraWorldPosition);
+            // Get displacement from camera to closest corner
+            const displacement = closestCorner.sub(cameraWorldPosition);
+            // Keep a copy of the camera's rotation
+            this.FirstPersonCameraRotation = this.camera.rotation.clone();
+            // Move the camera to the closest corner position
+            this.camera.position.add(displacement);
+            this.camera.lookAt(new THREE.Vector3(0, 0, 0)); //comment to add swivel control when in secuirty camera
+        }
 
         this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
 
@@ -331,19 +347,68 @@ private setUpTimer(){
     }
 
     // Add a method to toggle the bird's-eye view
-    toggleTopVieww(): void {
+    toggleTopView(): void {
         this.isTopView = !this.isTopView;
-
+    
         if (this.isTopView) {
-            // Move the camera to a bird's-eye view position
-            this.camera.position.set(0, 18, 0); // Adjust the height and distance as needed
-            this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Look down at the center of the scene
+            // Get the camera's world position
+            const cameraWorldPosition = this.getCameraWorldPosition();
+            console.log('Camera World Position:', cameraWorldPosition);
+            
+            // Get the closest corner from the camera position
+            const closestCorner = this.findClosestTopCorner(cameraWorldPosition);
+            console.log('Closest Corner Position:', closestCorner);
+            
+            // Get displacement from camera to closest corner
+            const displacement = closestCorner.sub(cameraWorldPosition);
+            console.log("Displacement", displacement);
+
+            // Keep a copy of the camera's rotation
+            this.FirstPersonCameraRotation = this.camera.rotation.clone();
+
+            // Move the camera to the closest corner position
+            this.camera.position.add(displacement);
+            this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Adjust to look at the center of the store
+    
+            console.log('Camera Position after adjustment:', this.camera.position);
         } else {
-            // Reset to the player camera view
-            this.camera.position.set(0, 3, 0); // Reset to player camera position
-            this.camera.rotation.set(0, Math.PI / 2, 0); // Adjust rotation back to normal
+            // Reset to player camera view
+            this.camera.position.set(0, 0, 0); // Reset to player camera position
+            this.camera.rotation.copy(this.FirstPersonCameraRotation); // Adjust rotation back to normal
         }
     }
+    
+    //the 4 different security camera positions
+    topCorners: THREE.Vector3[] = [
+        new THREE.Vector3(70, 18, 70),    // (Cashier area)
+        new THREE.Vector3(-70, 18, 70),   // (Pizza corner)
+        new THREE.Vector3(-70, 18, -70),  // (Diagonal to cashier)
+        new THREE.Vector3(70, 18, -70)    // (Veggie corner)
+    ];
+    findClosestTopCorner(position: THREE.Vector3): THREE.Vector3 {
+        let minDistance = Infinity;
+        let closestCorner = this.topCorners[0];
+    
+        this.topCorners.forEach((corner: THREE.Vector3) => {
+            const distance = Math.sqrt(
+                Math.pow(corner.x - position.x, 2) +
+                Math.pow(corner.y - position.y, 2) +
+                Math.pow(corner.z - position.z, 2)
+            );
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestCorner = corner;
+            }
+        });
+        return closestCorner.clone();
+    }
+
+    getCameraWorldPosition(): THREE.Vector3 {
+        const worldPosition = new THREE.Vector3();
+        this.camera.getWorldPosition(worldPosition); // Get world position from body mesh
+        return worldPosition;
+    }
+    
 
     // Keyboard event handlers for movement keys and speed adjustment
     onKeyDown(event: KeyboardEvent) {
@@ -359,24 +424,27 @@ private setUpTimer(){
         //top view event
         if(event.key === 'c' || event.key==='C'){
             //player can only change to security camera once
-            if(this.securityCameraClicks<2){
-                this.securityCameraClicks++;
-                this.toggleTopVieww();
-            }
-            else{
-                console.log("C key can only pressed twice!!!");
-            }
+            // if(this.securityCameraClicks<2){
+            //     this.securityCameraClicks++;
+            //     this.toggleTopView();
+            // }
+            // else{
+            //     console.log("C key can only pressed twice!!!");
+            // }
+            const cameraWorldPosition = this.getCameraWorldPosition();
+            console.log('Camera World Position:', cameraWorldPosition);
+            this.toggleTopView();
             return;
         }
         
         // If top view is active, ignore movement keys
-        if(this.isTopView) {
-            scope.direction.forward = 0;
-            scope.direction.backward = 0;
-            scope.direction.left = 0;
-            scope.direction.right = 0;
-            return; 
-        }
+        // if(this.isTopView) {
+        //     scope.direction.forward = 0;
+        //     scope.direction.backward = 0;
+        //     scope.direction.left = 0;
+        //     scope.direction.right = 0;
+        //     return; 
+        // }
 
         if (event.key == 'w' || event.key == 'W') { scope.direction.forward = 1; }
         if (event.key == 's' || event.key == 'S') { scope.direction.backward = 1; }
