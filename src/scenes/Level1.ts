@@ -22,10 +22,10 @@ export class Level1 extends Scene {
         const levelConfig = {
             level: "level-1",
             nextLevel: "level-2",
-            levelTime: 20, // seconds
+            levelTime: 120, // seconds
             memorizationTime: 122, // +2 seconds (Level Timer has 2 second delay)
-            amountOfItemsToFind: 1,
-            lives: 3
+            amountOfItemsToFind: 8,
+            lives: 2
         }
 
         this.player = new Player(this.graphics, this.physics, this.interactions, this.userInterface, levelConfig);

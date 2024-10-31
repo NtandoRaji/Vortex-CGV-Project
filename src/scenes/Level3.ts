@@ -24,7 +24,7 @@ export class Level3 extends Scene {
             nextLevel: "main-menu",
             levelTime: 120, // seconds
             memorizationTime: 22, // 20 seconds (Level Timer has 2 seconds delay)
-            amountOfItemsToFind: 1,
+            amountOfItemsToFind: 6,
             lives: 2
         }
 
