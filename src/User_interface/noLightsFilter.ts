@@ -1,6 +1,7 @@
 export function createFlashlight(): void {
     // Create the black overlay
     const overlay = document.createElement('div');
+    overlay.id = "flashlight";
     overlay.className = 'flashlight-overlay';
     document.body.appendChild(overlay);
 

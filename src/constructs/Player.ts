@@ -15,6 +15,7 @@ import { showGameOverMenu } from '../User_interface/gameOverMenu';
 import { showGameWonMenu } from '../User_interface/gameWonMenu';
 import { showGamePausedMenu, hideGamePauseMenu } from '../User_interface/gamePausedMenu';
 import { createFlashlight } from '../User_interface/noLightsFilter';
+import { createPlayerCrosshair } from '../User_interface/PlayerCrosshair';
 
 // Constants for movement speeds and jump physics
 const walkSpeed = 0.15;
@@ -46,14 +47,10 @@ export class Player extends Construct {
     placePrompt!: number;
     crosshair!: any;
     timer!:any;
-    timeRemaining: number = 120; // 2 minutes in seconds
-    decrementValue!: number;
-    timerInterval!: any;
+    timeRemaining!: number; // 2 minutes in seconds
     list!:any;
-    amountOfItemsToFind: number = 8; // Choose how many items to generate for the Player
     foundItems: number = 0; // Player has found nothing when game begins
     livesDisplay!: any;
-    lives: number = 2;
 
     isPaused: boolean = false;
     hasWon: boolean = false;
@@ -62,17 +59,43 @@ export class Player extends Construct {
     FirstPersonCameraRotation!: THREE.Euler;
 
     level!:string;
+    levelConfig!: {
+        level: string,
+        nextLevel: string,
+        levelTime: number,
+        memorizationTime: number,
+        amountOfItemsToFind: number,
+        lives: number
+    }
+
+    // Properties to hold the event listeners
+    private keyDownHandler: any;
+    private keyUpHandler: any;
+    private keyPressHandler: any;
 
     // Initialize the player instance with graphics, physics, interactions, and UI contexts
-    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, level: string) {
+    constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, 
+        levelConfig: { level: string, nextLevel: string, levelTime: number, memorizationTime: number, amountOfItemsToFind: number, lives: number}
+    ) 
+    {
         super(graphics, physics, interactions, userInterface);
 
-        this.level=level;
-        console.log(level);
+        this.levelConfig = levelConfig;
+        console.log(levelConfig.level);
+        this.timeRemaining = levelConfig.levelTime;
 
         // Capture the current instance scope for event listeners
         scope = this;
-        document.addEventListener("keydown", this.onKeyDown.bind(this)); // Ensure context is bound - needed this for pause
+        
+        // Assigning references for event listeners
+        this.keyDownHandler = this.onKeyDown.bind(this);
+        this.keyUpHandler = this.onKeyUp.bind(this);
+        this.keyPressHandler = this.onKeyPress.bind(this);
+
+        // Adding event listeners
+        document.addEventListener("keydown", this.keyDownHandler);
+        document.addEventListener("keyup", this.keyUpHandler);
+        document.addEventListener("keypress", this.keyPressHandler);
     }
 
     // Method to initialize player components like camera and controls
@@ -104,21 +127,21 @@ export class Player extends Construct {
                 new Audio('musicSound/correctItemSelected.mp3').play();
                 // count up if it is an item on the list
                 this.foundItems += 1;
-                if (this.foundItems === scope.amountOfItemsToFind) {
+                if (this.foundItems === this.levelConfig.amountOfItemsToFind) {
                     stopTimer();
-                    showGameWonMenu();
+                    showGameWonMenu(this.levelConfig.level, this.levelConfig.nextLevel);
                 }
             }
             else{
                 //Enter what is supposed to happen when player selects wrong thing
-                if (this.lives > 0) {
+                if (this.levelConfig.lives > 0) {
                     new Audio('musicSound/lifeLost.mp3').play();
-                    this.lives--; // Decrease lives
-                    updateLivesDisplay(this.livesDisplay.id,this.lives); // Update display
+                    this.levelConfig.lives--; // Decrease lives
+                    updateLivesDisplay(this.livesDisplay.id, this.levelConfig.lives); // Update display
                 }
-                if(this.lives == 0 && !this.hasWon){
+                if(this.levelConfig.lives == 0 && !this.hasWon){
                     stopTimer();
-                    showGameOverMenu();
+                    showGameOverMenu(this.levelConfig.level);
                 }
             }
         });
@@ -127,45 +150,39 @@ export class Player extends Construct {
         this.interactPrompt = this.userInterface.addPrompt('Press E to interact');
         this.placePrompt = this.userInterface.addPrompt('Press Q to place');
 
-        // Event listeners for movement and pointer lock
-        document.addEventListener("keydown", this.onKeyDown);
-        document.addEventListener("keyup", this.onKeyUp);
-        document.addEventListener("keypress", this.onKeyPress);
-        document.addEventListener('click', () => this.graphics.renderer.domElement.requestPointerLock());
-
         // Pointer lock change event handling
+        document.addEventListener('click', () => this.graphics.renderer.domElement.requestPointerLock());
         document.addEventListener('pointerlockchange', this.onPointerLockChange);
 
         // Automatically lock pointer on click
         this.graphics.renderer.domElement.addEventListener('click', () => {
             this.controls.lock();
         });
-
-        //you can insert noLightsFilter here
-        if(this.level==="level_2"){
-            createFlashlight();
-        }
     }
 
 
-private setUpList(): void {
-    this.list = document.createElement("div");
-    this.list.id = "grocery-list";
-    generateAndDisplayGroceryItems(this.list.id, this.amountOfItemsToFind);
-  }
+    private setUpList(): void {
+        this.list = document.createElement("div");
+        this.list.id = "grocery-list";
+        generateAndDisplayGroceryItems(this.list.id, this.levelConfig.amountOfItemsToFind);
+    }
 
 
-private setUpLifeDisplay(){
-    this.livesDisplay = document.createElement("div");
-    this.livesDisplay.id = "life-display";
-    setUpLives(this.livesDisplay.id,this.lives);
-}
+    private setUpLifeDisplay(){
+        this.livesDisplay = document.createElement("div");
+        this.livesDisplay.id = "life-display";
+        setUpLives(this.livesDisplay.id, this.levelConfig.lives);
+    }
 
-private setUpTimer(){
-    this.timer = document.createElement("div");
-    this.timer.id = "timer-display";
-    setUpTimer(this.timeRemaining,this.timer.id);
-}
+    private setUpTimer(){
+        this.timer = document.createElement("div");
+        this.timer.id = "timer-display";
+        setUpTimer(this.timeRemaining, this.timer.id, this.levelConfig.level);
+    }
+
+    private setUpCrosshair() {
+        this.crosshair = createPlayerCrosshair("player-crosshair");
+    }
 
     // Placeholder load method for any asynchronous asset loading
     load = async (): Promise<void> => {}
@@ -207,24 +224,15 @@ private setUpTimer(){
 
         // Request pointer lock on the renderer's DOM element
         this.graphics.renderer.domElement.requestPointerLock();
-
-        this.crosshair = document.createElement('div');
-        this.crosshair.style.position = 'absolute';
-        this.crosshair.style.top = '50%';
-        this.crosshair.style.left = '50%';
-        this.crosshair.style.transform = 'translate(-50%, -50%)';
-        this.crosshair.style.width = '20px';
-        this.crosshair.style.height = '20px';
-        this.crosshair.style.border = '2px solid white';
-        this.crosshair.style.borderRadius = '50%';
-        document.body.appendChild(this.crosshair);
-
-
         // You can insert noLightsFilter here
+        if(this.levelConfig.level === "level-2"){
+            createFlashlight();
+        }
 
         this.setUpTimer();
         this.setUpLifeDisplay();
         this.setUpList();
+        this.setUpCrosshair();
     }
 
     // Update player state every frame, including movement and interaction prompts
@@ -232,6 +240,15 @@ private setUpTimer(){
     update = (time: number, delta: number): void => {
         if(this.isPaused) return; //skip updating timer if game in paused state
         delta = delta / 1000;
+
+        
+        // Delete grocery list once memorization time has concluded
+        if (this.levelConfig.memorizationTime < time){
+            const groceryList: HTMLElement | null = document.getElementById("grocery-list");
+            if (groceryList !== null){
+                document.body.removeChild(groceryList);
+            }
+        }
 
         // Get the camera direction (forward vector)
         const direction = new THREE.Vector3();
@@ -290,12 +307,28 @@ private setUpTimer(){
         //check game over condition
         if (this.timeRemaining <= 0 && !this.hasWon) {
             stopTimer();
-            showGameOverMenu();
+            showGameOverMenu(this.levelConfig.level);
         }
     }
 
     // Cleanup event listeners when the player object is destroyed
     destroy = (): void => {
+        // Removing the event listeners
+        document.removeEventListener("keydown", this.keyDownHandler);
+        document.removeEventListener("keyup", this.keyUpHandler);
+        document.removeEventListener("keypress", this.keyPressHandler);
+
+        // Optionally clear additional UI elements if needed
+        const uiIDs = [
+            "grocery-list", "gameover-menu", "life-display", "timer-display", 
+            "player-crosshair", "gamepaused-menu", "gamewon-menu", "flashlight"
+        ];
+        uiIDs.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                document.body.removeChild(element);
+            }
+        });
     }
     
     checkLookingAtGroceryItem(groceryItems: GroceryItem[]): void{
@@ -339,10 +372,10 @@ private setUpTimer(){
         this.isPaused = !this.isPaused; // Toggle pause state
         if (this.isPaused) { // If paused, stop the timer
             stopTimer();
-            showGamePausedMenu();
+            showGamePausedMenu(this.levelConfig.level);
         } else { // If not paused, resume the timer
             hideGamePauseMenu();
-            startTimer();
+            startTimer(this.levelConfig.level);
         }
     }
 
