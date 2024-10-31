@@ -15,7 +15,7 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
 
     const popupHeading = createHeading("Behind the Scenes Magic Awards", green);
     popupHeading.style.fontSize = "2.5em";
-    popupHeading.style.paddingTop = "550px";
+    popupHeading.style.paddingTop = "700px";
     popupHeading.style.textAlign = "center";
     popup.appendChild(popupHeading);
 
@@ -38,7 +38,7 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
     const questCreatorParagraph = createParagraph("");
     const link = document.createElement('a');
     link.href = "https://github.com/Wits-SG/CGV-Project/tree/main/src/lib/w3ads";
-    link.textContent = "Game Engine Used - Attributed to Brenden (Surname)";
+    link.textContent = "Game Engine Used - Attributed to Brendan Griffiths";
     link.target = "_blank";
     
     questCreatorParagraph.appendChild(link);
@@ -55,7 +55,13 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
         { name: "Green Pepper", url: "https://poly.pizza/m/5d6zv4Ow2tO" },
         { name: "Eggplant", url: "https://poly.pizza/m/abKWST5Odkg" },
         { name: "Broccoli", url: "https://poly.pizza/m/3rnhf01rmNh" },
-        { name: "Beets", url: "https://poly.pizza/m/f2zAOPFIZnr" }
+        { name: "Beetroot", url: "https://poly.pizza/m/f2zAOPFIZnr" },
+        { name: "Shopping Cart", url: "https://rigmodels.com/model.php?view=High_Poly_Shopping_Cart-3d-model__c54617686d3d42448498741615e402ef" },
+        { name: "Vending Machine", url: "https://poly.pizza/m/0CX6wj64Swu" },
+        { name: "Punk Character by Quaternius [CC-BY]", url: "https://poly.pizza/m/BTALZymknF" },
+        { name: "Animated Women Character by Quaternius [CC-BY]", url: "https://poly.pizza/m/nIItLV9nxS" },
+        { name: "Hoodie Character by Quaternius [CC-BY]", url: "https://poly.pizza/m/gKLBoRsyKe" },
+        { name: "Domestic Roomba by Poly by Google", url: "https://poly.pizza/m/3e8IXZNgTDI" }
     ];
     popup.appendChild(createLinkList(modelLinks));
 
