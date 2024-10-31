@@ -25,8 +25,8 @@ export const drawHowToPlay = (ui: CustomInterfaceContext, clickSound: HTMLAudioE
     
     const instructions = [
         { key: 'WASD', action: 'to navigate and control the character.' },
-        { key: '"E"', action: 'to interact / pick up an object.' },
-        { key: '"P"', action: 'to pause & resume the game.' },
+        { key: '"E"', action: 'to select an object.' },
+        { key: '"P"', action: 'to pause / resume the game.' },
         { key: '"C"', action: 'to change the current scene.' }
     ];
     const howToPlayList = document.createElement('ul');

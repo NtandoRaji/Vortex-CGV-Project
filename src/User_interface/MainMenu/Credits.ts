@@ -55,7 +55,8 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
         { name: "Green Pepper", url: "https://poly.pizza/m/5d6zv4Ow2tO" },
         { name: "Eggplant", url: "https://poly.pizza/m/abKWST5Odkg" },
         { name: "Broccoli", url: "https://poly.pizza/m/3rnhf01rmNh" },
-        { name: "Beets", url: "https://poly.pizza/m/f2zAOPFIZnr" }
+        { name: "Beets", url: "https://poly.pizza/m/f2zAOPFIZnr" },
+        { name: "Shopping Cart", url: "https://rigmodels.com/model.php?view=High_Poly_Shopping_Cart-3d-model__c54617686d3d42448498741615e402ef" }
     ];
     popup.appendChild(createLinkList(modelLinks));
 
