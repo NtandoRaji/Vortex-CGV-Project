@@ -166,7 +166,7 @@ export class Store extends Construct {
         this.cart3.root.rotation.set(0, Math.PI/2, 0); 
 
         //Place Vending Machine
-        this.vending1.root.position.set(15, 0, 75);
+        this.vending1.root.position.set(10, 0, 75);
         this.vending2.root.position.set(20, 0, 75);  
         
 
