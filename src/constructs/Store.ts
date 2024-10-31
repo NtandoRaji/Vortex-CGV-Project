@@ -24,6 +24,10 @@ import { VegSection3 } from "./VegSection3";
 import { IceCreamSection } from "./IceCreamSection";
 import { SectionE } from "./SectionE";
 import { fridgeSection } from "./fridgeSection";
+import { Fountain } from "./Fountain";
+import { ShoppingCart } from "./ShoppingCart";
+import { VendingMachine } from "./VendingMachine";
+
 import { Roomba } from "./Roomba";
 import { NPCs } from "./NPCs/NPCs";
 
@@ -59,6 +63,12 @@ export class Store extends Construct {
 
     // Store decoration constructs
     cashierCounter!: CashierCounter
+    fountain!: Fountain
+    vending1! : VendingMachine
+    vending2! : VendingMachine
+    cart!: ShoppingCart
+    cart2!: ShoppingCart
+    cart3!: ShoppingCart
 
     constructor(graphics: GraphicsContext, physics: PhysicsContext, interactions: InteractManager, userInterface: InterfaceContext, player: Player) {
         super(graphics, physics, interactions, userInterface);
@@ -67,6 +77,24 @@ export class Store extends Construct {
 
         this.cashierCounter = new CashierCounter(graphics, physics, interactions, userInterface);
         this.addConstruct(this.cashierCounter);
+
+        this.fountain = new Fountain(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.fountain);
+
+        this.vending1 = new VendingMachine(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.vending1);
+
+        this.vending2 = new VendingMachine(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.vending2);
+
+
+
+        this.cart = new ShoppingCart(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.cart);
+        this.cart2 = new ShoppingCart(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.cart2);
+        this.cart3 = new ShoppingCart(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.cart3);
 
         // Add Sections
         // TODO: Add more sections
@@ -146,6 +174,24 @@ export class Store extends Construct {
         // Place Cashier Counter
         this.cashierCounter.root.position.set(50, 1.5, 40);
         this.cashierCounter.root.scale.setScalar(1.3);
+
+        // Place Fountain
+        this.fountain.root.position.set(-15, 0, 3); 
+
+        // Place Carts
+        this.cart.root.position.set(60, 0, 70); 
+        this.cart.root.rotation.set(0, Math.PI/2, 0); 
+
+        this.cart2.root.position.set(55, 0, 70); 
+        this.cart2.root.rotation.set(0, Math.PI/2, 0); 
+
+        this.cart3.root.position.set(50, 0, 70); 
+        this.cart3.root.rotation.set(0, Math.PI/2, 0); 
+
+        //Place Vending Machine
+        this.vending1.root.position.set(10, 0, 75);
+        this.vending2.root.position.set(20, 0, 75);  
+        
 
         // --- Place Sections ---
         // TODO: Position new sections
