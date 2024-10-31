@@ -1,0 +1,11 @@
+Model Information:
+* title:	Domestic Roomba
+* source:	https://poly.pizza/m/3e8IXZNgTDI
+* author:	Poly by Google (https://poly.pizza/u/Poly%20by%20Google)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Domestic Roomba" (https://poly.pizza/m/3e8IXZNgTDI) by Poly by Google (https://poly.pizza/u/Poly%20by%20Google) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)

@@ -28,6 +28,8 @@ import { Fountain } from "./Fountain";
 import { ShoppingCart } from "./ShoppingCart";
 import { VendingMachine } from "./VendingMachine";
 
+import { Roomba } from "./Roomba";
+import { NPCs } from "./NPCs/NPCs";
 
 
 export class Store extends Construct {
@@ -54,6 +56,10 @@ export class Store extends Construct {
 
     //Game loop stuff
     player!: Player;
+    agents: Array<Roomba> = [];
+    checkpoints: Array<number []> = [[65, 65], [65, -65], [-65, -65], [-65, 65]];
+
+    npcs!: NPCs;
 
     // Store decoration constructs
     cashierCounter!: CashierCounter
@@ -139,8 +145,25 @@ export class Store extends Construct {
         const fridge_section1 = new fridgeSection(graphics, physics, interactions, userInterface);
         this.sections.push(fridge_section1);
         this.addConstruct(fridge_section1);
+        // ------------------------------
 
-    
+        // --- Add Roomba ---
+        for (let i = 0; i < 1; i++){
+            const agentCheckpoints: Array<number []> = []
+            for (let j = 0; j < this.checkpoints.length; j++){
+                agentCheckpoints.push(this.checkpoints[(i + 1 + j) % this.checkpoints.length]);
+            } 
+
+            const agent = new Roomba(graphics, physics, interactions, userInterface, 1, agentCheckpoints);
+            this.agents.push(agent);
+            this.addConstruct(agent);
+        }
+        // -----------------
+
+        // --- Add NPC ---
+        this.npcs = new NPCs(graphics, physics, interactions, userInterface);
+        this.addConstruct(this.npcs);
+        // ---------------
     }
     
 
@@ -166,8 +189,8 @@ export class Store extends Construct {
         this.cart3.root.rotation.set(0, Math.PI/2, 0); 
 
         //Place Vending Machine
-        this.vending1.root.position.set(10, 0, 75);
-        this.vending2.root.position.set(20, 0, 75);  
+        this.vending1.root.position.set(10, 0, 77);
+        this.vending2.root.position.set(20, 0, 77);  
         
 
         // --- Place Sections ---
@@ -178,6 +201,19 @@ export class Store extends Construct {
             this.sections[i].root.position.set(position[0], position[1], position[2]);
         }
         // -------------------------
+
+        // --- Place Agents ---
+        for (let i = 0; i < this.agents.length; i++){
+            const startPosition = this.checkpoints[i];
+            console.log(startPosition);
+            this.agents[i].root.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2 + i * (Math.PI / 2));
+            this.agents[i].root.position.set(startPosition[0], 0, startPosition[1]);
+        }
+        // --------------------
+
+        // --- Place NPCs ---
+        this.npcs.root.position.set(0, 0, 0);
+        // ------------------
     }
 
     async load(): Promise<void> {
