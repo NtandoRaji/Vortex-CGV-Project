@@ -1,4 +1,4 @@
-// gameOverMenu.ts
+// gamePausedMenu.ts
 
 export function showGamePausedMenu(): void {
     // Release the pointer lock
@@ -113,6 +113,7 @@ export function showGamePausedMenu(): void {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         #mission-text {
+            font-weight: bold;
             color:#313131;            
         }           
         #back-to-btn {
