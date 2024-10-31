@@ -164,7 +164,9 @@ export class Player extends Construct {
     private setUpList(): void {
         this.list = document.createElement("div");
         this.list.id = "grocery-list";
-        generateAndDisplayGroceryItems(this.list.id, this.levelConfig.amountOfItemsToFind);
+        const levelNumber = parseInt(this.levelConfig.level.match(/\d+/)?.[0] || "", 10);
+        console.log(levelNumber);
+        generateAndDisplayGroceryItems(this.list.id, this.levelConfig.amountOfItemsToFind,levelNumber);
     }
 
 
@@ -246,7 +248,7 @@ export class Player extends Construct {
         if (this.levelConfig.memorizationTime < time){
             const groceryList: HTMLElement | null = document.getElementById("grocery-list");
             if (groceryList !== null){
-                document.body.removeChild(groceryList);
+                groceryList.style.display = "none";
             }
         }
 
