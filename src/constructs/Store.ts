@@ -382,7 +382,9 @@ export class Store extends Construct {
         ambientLight.position.set(0, 0, 0);
         this.add(ambientLight);
         // ---------------------
+
     }
+
 
     // Update method to check player interactions with shop items and pickup spots
     //@ts-ignore
