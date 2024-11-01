@@ -70,7 +70,7 @@ export class WalkingNPC extends Agent {
                 Math.floor(worldPosition.z + AStarAlgorithm.HEIGHT / 2),
             ];
 
-            const checkpoint = this.checkpoints[this.checkpointIndex % 4];
+            const checkpoint = this.checkpoints[this.checkpointIndex % this.checkpoints.length];
             this.checkpointIndex += 1;
             this.root.rotateOnAxis(new THREE.Vector3(0, 1, 0), this.rotationAngle);
 
