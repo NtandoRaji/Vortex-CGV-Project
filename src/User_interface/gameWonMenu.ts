@@ -91,7 +91,7 @@ export function showGameWonMenu(currentLevel:string, nextLevel: string): void {
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             z-index: 1000; /* Ensure the mission failed message is above the overlay */
-            outline: 10px solid #FF0000;
+            outline: 10px solid #008080;
             outline-offset: 5px;
         }
         .mission-failed-container h1 {
@@ -134,6 +134,9 @@ export function showGameWonMenu(currentLevel:string, nextLevel: string): void {
         }           
         #back-to-btn {
             background-color: #568fc4;
+        }
+        #next-btn{
+            background-color: #e91e63;
         }
         #restart-btn {
             background-color: rgba(60, 126, 54, 0.888);
