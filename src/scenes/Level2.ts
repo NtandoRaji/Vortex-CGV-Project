@@ -4,11 +4,13 @@ import { Player } from "../constructs/Player";
 import { Store } from "../constructs/Store";
 import { CustomInteractManager } from "../lib/customs/CustomInteractManager";
 import { CustomInterfaceContext } from "../lib/customs/CustomInterfaceContext";
+import { SkyBox } from "../constructs/SkyBox/SkyBox";
 
 
 export class Level2 extends Scene {
     player!: Player;
     store!: Store;
+    skyBox!: SkyBox
     interactions: CustomInteractManager = new CustomInteractManager();
     userInterface: CustomInterfaceContext = new CustomInterfaceContext();
     levelMusic!: HTMLAudioElement;
@@ -34,11 +36,19 @@ export class Level2 extends Scene {
         this.store = new Store(this.graphics, this.physics, this.interactions, this.userInterface, this.player);
         this.addConstruct(this.store);
 
+        this.skyBox = new SkyBox(this.graphics, this.physics, this.interactions, this.userInterface);
+        this.addConstruct(this.skyBox)
+
         this.levelMusic = new Audio('musicSound/gameMusic.mp3');
     }
 
     create(): void {
-        this.store.root.position.set(0, 0, 0);
+        this.store.root.position.set(0, 1, 0);
+
+        // --- Skybox Placement ---
+        this.skyBox.root.rotateY(Math.PI);
+        this.skyBox.root.position.set(80, 0, 0);
+        // -------------------------
 
         this.levelMusic.loop = true; // Make the music loop
         this.levelMusic.volume = Number(localStorage.getItem("vol")); // Set initial volume
