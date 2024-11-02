@@ -218,7 +218,7 @@ export class Player extends Construct {
         this.add(this.body);
 
         // Add physics properties to the player for jumping & movement
-        this.physics.addCharacter(this.root, PhysicsColliderFactory.box(1, 1, 1), {
+        this.physics.addCharacter(this.root, PhysicsColliderFactory.box(1, 2.5, 1), {
             jump: true,
             jumpHeight: jumpHeight,
             jumpSpeed: jumpSpeed,

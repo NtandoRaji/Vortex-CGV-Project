@@ -19,8 +19,6 @@ export class Mountains extends Construct {
         try {
             const gltfData: any = await this.graphics.loadModel("assets/mountains/mountains.gltf");
             this.mesh = gltfData.scene;
-
-            console.log(gltfData);
         }
         catch (error) {
             console.error("[!] Error: Failed To Load Mountains Model");
