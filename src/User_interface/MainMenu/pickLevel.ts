@@ -18,7 +18,7 @@ export const drawPickLevel = (ui: CustomInterfaceContext, clickSound: HTMLAudioE
     popup.appendChild(popupHeading);
 
     const levels = ["level-1", "level-2", "level-3"];
-    const levelNames = ["Beginner's Basket", "Hidden Haul", "Speed Shopper"];
+    const levelNames = ["Beginner's Basket", "Hidden Haul", "Recall Run"];
     const levelDescriptions = [
         "Level 1:",
         "Level 2:",
