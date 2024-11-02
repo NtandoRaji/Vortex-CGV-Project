@@ -101,7 +101,7 @@ export class SkyBox extends Construct {
     //@ts-ignore
     update(time: TimeS, delta?: TimeMS): void {
         // Updates the sun's position
-        this.effectController.elevation = (time / 10) % 10;
+        this.effectController.elevation = (time / 15) % 10;
         const phi = THREE.MathUtils.degToRad( 90 - this.effectController.elevation );
         const theta = THREE.MathUtils.degToRad( 10 * time );
         this.sun.setFromSphericalCoords( 1, phi, theta );
