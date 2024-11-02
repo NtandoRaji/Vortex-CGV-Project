@@ -43,13 +43,12 @@ export class RecordPlayer extends Construct {
         // Enable shadow casting and receiving for self and children
         this.mesh.traverse((node: any) => {
             if (node.isMesh){
-                
                 node.castShadow = true;
             }
         });
         this.add(this.mesh);
 
-        this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(this.scale * 3.5, this.scale, 1));
+        this.physics.addStatic(this.mesh, PhysicsColliderFactory.box(this.scale * 1.4, this.scale, 1));
     }
 
     //@ts-ignore

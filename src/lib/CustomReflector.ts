@@ -32,6 +32,8 @@ export class Reflector extends THREE.Mesh {
     
     parameters: { minFilter: any, magFilter: any, format: any, stencilBuffer: boolean }
 
+    maxRenderDistance: number;
+
     constructor(geometry: any, options: any) {
         super(geometry);
         options = options || {};
@@ -80,11 +82,18 @@ export class Reflector extends THREE.Mesh {
         material.uniforms['color'].value = this.colour;
         material.uniforms['textureMatrix'].value = this.textureMatrix;
         this.material = material;
+        
+        this.maxRenderDistance = 20; // Limit for rendering based on distance
     };
+    
 
     onBeforeRender = function(this: any, renderer: any, scene: any, camera: any ): void {
         this.reflectorWorldPosition.setFromMatrixPosition( this.matrixWorld );
         this.cameraWorldPosition.setFromMatrixPosition( camera.matrixWorld );
+
+        // Skip rendering if camera is beyond the maximum render distance
+        if (this.cameraWorldPosition.distanceTo(this.reflectorWorldPosition) > this.maxRenderDistance) return;
+
 
         this.rotationMatrix.extractRotation( this.matrixWorld );
 

@@ -19,8 +19,6 @@ export class ParkingLot extends Construct {
         try {
             const gltfData: any = await this.graphics.loadModel("assets/parking_lot/parking_lot.gltf");
             this.mesh = gltfData.scene;
-
-            console.log(gltfData);
         }
         catch (error) {
             console.error("[!] Error: Failed To Load Parking Lot Model");

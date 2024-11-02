@@ -187,7 +187,7 @@ export class Store extends Construct {
 
     create(): void {    
         // Place Player
-        this.player.root.position.set(50, 10, 35);
+        this.player.root.position.set(50, 15, 35);
 
         // Place Cashier Counter
         this.cashierCounter.root.position.set(50, 1.5, 40);
@@ -211,16 +211,16 @@ export class Store extends Construct {
         this.vending2.root.position.set(20, 0, 77);  
         
         // --- Place Record Player ---
-        this.recordPlayer.root.position.set(78, 0.3, 40);
+        this.recordPlayer.root.position.set(77.5, 0.3, 40);
         this.recordPlayer.root.rotation.y = -Math.PI/2;
-        this.recordPlayer.root.scale.setScalar(0.81);
+        this.recordPlayer.root.scale.setScalar(0.65);
 
 
         // --- Place Sections ---
         const sectionsPositions = [
-            [0, 0, -30], [30, 0, -27 , -30],[-25, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30],
-            [-78, 0, 0 , -60],[-25, 0 ,  -30],[60, 0, -27 , -30],[50, 0, -97, -30],[-10, 0, -97, -30],
-            [-50, 0 ,  30],[-78, 0 ,-15]];
+            [0, 0, -30], [30, 0, -27],[-25, 0, 30], [0, 0, 30], [30, 0, 27],
+            [-77, 0, 0],[-25, 0, -30],[60, 0, -27],[50, 0, -96],[-10, 0, -96],
+            [-50, 0, 30],[-78, 0, -15]];
         
         for (let i = 0; i < this.sections.length; i++){
             const position = sectionsPositions[i];
@@ -295,6 +295,53 @@ export class Store extends Construct {
     }
 
     async load(): Promise<void> {
+        try {
+            // Load textures
+            const baseColorTexture = await this.graphics.loadTexture("assets/wall_interior/base_color.jpg") as THREE.Texture;
+            const aoTexture = await this.graphics.loadTexture("assets/wall_interior/ambient_occlusion.jpg") as THREE.Texture;
+            const heightTexture = await this.graphics.loadTexture("assets/wall_interior/height.png") as THREE.Texture;
+            const normalTexture = await this.graphics.loadTexture("assets/wall_interior/normal.jpg") as THREE.Texture;
+            const roughnessTexture = await this.graphics.loadTexture("assets/wall_interior/roughness.jpg") as THREE.Texture;
+
+            // Set texture properties (e.g., wrapping, repeat)
+            const textureRepeat = 8; // Adjust repeat value based on wall dimensions and texture appearance
+            
+            // Base color texture properties
+            baseColorTexture.wrapS = baseColorTexture.wrapT = THREE.RepeatWrapping;
+            baseColorTexture.repeat.set(textureRepeat, 2);
+            baseColorTexture.anisotropy = 16;
+
+            // Ambient occlusion texture properties
+            aoTexture.wrapS = aoTexture.wrapT = THREE.RepeatWrapping;
+            aoTexture.repeat.set(textureRepeat, 2);
+
+            // Height map properties
+            heightTexture.wrapS = heightTexture.wrapT = THREE.RepeatWrapping;
+            heightTexture.repeat.set(textureRepeat, 2);
+
+            // Normal map properties
+            normalTexture.wrapS = normalTexture.wrapT = THREE.RepeatWrapping;
+            normalTexture.repeat.set(textureRepeat, 2);
+
+            // Roughness map properties
+            roughnessTexture.wrapS = roughnessTexture.wrapT = THREE.RepeatWrapping;
+            roughnessTexture.repeat.set(textureRepeat, 2);
+
+            // Create wall material
+            this.wallTexture = new THREE.MeshStandardMaterial({
+                map: baseColorTexture,
+                aoMap: aoTexture,
+                displacementMap: heightTexture,
+                normalMap: normalTexture,
+                roughnessMap: roughnessTexture,
+                side: THREE.DoubleSide,
+                displacementScale: 0.3 // Adjust for desired height effect
+            });
+
+        } catch (error) {
+            console.error("[!] Error: Failed to load wall textures", error);
+        }
+
         try {
             // Load Diffuse Texture
             this.textureFloorData = await this.graphics.loadTexture("assets/floor_image/floor_tiles_06_diff_2k.jpg") as THREE.Texture;
@@ -385,8 +432,7 @@ export class Store extends Construct {
         ///////////////////////////
         // --- Front Wall ---
         const frontWallGeometry = new THREE.BoxGeometry(this.storeDimensions[0], this.storeDimensions[1], 1);
-        const frontWallTexture = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-        let frontWall = new Brush(frontWallGeometry, frontWallTexture);
+        let frontWall = new Brush(frontWallGeometry, this.wallTexture);
         frontWall.updateMatrixWorld();
         
         frontWall = this.csgEvaluator.evaluate( frontWall, storeDoorBrush, SUBTRACTION );
@@ -414,8 +460,7 @@ export class Store extends Construct {
 
         // --- Back Wall ---
         const backWallGeometry = new THREE.BoxGeometry(this.storeDimensions[0], this.storeDimensions[1], 1);
-        const backWallTexture = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-        let backWall = new Brush(backWallGeometry, backWallTexture);
+        let backWall = new Brush(backWallGeometry, this.wallTexture);
         backWall.updateMatrixWorld();
     
         for (let i = 0; i < 2; i++){
@@ -441,8 +486,7 @@ export class Store extends Construct {
 
         // --- Left Wall ---
         const leftWallGeometry = new THREE.BoxGeometry(this.storeDimensions[0], this.storeDimensions[1], 1);
-        const leftWallTexture = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-        let leftWall = new Brush(leftWallGeometry, leftWallTexture);
+        let leftWall = new Brush(leftWallGeometry, this.wallTexture);
         leftWall.updateMatrixWorld();
     
         for (let i = 0; i < 2; i++){
@@ -468,8 +512,7 @@ export class Store extends Construct {
 
         // --- Right Wall ---
         const rightWallGeometry = new THREE.BoxGeometry(this.storeDimensions[0], this.storeDimensions[1], 1);
-        const rightWallTexture = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-        let rightWall = new Brush(rightWallGeometry, rightWallTexture);
+        let rightWall = new Brush(rightWallGeometry, this.wallTexture);
         rightWall.updateMatrixWorld();
     
         for (let i = 0; i < 2; i++){
@@ -543,10 +586,10 @@ export class Store extends Construct {
                 
                 // Clone the light model
                 const storeLight = this.tempStoreLight.clone();
-                storeLight.position.set(50 - 2 * 25 * i, 18, 50 - 2 * 25 * j);
+                storeLight.position.set(50 - 2 * 25 * i, 22, 50 - 2 * 25 * j);
 
                 // Create a point light at this position
-                const light = new THREE.PointLight(0xffffee, 5, 45, 0.05);
+                const light = new THREE.PointLight(0xffffee, 3, 45, 0.05);
                 light.position.set(50 - 2 * 25 * i, 20, 50 - 2 * 25 * j);
                 light.castShadow = true;
 
