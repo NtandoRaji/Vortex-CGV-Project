@@ -57,7 +57,7 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
         { name: "Broccoli by Poly by Google [CC-BY]", url: "https://poly.pizza/m/3rnhf01rmNh" },
         { name: "Beetroot by Poly by Google [CC-BY]", url: "https://poly.pizza/m/f2zAOPFIZnr" },
         { name: "Shopping Cart", url: "https://rigmodels.com/model.php?view=High_Poly_Shopping_Cart-3d-model__c54617686d3d42448498741615e402ef" },
-        { name: "Vending Machine", url: "https://poly.pizza/m/0CX6wj64Swu" },
+        { name: "Vending Machine by Don Carson [CC-BY]", url: "https://poly.pizza/m/0CX6wj64Swu" },
         { name: "Punk Character by Quaternius [CC-BY]", url: "https://poly.pizza/m/BTALZymknF" },
         { name: "Animated Women Character by Quaternius [CC-BY]", url: "https://poly.pizza/m/nIItLV9nxS" },
         { name: "Hoodie Character by Quaternius [CC-BY]", url: "https://poly.pizza/m/gKLBoRsyKe" },
@@ -67,7 +67,9 @@ export const drawCredits = (ui: CustomInterfaceContext, clickSound: HTMLAudioEle
         {name: "Parking Lot by Alex Safayan", url:"https://poly.pizza/m/4NYtgQKdVMy"},
         {name: "Tree by Quaternius ", url: "https://poly.pizza/m/b0boebSV1r"},
         {name: "Tree by Quaternius", url: "https://poly.pizza/m/QeYQEpgPcC"},
-        {name: "Tree by Quaternius", url: "https://poly.pizza/m/1BkD9JnKrE"}
+        {name: "Tree by Quaternius", url: "https://poly.pizza/m/1BkD9JnKrE"},
+        {name: "Brick Wall 015 by Katsukagi [CC_BY]", url: "https://3dtextures.me/2018/12/03/brick-wall-015/"},
+        {name: "Floor Tiles 06 by Rob Tuytel via polyhaven", url: "https://polyhaven.com/a/floor_tiles_06"}
 
     ];
     popup.appendChild(createLinkList(modelLinks));
