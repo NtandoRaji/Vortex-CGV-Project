@@ -220,7 +220,7 @@ export class Store extends Construct {
         const sectionsPositions = [
             [0, 0, -30], [30, 0, -27],[-25, 0, 30], [0, 0, 30], [30, 0, 27],
             [-77, 0, 0],[-25, 0, -30],[60, 0, -27],[50, 0, -96],[-10, 0, -96],
-            [-50, 0, 30],[-78, 0, -15]];
+            [-50, 0, 30],[-76.5, 0, -15]];
         
         for (let i = 0; i < this.sections.length; i++){
             const position = sectionsPositions[i];
