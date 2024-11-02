@@ -474,6 +474,7 @@ export class Store extends Construct {
 
         frontWall.rotation.set(0, Math.PI / 2, 0);
         frontWall.position.set(this.storeDimensions[0] / 2, this.storeDimensions[1] / 2, 0);
+        this.physics.addStatic(frontWall, PhysicsColliderFactory.box(this.storeDimensions[0] / 2, this.storeDimensions[1], 1));
         this.add(frontWall);
         // ------------------
 
@@ -500,6 +501,7 @@ export class Store extends Construct {
 
         backWall.rotation.set(0, Math.PI / 2, 0);
         backWall.position.set(-this.storeDimensions[0] / 2, this.storeDimensions[1] / 2, 0);
+        this.physics.addStatic(backWall, PhysicsColliderFactory.box(this.storeDimensions[0] / 2, this.storeDimensions[1], 1));
         this.add(backWall);
         // ------------------
 
@@ -526,6 +528,7 @@ export class Store extends Construct {
 
         leftWall.rotation.set(0, 0, 0);
         leftWall.position.set(0, this.storeDimensions[1] / 2, this.storeDimensions[0] / 2);
+        this.physics.addStatic(leftWall, PhysicsColliderFactory.box(this.storeDimensions[0] / 2, this.storeDimensions[1], 1));
         this.add(leftWall);
         // -----------------
 
@@ -552,6 +555,7 @@ export class Store extends Construct {
 
         rightWall.rotation.set(0, 0, 0);
         rightWall.position.set(0, this.storeDimensions[1] / 2, -this.storeDimensions[0] / 2);
+        this.physics.addStatic(rightWall, PhysicsColliderFactory.box(this.storeDimensions[0] / 2, this.storeDimensions[1], 1));
         this.add(rightWall);
         // ------------------
 
