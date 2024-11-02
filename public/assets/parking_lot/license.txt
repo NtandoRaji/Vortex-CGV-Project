@@ -1,0 +1,11 @@
+Model Information:
+* title:	Parking Lot
+* source:	https://poly.pizza/m/4NYtgQKdVMy
+* author:	Alex Safayan (https://poly.pizza/u/Alex%20Safayan)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cash register" (https://poly.pizza/m/4NYtgQKdVMy) by Alex Safayan (https://poly.pizza/u/Alex%20Safayan) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
