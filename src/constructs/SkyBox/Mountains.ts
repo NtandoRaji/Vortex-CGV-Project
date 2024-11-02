@@ -30,9 +30,6 @@ export class Mountains extends Construct {
     build(): void {
         this.mesh.scale.setScalar(22.5);
         this.add(this.mesh);
-
-        var ambientLight = new THREE.AmbientLight(0xffffff, 1)
-        this.add(ambientLight)
     }
 
     //@ts-ignore

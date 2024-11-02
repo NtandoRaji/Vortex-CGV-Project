@@ -36,7 +36,7 @@ export class Level1 extends Scene {
         this.store = new Store(this.graphics, this.physics, this.interactions, this.userInterface, this.player);
         this.addConstruct(this.store);
 
-        this.skyBox = new SkyBox(this.graphics, this.physics, this.interactions, this.userInterface);
+        this.skyBox = new SkyBox(this.graphics, this.physics, this.interactions, this.userInterface, levelConfig);
         this.addConstruct(this.skyBox)
 
         this.levelMusic = new Audio('musicSound/gameMusic.mp3');

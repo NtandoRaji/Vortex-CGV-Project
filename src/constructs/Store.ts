@@ -37,7 +37,6 @@ import { NPCs } from "./NPCs/NPCs";
 
 export class Store extends Construct {
     ceiling!:any;
-    ceilingTexture!: THREE.ShaderMaterial;
 
     walls!: Array<THREE.Mesh>;
     wallTexture!: THREE.MeshStandardMaterial;
@@ -211,14 +210,18 @@ export class Store extends Construct {
         this.vending1.root.position.set(10, 0, 77);
         this.vending2.root.position.set(20, 0, 77);  
         
-        this.recordPlayer.root.position.set(78.5, 0.3, 40);
+        // --- Place Record Player ---
+        this.recordPlayer.root.position.set(78, 0.3, 40);
         this.recordPlayer.root.rotation.y = -Math.PI/2;
         this.recordPlayer.root.scale.setScalar(0.81);
 
 
         // --- Place Sections ---
-        // TODO: Position new sections
-        const sectionsPositions = [[0, 0, -30], [30, 0, -27 , -30],[-25, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30],[-78, 0, 0 , -60],[-25, 0 ,  -30],[60, 0, -27 , -30],[50, 0, -97, -30],[-10, 0, -97, -30],[-50, 0 ,  30],[-78, 0 ,-15]];
+        const sectionsPositions = [
+            [0, 0, -30], [30, 0, -27 , -30],[-25, 0, 30], [0, 0 ,  30], [30, 0, 27 , -30],
+            [-78, 0, 0 , -60],[-25, 0 ,  -30],[60, 0, -27 , -30],[50, 0, -97, -30],[-10, 0, -97, -30],
+            [-50, 0 ,  30],[-78, 0 ,-15]];
+        
         for (let i = 0; i < this.sections.length; i++){
             const position = sectionsPositions[i];
             this.sections[i].root.position.set(position[0], position[1], position[2]);
@@ -292,24 +295,6 @@ export class Store extends Construct {
     }
 
     async load(): Promise<void> {
-        // Load Store Window Model
-        try {
-            const gltfData: any = await this.graphics.loadModel("assets/store_window/store_window.gltf");
-            this.storeWindowData = gltfData.scene;
-        }
-        catch (error) {
-            console.error("[!] Error: Failed To Load Store Window Model");
-        }
-
-        // Load Store Door Model
-        try {
-            const gltfData: any = await this.graphics.loadModel("assets/store_door/store_door.gltf");
-            this.storeDoorData = gltfData.scene;
-        }
-        catch (error) {
-            console.error("[!] Error: Failed To Load Store Door Model");
-        }
-
         try {
             // Load Diffuse Texture
             this.textureFloorData = await this.graphics.loadTexture("assets/floor_image/floor_tiles_06_diff_2k.jpg") as THREE.Texture;
@@ -338,81 +323,30 @@ export class Store extends Construct {
         
                 
             }
-
-            // Load textures for the sky and clouds
-            const skyTexture = await this.graphics.loadTexture("assets/sky_box/sky.jpg");
-            const cloudTexture = await this.graphics.loadTexture("assets/sky_box/cloud3.png");
-
-        // Create shader material for blending white ceiling and animated clouds in the center
-        this.ceilingTexture = new THREE.ShaderMaterial({
-            uniforms: {
-                uTime: { value: 0.0 },
-                uSkyTexture: { value: skyTexture },
-                uCloudTexture: { value: cloudTexture },
-                uBaseColor: { value: new THREE.Color(0x909090) }, // color for the base ceiling
-                uCloudSpeed: { value: 0.01 },
-                uCenterSize: { value: 0.15 }, // Adjust the size of the center area % of total ceiling
-                uRimWidth: { value: 0.03 }, // Width of the black rim (adjust as needed)
-            },
-            vertexShader: `
-                varying vec2 vUv;
-                void main() {
-                    vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `,
-            fragmentShader: `
-                uniform float uTime;
-                uniform sampler2D uSkyTexture;
-                uniform sampler2D uCloudTexture;
-                uniform vec3 uBaseColor;
-                uniform float uCloudSpeed;
-                uniform float uCenterSize;
-                uniform float uRimWidth; // New uniform for the black rim width
-                varying vec2 vUv;
-
-                void main() {
-                    // Calculate distance from the center
-                    float centerDist = distance(vUv, vec2(0.5, 0.5));
-
-                    // Set threshold to determine where the white ceiling starts
-                    float threshold = uCenterSize;
-
-                    // Use white base color for the outer region
-                    vec4 baseColor = vec4(0.0, 0.0, 0.0, 1.0);
-
-                    // Create a black color for the rim
-                    vec4 rimColor = vec4(uBaseColor, 1.0);
-
-                    // Display skybox animation in the center region
-                    if (centerDist < threshold) {
-                        vec2 cloudUv = vUv + vec2(uTime * uCloudSpeed, 0.0);
-                        vec4 skyColor = texture2D(uSkyTexture, vUv);
-                        vec4 cloudColor = texture2D(uCloudTexture, cloudUv);
-
-                        // Blend sky and clouds in the center region
-                        gl_FragColor = mix(skyColor, cloudColor, cloudColor.a);
-                    } else {
-                        // Check if within the black rim region
-                        float rimStart = threshold;
-                        float rimEnd = threshold + uRimWidth;
-                        float rimFactor = smoothstep(rimStart, rimEnd, centerDist);
-
-                        // Blend between the base color and the rim color
-                        gl_FragColor = mix(baseColor, rimColor, rimFactor);
-                    }
-                }
-            `,
-            side: THREE.DoubleSide,
-            transparent: true,
-            depthWrite: false,
-        });
-
         }
         catch (error) {
-            console.error(`[!] Error: ${error}`);
+            console.error("[!] Error: Failed To Load Floor Texture");
         }
 
+        // Load Store Window Model
+        try {
+            const gltfData: any = await this.graphics.loadModel("assets/store_window/store_window.gltf");
+            this.storeWindowData = gltfData.scene;
+        }
+        catch (error) {
+            console.error("[!] Error: Failed To Load Store Window Model");
+        }
+
+        // Load Store Door Model
+        try {
+            const gltfData: any = await this.graphics.loadModel("assets/store_door/store_door.gltf");
+            this.storeDoorData = gltfData.scene;
+        }
+        catch (error) {
+            console.error("[!] Error: Failed To Load Store Door Model");
+        }
+
+        // Load Store Light Model
         try {
             this.storeLightData = await this.graphics.loadModel("assets/store_light/store_light.gltf");
             this.tempStoreLight = this.storeLightData.scene;
@@ -637,9 +571,6 @@ export class Store extends Construct {
         this.player.checkLookingAtGroceryItem(this.shopItems);
         // Check if the player is looking at any of the pickup spots
         this.player.checkLookingAtPickupSpot(this.shopPickupSpots);
-
-        // Increment time uniform for cloud animation
-        this.ceilingTexture.uniforms.uTime.value += delta ? delta * 0.0006 : 0; // Adjust speed as needed
     }
 
     // Destroy method (currently a placeholder, used for cleanup)
