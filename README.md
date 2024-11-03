@@ -1,5 +1,8 @@
 # Vortex-CGV-Project
 
+### Video Submission
+Video submission can be found here: https://drive.google.com/file/d/1TM1HrcjrUaoIMc6DVbkyHIuNR5sMyhHX/view?usp=drive_link
+
 ## Installation
 ### Prerequisites
 Make sure you have the following software installed:
